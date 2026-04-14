@@ -126,15 +126,8 @@ img { max-width: 100%; display: block; }
   height: 68px;
 }
 
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 800;
-  font-size: 18px;
-  color: #FFFFFF;
-  flex-shrink: 0;
-}
+.nav-logo { height: 40px; width: auto; }
+.footer-logo { height: 48px; width: auto; }
 
 .nav-logo-icon {
   width: 36px; height: 36px;
@@ -517,7 +510,7 @@ img { max-width: 100%; display: block; }
   gap: 48px;
   padding-bottom: 48px;
 }
-.footer-brand .nav-logo { margin-bottom: 16px; }
+.footer-brand .footer-logo { margin-bottom: 16px; }
 .footer-brand p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; max-width: 280px; }
 .footer-contact { display: flex; flex-direction: column; gap: 6px; }
 .footer-contact a { font-size: 14px; color: var(--text-secondary); transition: color .2s; }
