@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endpoint Security — Aegis Ascent</title>
+  <meta name="description" content="Microsoft Intune, Autopilot, Defender for Business, and Sophos Intercept X — fully deployed and hardened for your workforce." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      Aegis Ascent
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#packages">Packages</a></li>
+      <li><a href="index.html#mission">Our Story</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <button class="btn btn-primary btn-sm nav-cta" onclick="openModal()">Request Consultation</button>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ PAGE HERO ══ -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <span class="badge-label">Endpoint Management &amp; Security</span>
+      <h1>Secure Your Devices.<br/><span>Enable Your Workforce.</span></h1>
+      <p>Modern endpoint management isn't just about locking things down — it's about giving your team the tools they need while keeping attackers out. We deploy and harden the full Microsoft endpoint stack so every device is a controlled, compliant asset.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="openModal('Endpoint & Security')">Get a Quote</button>
+        <a href="index.html#packages" class="btn btn-ghost">View Packages</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEVICE MANAGEMENT ══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-label">Microsoft Intune</span>
+      <h2>Device Management</h2>
+      <p>Full lifecycle management for every device in your fleet — from zero-touch provisioning to policy enforcement and beyond.</p>
+    </div>
+
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <h3>Autopilot Deployment</h3>
+        <p>Zero-touch device provisioning via Windows Autopilot. Devices ship directly to employees and self-configure to your exact corporate baseline — no IT desk required.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3>Device Hardening</h3>
+        <p>CIS Benchmark-aligned configuration policies enforced via Intune. BitLocker encryption, secure boot, local admin restrictions, and attack surface reduction rules deployed at scale.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+        </div>
+        <h3>Mobile Application Management</h3>
+        <p>Control corporate data on personal (BYOD) devices without managing the entire phone. App protection policies keep company data in company apps, always.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3>Conditional Access</h3>
+        <p>Grant or deny access to corporate resources based on device compliance state, user identity, location, and risk signals. Zero Trust enforcement at the identity layer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ENDPOINT DEFENSE ══ -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-label">Threat Protection</span>
+      <h2>Endpoint Defense</h2>
+      <p>Layered threat protection combining Microsoft's native intelligence with Sophos's industry-leading detection and response capabilities.</p>
+    </div>
+
+    <div class="icon-list" style="max-width:720px;margin:0 auto 48px">
+      <div class="icon-list-item">
+        <div class="icon-list-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="icon-list-item-text">
+          <h4>Microsoft Defender for Business</h4>
+          <p>Enterprise-grade endpoint protection purpose-built for SMBs. We activate, configure, and tune Defender for Business across your entire device fleet — including automated investigation and remediation policies, threat analytics integration, and vulnerability management dashboards.</p>
+        </div>
+      </div>
+
+      <div class="icon-list-item">
+        <div class="icon-list-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="icon-list-item-text">
+          <h4>Sophos Intercept X &amp; XDR</h4>
+          <p>Deep learning malware detection, anti-exploit, anti-ransomware, and Active Adversary Mitigations in a single agent. Sophos XDR extends detection across endpoints, servers, firewalls, and email — correlating signals into a unified threat picture. As a Sophos Silver Partner, we handle licensing, deployment, and policy tuning.</p>
+        </div>
+      </div>
+
+      <div class="icon-list-item">
+        <div class="icon-list-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+          </svg>
+        </div>
+        <div class="icon-list-item-text">
+          <h4>Server Protection</h4>
+          <p>Windows Server environments require dedicated protection beyond endpoint tools. We deploy Sophos Intercept X Advanced for Server with server-specific policies, controlled application lockdown, and anti-tamper protection to keep your on-premises or cloud servers hardened against lateral movement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<div class="container">
+  <div class="cta-band">
+    <span class="badge-label">Get Protected</span>
+    <h2>Ready to Harden Your Endpoints?</h2>
+    <p>Let's scope your deployment. Most engagements are completed in days, not months.</p>
+    <button class="btn btn-primary" onclick="openModal('Endpoint & Security')">Request a Consultation</button>
+    <a href="index.html#packages" class="btn btn-ghost">View Packages</a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:14px">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          Aegis Ascent
+        </a>
+        <p>Enterprise-grade Microsoft 365 security and automation for ambitious SMBs.</p>
+        <div class="footer-contact">
+          <a href="mailto:contact@aegisascent.com">contact@aegisascent.com</a>
+          <a href="tel:3092269989">(309) 226-9989</a>
+          <span style="font-size:13px;color:var(--text-secondary)">United States</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="endpoint-security.html">Endpoint &amp; Security</a></li>
+          <li><a href="compliance-legal.html">Compliance &amp; Legal</a></li>
+          <li><a href="ai-copilot.html">AI &amp; Copilot Readiness</a></li>
+          <li><a href="infrastructure-network.html">Infrastructure &amp; Network</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#mission">Our Story</a></li>
+          <li><a href="index.html#packages">Packages</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Microsoft 365 Security Guide</a></li>
+          <li><a href="#">HIPAA Compliance Checklist</a></li>
+          <li><a href="#">Copilot Readiness Guide</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-badges">
+      <div class="sophos-badge">
+        <div class="sophos-hex">
+          <svg viewBox="0 0 54 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M27 2L52 16.5V45.5L27 60L2 45.5V16.5L27 2Z" fill="rgba(0,180,216,0.08)" stroke="#00B4D8" stroke-width="1.5"/>
+            <text x="27" y="28" text-anchor="middle" fill="#00B4D8" font-size="7" font-family="Inter,sans-serif" font-weight="800">SOPHOS</text>
+            <text x="27" y="38" text-anchor="middle" fill="#94A3B8" font-size="5.5" font-family="Inter,sans-serif" font-weight="600">SILVER</text>
+            <text x="27" y="47" text-anchor="middle" fill="#94A3B8" font-size="5" font-family="Inter,sans-serif">PARTNER</text>
+          </svg>
+        </div>
+        <div class="sophos-badge-text">
+          <span>Sophos Silver Partner</span>
+          <span>Authorized Reseller &amp; Deployment Partner</span>
+        </div>
+      </div>
+      <div class="badge-divider"></div>
+      <div class="microsoft-partner-badge">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="10" height="10" fill="#F35325"/>
+          <rect x="12" y="0" width="10" height="10" fill="#81BC06"/>
+          <rect x="0" y="12" width="10" height="10" fill="#05A6F0"/>
+          <rect x="12" y="12" width="10" height="10" fill="#FFBA08"/>
+        </svg>
+        Microsoft Partner
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Aegis Ascent. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="consultModal" onclick="handleOverlayClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <h2 id="modalTitle">Request a Consultation</h2>
+    <p class="modal-sub">Tell us about your security needs. We'll respond within one business day.</p>
+    <form action="#zoho-form-endpoint" method="POST" onsubmit="handleFormSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label for="companyName">Company Name *</label>
+          <input type="text" id="companyName" name="companyName" placeholder="Acme Corp" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="jane@acme.com" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="serviceInterest">Service Interest *</label>
+        <select id="serviceInterest" name="serviceInterest" required>
+          <option value="" disabled selected>Select a service...</option>
+          <option value="Endpoint & Security">Endpoint &amp; Security</option>
+          <option value="Compliance & Legal">Compliance &amp; Legal</option>
+          <option value="AI & Copilot Readiness">AI &amp; Copilot Readiness</option>
+          <option value="Infrastructure & Network">Infrastructure &amp; Network</option>
+          <option value="General Inquiry">General Inquiry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell us about your current setup and what you're looking to achieve..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit Request &#8594;</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(service) {
+    document.getElementById('consultModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (service) {
+      var sel = document.getElementById('serviceInterest');
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === service) { sel.selectedIndex = i; break; }
+      }
+    }
+  }
+  function closeModal() {
+    document.getElementById('consultModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('consultModal')) closeModal();
+  }
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    alert('Thank you! We\'ll be in touch within one business day.');
+    closeModal();
+  }
+  function toggleNav() {
+    var links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+  // Pre-select service if landed here from homepage
+  window.addEventListener('DOMContentLoaded', function() {
+    var sel = document.getElementById('serviceInterest');
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === 'Endpoint & Security') { sel.selectedIndex = i; break; }
+    }
+  });
+</script>
+</body>
+</html>

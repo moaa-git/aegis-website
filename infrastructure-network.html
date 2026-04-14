@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infrastructure &amp; Network — Aegis Ascent</title>
+  <meta name="description" content="Robust cloud infrastructure and network defense. Microsoft 365 tenant hardening, hybrid identity, Sophos firewalls, and secure cloud architecture." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      Aegis Ascent
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#packages">Packages</a></li>
+      <li><a href="index.html#mission">Our Story</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <button class="btn btn-primary btn-sm nav-cta" onclick="openModal()">Request Consultation</button>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ PAGE HERO ══ -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <span class="badge-label">Enterprise Security</span>
+      <h1>Robust Cloud Infrastructure &amp; <span>Network Defense</span></h1>
+      <p>Security starts at the foundation. We architect and harden your Microsoft 365 cloud infrastructure and network perimeter — from tenant configuration and hybrid identity to Sophos firewall deployment and Zero Trust network segmentation.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="openModal('Infrastructure & Network')">Get an Assessment</button>
+        <a href="index.html#packages" class="btn btn-ghost">View Packages</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CLOUD INFRASTRUCTURE ══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-label">Microsoft 365</span>
+      <h2>Cloud Infrastructure</h2>
+      <p>A hardened Microsoft 365 tenant is the backbone of your security posture. We build it right from the start — or remediate what's already there.</p>
+    </div>
+
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+          </svg>
+        </div>
+        <h3>M365 Tenant Hardening</h3>
+        <p>Systematic hardening of your Microsoft 365 tenant against CIS Benchmark and Microsoft Secure Score recommendations. We configure admin roles, legacy auth blocking, SSPR, security defaults, and audit logging — then document every change.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Hybrid Identity &amp; Entra ID</h3>
+        <p>Design and deploy Microsoft Entra ID (Azure AD) architecture for organizations bridging on-premises Active Directory with the cloud. Includes Entra Connect, password hash sync, seamless SSO, and Privileged Identity Management configuration.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="3" height="9"/><rect x="14" y="7" width="3" height="5"/>
+          </svg>
+        </div>
+        <h3>Exchange &amp; Email Security</h3>
+        <p>Harden your Exchange Online environment with anti-phishing policies, DKIM/DMARC/SPF configuration, safe links and safe attachments, email encryption, and transport rules that enforce your acceptable use policy.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>SharePoint &amp; Teams Governance</h3>
+        <p>Establish governance policies for SharePoint Online and Microsoft Teams — controlling site creation, external sharing, guest access, channel management, and lifecycle policies to prevent sprawl and data exposure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NETWORK SECURITY ══ -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-label">Sophos</span>
+      <h2>Network Security</h2>
+      <p>Sophos next-generation firewalls and network security tools give you visibility and control over everything that crosses your perimeter — and everything that moves laterally inside it.</p>
+    </div>
+
+    <div class="icon-list" style="max-width:800px;margin:0 auto">
+      <div class="icon-list-item">
+        <div class="icon-list-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+          </svg>
+        </div>
+        <div class="icon-list-item-text">
+          <h4>Sophos XGS Firewall Deployment</h4>
+          <p>We size, configure, and deploy Sophos XGS series next-generation firewalls for your environment — whether on-premises, virtual, or cloud. Configuration includes application control, IPS policies, web filtering, TLS inspection, and SD-WAN routing. As a Sophos Silver Partner, we handle procurement and licensing.</p>
+        </div>
+      </div>
+
+      <div class="icon-list-item">
+        <div class="icon-list-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 6s4-2 11-2 11 2 11 2"/><path d="M1 18s4 2 11 2 11-2 11-2"/><line x1="1" y1="12" x2="23" y2="12"/>
+          </svg>
+        </div>
+        <div class="icon-list-item-text">
+          <h4>Network Segmentation &amp; Zero Trust</h4>
+          <p>Design and implement network segmentation using VLANs, firewall zones, and micro-segmentation to limit lateral movement. Zero Trust Network Access (ZTNA) configuration with Sophos ZTNA or Microsoft Entra Private Access for secure remote access without VPN complexity.</p>
+        </div>
+      </div>
+
+      <div class="icon-list-item">
+        <div class="icon-list-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="icon-list-item-text">
+          <h4>Sophos Central &amp; XDR Integration</h4>
+          <p>Connect your firewall, endpoints, email gateway, and cloud environments into Sophos Central for unified management and extended detection and response (XDR). Correlated threat intelligence across all vectors — with automated response playbooks to stop threats before they spread.</p>
+        </div>
+      </div>
+
+      <div class="icon-list-item">
+        <div class="icon-list-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="icon-list-item-text">
+          <h4>DNS Security &amp; Web Filtering</h4>
+          <p>Deploy Sophos DNS Protection or integrate Microsoft Defender for DNS to block malicious domains at the DNS layer — before connections are established. Category-based web filtering enforced consistently across all users, on-network and off.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<div class="container">
+  <div class="cta-band">
+    <span class="badge-label">Secure Your Foundation</span>
+    <h2>Ready to Build on Solid Ground?</h2>
+    <p>Let's assess your current infrastructure and design a security architecture that scales with your business.</p>
+    <button class="btn btn-primary" onclick="openModal('Infrastructure & Network')">Request a Consultation</button>
+    <a href="index.html#packages" class="btn btn-ghost">View Packages</a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:14px">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          Aegis Ascent
+        </a>
+        <p>Enterprise-grade Microsoft 365 security and automation for ambitious SMBs.</p>
+        <div class="footer-contact">
+          <a href="mailto:contact@aegisascent.com">contact@aegisascent.com</a>
+          <a href="tel:3092269989">(309) 226-9989</a>
+          <span style="font-size:13px;color:var(--text-secondary)">United States</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="endpoint-security.html">Endpoint &amp; Security</a></li>
+          <li><a href="compliance-legal.html">Compliance &amp; Legal</a></li>
+          <li><a href="ai-copilot.html">AI &amp; Copilot Readiness</a></li>
+          <li><a href="infrastructure-network.html">Infrastructure &amp; Network</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#mission">Our Story</a></li>
+          <li><a href="index.html#packages">Packages</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Microsoft 365 Security Guide</a></li>
+          <li><a href="#">HIPAA Compliance Checklist</a></li>
+          <li><a href="#">Copilot Readiness Guide</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-badges">
+      <div class="sophos-badge">
+        <div class="sophos-hex">
+          <svg viewBox="0 0 54 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M27 2L52 16.5V45.5L27 60L2 45.5V16.5L27 2Z" fill="rgba(0,180,216,0.08)" stroke="#00B4D8" stroke-width="1.5"/>
+            <text x="27" y="28" text-anchor="middle" fill="#00B4D8" font-size="7" font-family="Inter,sans-serif" font-weight="800">SOPHOS</text>
+            <text x="27" y="38" text-anchor="middle" fill="#94A3B8" font-size="5.5" font-family="Inter,sans-serif" font-weight="600">SILVER</text>
+            <text x="27" y="47" text-anchor="middle" fill="#94A3B8" font-size="5" font-family="Inter,sans-serif">PARTNER</text>
+          </svg>
+        </div>
+        <div class="sophos-badge-text">
+          <span>Sophos Silver Partner</span>
+          <span>Authorized Reseller &amp; Deployment Partner</span>
+        </div>
+      </div>
+      <div class="badge-divider"></div>
+      <div class="microsoft-partner-badge">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="10" height="10" fill="#F35325"/>
+          <rect x="12" y="0" width="10" height="10" fill="#81BC06"/>
+          <rect x="0" y="12" width="10" height="10" fill="#05A6F0"/>
+          <rect x="12" y="12" width="10" height="10" fill="#FFBA08"/>
+        </svg>
+        Microsoft Partner
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Aegis Ascent. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="consultModal" onclick="handleOverlayClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <h2 id="modalTitle">Request a Consultation</h2>
+    <p class="modal-sub">Tell us about your infrastructure needs. We'll respond within one business day.</p>
+    <form action="#zoho-form-endpoint" method="POST" onsubmit="handleFormSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label for="companyName">Company Name *</label>
+          <input type="text" id="companyName" name="companyName" placeholder="Acme Corp" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="jane@acme.com" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="serviceInterest">Service Interest *</label>
+        <select id="serviceInterest" name="serviceInterest" required>
+          <option value="" disabled>Select a service...</option>
+          <option value="Endpoint & Security">Endpoint &amp; Security</option>
+          <option value="Compliance & Legal">Compliance &amp; Legal</option>
+          <option value="AI & Copilot Readiness">AI &amp; Copilot Readiness</option>
+          <option value="Infrastructure & Network" selected>Infrastructure &amp; Network</option>
+          <option value="General Inquiry">General Inquiry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell us about your current infrastructure and what you're looking to secure or improve..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit Request &#8594;</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(service) {
+    document.getElementById('consultModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (service) {
+      var sel = document.getElementById('serviceInterest');
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === service) { sel.selectedIndex = i; break; }
+      }
+    }
+  }
+  function closeModal() {
+    document.getElementById('consultModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('consultModal')) closeModal();
+  }
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    alert('Thank you! We\'ll be in touch within one business day.');
+    closeModal();
+  }
+  function toggleNav() {
+    var links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
