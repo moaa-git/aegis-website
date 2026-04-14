@@ -245,57 +245,94 @@
     </button>
     <h2 id="modalTitle">Request a Consultation</h2>
     <p class="modal-sub">Tell us about your infrastructure needs. We'll respond within one business day.</p>
-    <form action="#zoho-form-endpoint" method="POST" onsubmit="handleFormSubmit(event)">
+    <form action='https://crm.zoho.com/crm/WebToLeadForm' name='WebToLeads7051669000000636015' method='POST' onSubmit='javascript:document.charset="UTF-8"; return checkMandatory7051669000000636015()' accept-charset='UTF-8'>
+      <input type='hidden' name='xnQsjsdp' value='1ab79f018ea0122edfd757d5e7d160676adb2f62c8f12e577ca872c2a791a0b8'/>
+      <input type='hidden' name='xmIwtLD' value='b8a73ec8f1ff7a2d7fad7ee7be8f4b2dd539127a358dff1f182449335e76d144eccc327660959cb2ac87463d3dc0e154'/>
+      <input type='hidden' name='actionType' value='TGVhZHM='/>
+      <input type='hidden' name='returnURL' value='null'/>
+      <input type='hidden' name='zc_gad' id='zc_gad' value=''/>
+      <input type='hidden' id='aG9uZXlwb3Q' name='aG9uZXlwb3Q' value=''/>
       <div class="form-row">
         <div class="form-group">
-          <label for="fullName">Full Name *</label>
-          <input type="text" id="fullName" name="fullName" placeholder="Jane Smith" required />
+          <label>Company *</label>
+          <input type='text' name='Company' maxlength='200' placeholder='Acme Corp' required/>
         </div>
         <div class="form-group">
-          <label for="companyName">Company Name *</label>
-          <input type="text" id="companyName" name="companyName" placeholder="Acme Corp" required />
+          <label>Last Name *</label>
+          <input type='text' name='Last Name' maxlength='80' placeholder='Smith' required/>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" name="email" placeholder="jane@acme.com" required />
+          <label>First Name</label>
+          <input type='text' name='First Name' maxlength='40' placeholder='Jane'/>
         </div>
         <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" />
+          <label>Phone</label>
+          <input type='text' name='Phone' maxlength='30' placeholder='(555) 000-0000'/>
         </div>
       </div>
       <div class="form-group">
-        <label for="serviceInterest">Service Interest *</label>
-        <select id="serviceInterest" name="serviceInterest" required>
-          <option value="" disabled>Select a service...</option>
-          <option value="Endpoint & Security">Endpoint &amp; Security</option>
-          <option value="Compliance & Legal">Compliance &amp; Legal</option>
-          <option value="AI & Copilot Readiness">AI &amp; Copilot Readiness</option>
-          <option value="Infrastructure & Network" selected>Infrastructure &amp; Network</option>
-          <option value="General Inquiry">General Inquiry</option>
+        <label>Email *</label>
+        <input type='email' name='Email' maxlength='100' placeholder='jane@acme.com' required/>
+      </div>
+      <div class="form-group">
+        <label>Project Goals / Description *</label>
+        <textarea name='Description' maxlength='32000' placeholder='Tell us about your current setup and what you are looking to achieve...' required></textarea>
+      </div>
+      <div class="form-group">
+        <label>How did you hear about us?</label>
+        <select name='Lead Source' onchange='addAriaSelected(this)'>
+          <option value='-None-'>-- Select --</option>
+          <option value='Web Site'>Web Site</option>
+          <option value='Word of mouth'>Word of Mouth</option>
+          <option value='Cold Call'>Cold Call</option>
+          <option value='Employee Referral'>Employee Referral</option>
+          <option value='Partner'>Partner / Referral</option>
+          <option value='Social Media'>Social Media</option>
+          <option value='Advertisement'>Advertisement</option>
+          <option value='Other'>Other</option>
         </select>
       </div>
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Tell us about your current infrastructure and what you're looking to secure or improve..."></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit Request &#8594;</button>
+      <button type='submit' class='btn btn-primary'>Submit Request &#8594;</button>
     </form>
   </div>
 </div>
 
 <script>
-  function openModal(service) {
-    document.getElementById('consultModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    if (service) {
-      var sel = document.getElementById('serviceInterest');
-      for (var i = 0; i < sel.options.length; i++) {
-        if (sel.options[i].value === service) { sel.selectedIndex = i; break; }
+  function checkMandatory7051669000000636015() {
+    var mndFields = ['Company', 'Last Name', 'Email', 'Description'];
+    var fldLangVal = ['Company', 'Last Name', 'Email', 'Project Goals / Description'];
+    for (var i = 0; i < mndFields.length; i++) {
+      var fieldObj = document.forms['WebToLeads7051669000000636015'][mndFields[i]];
+      if (fieldObj) {
+        if ((fieldObj.value.replace(/^\s+|\s+$/g, '')).length === 0) {
+          alert(fldLangVal[i] + ' cannot be empty.');
+          fieldObj.focus();
+          return false;
+        }
+        if (fieldObj.name === 'Email') {
+          var emailExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+          if (!emailExp.test(fieldObj.value)) {
+            alert('Please enter a valid email address.');
+            fieldObj.focus();
+            return false;
+          }
+        }
       }
     }
+    return true;
+  }
+  function addAriaSelected(el) {
+    var opts = el.querySelectorAll('option');
+    opts.forEach(function(o) { o.removeAttribute('aria-selected'); });
+    if (el.options[el.selectedIndex]) {
+      el.options[el.selectedIndex].setAttribute('aria-selected', 'true');
+    }
+  }
+  function openModal() {
+    document.getElementById('consultModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
   function closeModal() {
     document.getElementById('consultModal').classList.remove('open');
@@ -303,11 +340,6 @@
   }
   function handleOverlayClick(e) {
     if (e.target === document.getElementById('consultModal')) closeModal();
-  }
-  function handleFormSubmit(e) {
-    e.preventDefault();
-    alert('Thank you! We\'ll be in touch within one business day.');
-    closeModal();
   }
   function toggleNav() {
     var links = document.querySelector('.nav-links');
