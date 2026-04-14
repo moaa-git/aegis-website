@@ -54,6 +54,22 @@ img { max-width: 100%; display: block; }
 .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
 .btn-ghost { background: transparent; color: #FFFFFF; border: 1.5px solid #1E293B; }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.btn-quote {
+  background: transparent;
+  color: var(--accent);
+  border: none;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 14px;
+  transition: gap .2s, opacity .2s;
+}
+.btn-quote:hover { gap: 9px; opacity: .8; }
 .btn-sm { padding: 9px 18px; font-size: 14px; }
 
 .badge-label {
@@ -188,34 +204,74 @@ img { max-width: 100%; display: block; }
 
 .shield-wrap {
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: 420px;
+  height: 420px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.shield-glow {
+/* Deep radial glow — the "reactor core" behind the shield */
+.shield-radial-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(0,180,216,.25) 0%, transparent 70%);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,229,255,.28) 0%, rgba(0,180,216,.14) 30%, transparent 68%);
   border-radius: 50%;
-  animation: pulse-glow 3s ease-in-out infinite;
+  animation: pulse-glow 3.5s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: .6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+  0%, 100% { opacity: .7; transform: scale(1); }
+  50%       { opacity: 1;  transform: scale(1.08); }
 }
 
+/* Concentric rings — each fades and rotates at different speeds */
 .shield-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(0,180,216,.15);
   animation: rotate-ring 20s linear infinite;
 }
-.shield-ring-1 { width: 300px; height: 300px; }
-.shield-ring-2 { width: 230px; height: 230px; animation-direction: reverse; animation-duration: 14s; }
+
+/* Bright outer ring — the electric teal halo */
+.shield-ring-bright {
+  position: absolute;
+  width: 370px; height: 370px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,229,255,.55);
+  box-shadow:
+    0 0 18px 2px rgba(0,180,216,.45),
+    inset 0 0 18px 2px rgba(0,180,216,.15);
+  animation: pulse-ring-bright 3.5s ease-in-out infinite;
+}
+
+@keyframes pulse-ring-bright {
+  0%, 100% { opacity: .65; box-shadow: 0 0 14px 2px rgba(0,180,216,.35), inset 0 0 14px 2px rgba(0,180,216,.1); }
+  50%       { opacity: 1;   box-shadow: 0 0 32px 6px rgba(0,229,255,.65), inset 0 0 22px 4px rgba(0,180,216,.25); }
+}
+
+.shield-ring-1 {
+  width: 340px; height: 340px;
+  border: 1px solid rgba(0,180,216,.22);
+  animation-duration: 28s;
+}
+.shield-ring-2 {
+  width: 290px; height: 290px;
+  border: 1px solid rgba(0,180,216,.16);
+  animation-direction: reverse;
+  animation-duration: 18s;
+}
+.shield-ring-3 {
+  width: 240px; height: 240px;
+  border: 1px dashed rgba(0,180,216,.12);
+  animation-duration: 36s;
+}
+.shield-ring-4 {
+  width: 190px; height: 190px;
+  border: 1px solid rgba(0,180,216,.08);
+  animation-direction: reverse;
+  animation-duration: 22s;
+}
 
 @keyframes rotate-ring {
   from { transform: rotate(0deg); }
@@ -225,13 +281,15 @@ img { max-width: 100%; display: block; }
 .shield-svg {
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 0 32px rgba(0,180,216,.6));
-  animation: float 4s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 24px rgba(0,180,216,.7))
+    drop-shadow(0 0 60px rgba(0,180,216,.3));
+  animation: float 4.5s ease-in-out infinite;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50%       { transform: translateY(-12px); }
 }
 
 /* ── Expertise Badges ── */

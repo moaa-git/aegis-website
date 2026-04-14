@@ -51,23 +51,63 @@
     <!-- Shield Visual -->
     <div class="hero-visual">
       <div class="shield-wrap">
-        <div class="shield-glow"></div>
+        <div class="shield-radial-glow"></div>
         <div class="shield-ring shield-ring-1"></div>
         <div class="shield-ring shield-ring-2"></div>
-        <svg class="shield-svg" width="160" height="190" viewBox="0 0 160 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Shield body -->
-          <path d="M80 8 L148 36 L148 100 C148 142 80 182 80 182 C80 182 12 142 12 100 L12 36 Z"
-                fill="rgba(0,180,216,0.08)" stroke="#00B4D8" stroke-width="2"/>
-          <!-- Inner shield detail -->
-          <path d="M80 28 L132 50 L132 100 C132 132 80 162 80 162 C80 162 28 132 28 100 L28 50 Z"
-                fill="rgba(0,180,216,0.06)" stroke="rgba(0,180,216,0.3)" stroke-width="1"/>
-          <!-- Checkmark / lock icon -->
-          <path d="M60 95 L73 108 L100 81" stroke="#00B4D8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- Glow dots -->
-          <circle cx="80" cy="38" r="3" fill="#00B4D8" opacity="0.8"/>
-          <circle cx="140" cy="70" r="2" fill="#00B4D8" opacity="0.5"/>
-          <circle cx="20" cy="70" r="2" fill="#00B4D8" opacity="0.5"/>
-          <circle cx="80" cy="172" r="2" fill="#00B4D8" opacity="0.4"/>
+        <div class="shield-ring shield-ring-3"></div>
+        <div class="shield-ring shield-ring-4"></div>
+        <div class="shield-ring-bright"></div>
+        <svg class="shield-svg" width="220" height="260" viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="shieldBodyGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#00B4D8" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="#00B4D8" stop-opacity="0.03"/>
+            </radialGradient>
+            <radialGradient id="shieldInnerGrad" cx="50%" cy="35%" r="55%">
+              <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#00B4D8" stop-opacity="0.0"/>
+            </radialGradient>
+            <filter id="shieldGlowFilter" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="checkGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Outer shield body -->
+          <path d="M110 10 L202 46 L202 130 C202 188 110 250 110 250 C110 250 18 188 18 130 L18 46 Z"
+                fill="url(#shieldBodyGrad)" stroke="#00B4D8" stroke-width="1.5" filter="url(#shieldGlowFilter)"/>
+          <!-- Outer shield highlight stroke (bright top edge) -->
+          <path d="M110 10 L202 46 L202 130 C202 188 110 250 110 250 C110 250 18 188 18 130 L18 46 Z"
+                fill="none" stroke="rgba(0,229,255,0.6)" stroke-width="0.75"/>
+
+          <!-- Inner shield layer -->
+          <path d="M110 36 L178 65 L178 128 C178 172 110 224 110 224 C110 224 42 172 42 128 L42 65 Z"
+                fill="url(#shieldInnerGrad)" stroke="rgba(0,180,216,0.4)" stroke-width="1"/>
+
+          <!-- Innermost shield layer -->
+          <path d="M110 58 L158 80 L158 126 C158 158 110 196 110 196 C110 196 62 158 62 126 L62 80 Z"
+                fill="rgba(0,180,216,0.06)" stroke="rgba(0,180,216,0.2)" stroke-width="0.75"/>
+
+          <!-- Checkmark — large, glowing -->
+          <path d="M78 128 L100 150 L142 105" stroke="#00E5FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#checkGlow)" opacity="0.4"/>
+          <path d="M78 128 L100 150 L142 105" stroke="#00B4D8" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M78 128 L100 150 L142 105" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+
+          <!-- Accent dots at shield vertices -->
+          <circle cx="110" cy="14" r="4" fill="#00E5FF" opacity="0.9"/>
+          <circle cx="110" cy="14" r="8" fill="#00B4D8" opacity="0.2"/>
+          <circle cx="198" cy="60" r="2.5" fill="#00B4D8" opacity="0.7"/>
+          <circle cx="22"  cy="60" r="2.5" fill="#00B4D8" opacity="0.7"/>
+          <circle cx="110" cy="246" r="2.5" fill="#00B4D8" opacity="0.5"/>
+
+          <!-- Scan-line detail (horizontal dashes across inner shield) -->
+          <line x1="62" y1="95"  x2="158" y2="95"  stroke="rgba(0,180,216,0.12)" stroke-width="1" stroke-dasharray="4 6"/>
+          <line x1="54" y1="110" x2="166" y2="110" stroke="rgba(0,180,216,0.08)" stroke-width="1" stroke-dasharray="4 6"/>
+          <line x1="48" y1="125" x2="172" y2="125" stroke="rgba(0,180,216,0.06)" stroke-width="1" stroke-dasharray="4 6"/>
         </svg>
       </div>
     </div>
@@ -200,8 +240,7 @@
       <div class="pricing-card">
         <div class="pricing-card-tag">Starter</div>
         <h3>Secure in a Day</h3>
-        <div class="price">$2,500</div>
-        <div class="price-note">One-time fixed fee</div>
+        <button class="btn btn-quote" onclick="openModal('Endpoint & Security')">Request a Quote &#8594;</button>
         <p>A rapid security baseline deployment for teams that need to move fast without cutting corners.</p>
         <ul>
           <li>Microsoft 365 tenant hardening</li>
@@ -216,8 +255,7 @@
       <div class="pricing-card featured">
         <div class="pricing-card-tag">Legal &amp; Professional Services</div>
         <h3>Law Firm Compliance</h3>
-        <div class="price">$6,500</div>
-        <div class="price-note">One-time fixed fee</div>
+        <button class="btn btn-quote" onclick="openModal('Compliance & Legal')">Request a Quote &#8594;</button>
         <p>Full GRC posture for law firms, CPAs, and professional services firms handling sensitive client data.</p>
         <ul>
           <li>Everything in Secure in a Day</li>
@@ -232,8 +270,7 @@
       <div class="pricing-card">
         <div class="pricing-card-tag">Regulated Industries</div>
         <h3>Regulatory Readiness</h3>
-        <div class="price">$9,500</div>
-        <div class="price-note">One-time fixed fee</div>
+        <button class="btn btn-quote" onclick="openModal('Compliance & Legal')">Request a Quote &#8594;</button>
         <p>HIPAA and CMMC-aligned compliance configuration for healthcare, defense contractors, and government suppliers.</p>
         <ul>
           <li>Everything in Law Firm Compliance</li>
@@ -248,8 +285,7 @@
       <div class="pricing-card">
         <div class="pricing-card-tag">Enterprise Readiness</div>
         <h3>Full Stack Deployment</h3>
-        <div class="price">Custom</div>
-        <div class="price-note">Scoped per engagement</div>
+        <button class="btn btn-quote" onclick="openModal('General Inquiry')">Request a Quote &#8594;</button>
         <p>End-to-end security architecture for organizations ready to build a mature, defensible security program.</p>
         <ul>
           <li>All services included</li>
