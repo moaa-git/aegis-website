@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { nav, site } from "@/lib/data";
 
-export default function Header() {
+export default function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (

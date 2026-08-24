@@ -3,7 +3,7 @@ import { story } from "@/lib/data";
 
 export default function Story() {
   return (
-    <section id="story" className="relative z-10">
+    <section id="story" data-verify="story" className="relative z-10">
       {/* Backdrop photo with fade to surface (Figma 25:8531 + 23:8529) */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[763px]">
         <div className="absolute inset-0 bg-[url(/images/story-bg.webp)] bg-cover bg-top opacity-90" />

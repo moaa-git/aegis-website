@@ -38,7 +38,7 @@ function TrustIcon({ icon }: { icon: string }) {
 
 export default function Expertise() {
   return (
-    <section className="relative z-20">
+    <section data-verify="expertise" className="relative z-20">
       {/* Radial glow arc (Figma 19:8347, flipped). Rendered at the SVG's
           native 2155x885 canvas (node box + blur padding) and left unclipped
           so it bleeds across the section boundary; the hero above (higher z,

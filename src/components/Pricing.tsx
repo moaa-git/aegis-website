@@ -3,7 +3,7 @@ import { pricing } from "@/lib/data";
 
 export default function Pricing() {
   return (
-    <section id="packages" className="scroll-mt-20">
+    <section id="packages" data-verify="pricing" className="scroll-mt-20">
       <div className="mx-auto w-full max-w-318 px-6 pb-40 pt-40">
         <div className="mx-auto flex max-w-[1006px] flex-col gap-4 text-center">
           <h2 className="text-3xl font-medium tracking-tight3 text-heading md:text-h2">

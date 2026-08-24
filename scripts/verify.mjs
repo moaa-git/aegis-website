@@ -702,12 +702,29 @@ async function run() {
         continue;
       }
       const base = JSON.parse(await readFile(file, "utf8"));
-      const byName = new Map(base.bands.map((b) => [b.name, b]));
-      for (const band of payload.bands) {
-        const b = byName.get(band.name);
+      // Bands are matched by document order, not by name. A refactor that
+      // renames a section (or gives it a data-verify label) must still be
+      // provable as geometrically identical -- name-keyed matching would
+      // report every rename as one band vanishing and another appearing,
+      // which is exactly the signal a refactor needs to not drown in.
+      const n = Math.max(base.bands.length, payload.bands.length);
+      for (let i = 0; i < n; i++) {
+        const b = base.bands[i];
+        const band = payload.bands[i];
         if (!b) {
           diffs.push({ key, band: band.name, change: "added" });
+          fail(payload.route, payload.viewport.name, "baseline-drift",
+            `band ${i + 1} (${band.name}) is new vs baseline`, { key, index: i + 1 });
           continue;
+        }
+        if (!band) {
+          diffs.push({ key, band: b.name, change: "removed" });
+          fail(payload.route, payload.viewport.name, "baseline-drift",
+            `band ${i + 1} (${b.name}) disappeared vs baseline`, { key, index: i + 1 });
+          continue;
+        }
+        if (b.name !== band.name) {
+          diffs.push({ key, band: `${b.name} -> ${band.name}`, change: "renamed" });
         }
         const dTop = +(band.rect.top - b.rect.top).toFixed(2);
         const dH = +(band.rect.height - b.rect.height).toFixed(2);
@@ -716,13 +733,6 @@ async function run() {
           diffs.push(entry);
           fail(payload.route, payload.viewport.name, "baseline-drift",
             `${band.name} moved ${dTop}px / resized ${dH}px vs baseline`, entry);
-        }
-      }
-      for (const b of base.bands) {
-        if (!payload.bands.some((x) => x.name === b.name)) {
-          diffs.push({ key, band: b.name, change: "removed" });
-          fail(payload.route, payload.viewport.name, "baseline-drift",
-            `${b.name} disappeared vs baseline`, { key, band: b.name });
         }
       }
       const dh = payload.document.pageHeight - base.document.pageHeight;

@@ -20,6 +20,12 @@
  *   #243866  pricing card border                          -> --color-edge-strong
  *   #deefff  headings (H1/H2/H3, footer column titles)    -> --color-heading
  *   #e7ebfe  footer hairline base (used at 15% opacity)   -> --color-mist
+ *
+ * Interior pages add four more, read off the same nodes:
+ *   #0c1426  stacked feature row fill, page hero 2nd CTA  -> --color-surface-row
+ *   #192542  stacked feature row border                   -> --color-edge-soft
+ *   #0f4372  row icon tile gradient end (from --accent)   -> --color-primary-deep
+ *   #51a6f3  page hero secondary CTA border               -> --color-accent-bright
  *   white @ 90/80/70/50% -> Tailwind white/NN opacity modifiers
  *
  * Type (measured): H1 56/64 -3%; H2 48/1.2 -3%; card title 24/1.5 -2%;
@@ -53,6 +59,12 @@
   --color-edge-strong: #243866;
   --color-heading: #deefff;
   --color-mist: #e7ebfe;
+  /* Interior pages (frames 112:26, 125:668, 149:38, 164:594). Transcribed
+     from get_design_context the same way the landing tokens were. */
+  --color-surface-row: #0c1426;
+  --color-edge-soft: #192542;
+  --color-primary-deep: #0f4372;
+  --color-accent-bright: #51a6f3;
 
   --text-display: 3.5rem;
   --text-display--line-height: 4rem;
@@ -78,6 +90,7 @@
 
   --radius-badge: 10px;
   --radius-card: 20px;
+  --radius-row: 16px;
 
   --shadow-nav: inset 0 0.8px 1px rgba(255, 255, 255, 0.08),
     inset 0 -2px 13px rgba(255, 255, 255, 0.16);

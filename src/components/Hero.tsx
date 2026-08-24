@@ -1,10 +1,13 @@
 import Image from "next/image";
-import Header from "./Header";
+import SiteHeader from "./SiteHeader";
 import { hero } from "@/lib/data";
 
 export default function Hero() {
   return (
-    <section className="relative z-30 overflow-hidden bg-surface">
+    <section
+      data-verify="hero"
+      className="relative z-30 overflow-hidden bg-surface"
+    >
       {/* Swirl background (Figma 1:7909; SVG canvas 2155x1996 = node 1966
           plus blur padding, centred on the page like the node).
           The artwork runs 1996px tall while the hero clips at 788, and at
@@ -59,7 +62,7 @@ export default function Hero() {
       />
 
       <div className="relative mx-auto w-full max-w-318 px-6 pb-8 pt-7">
-        <Header />
+        <SiteHeader />
 
         <div className="mt-20 max-w-[702px] pb-24 lg:pb-38">
           <div className="flex flex-col gap-4">

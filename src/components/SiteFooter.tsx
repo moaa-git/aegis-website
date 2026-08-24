@@ -1,25 +1,18 @@
 import Image from "next/image";
 import { footer, site } from "@/lib/data";
 import Year from "./Year";
+import PartnerBadgeStrip from "./PartnerBadgeStrip";
 
-export default function Footer() {
+export default function SiteFooter() {
   return (
-    <footer id="contact" className="relative overflow-hidden bg-surface-deep">
+    <footer
+      id="contact"
+      data-verify="footer"
+      className="relative overflow-hidden bg-surface-deep"
+    >
 
       <div className="relative mx-auto w-full max-w-318 px-6 pb-19 pt-20">
-        {/* Badge row — a single Sophos Silver Partner badge, centred (see
-            docs/DEVIATIONS.md: the Figma frame duplicates it). */}
-        <div className="flex items-center gap-8">
-          <span aria-hidden className="h-px flex-1 bg-mist/15" />
-          <Image
-            src="/images/sophos-silver-partner.png"
-            alt="Sophos Silver Partner"
-            width={573}
-            height={134}
-            className="h-24 w-auto md:h-[134px]"
-          />
-          <span aria-hidden className="h-px flex-1 bg-mist/15" />
-        </div>
+        <PartnerBadgeStrip />
 
         <div className="mt-15 flex flex-col gap-12 lg:flex-row lg:gap-[103px]">
           <div className="relative max-w-[289px]">
