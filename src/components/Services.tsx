@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { services } from "@/lib/data";
+import ConsultationButton from "./ConsultationButton";
 
 export default function Services() {
   return (
@@ -46,6 +47,11 @@ export default function Services() {
                   {card.description}
                 </p>
               </div>
+              <ConsultationButton
+                overlay
+                prefill={{ primaryInterest: card.interest }}
+                label={`Request a consultation about ${card.title}`}
+              />
               <ul className="mt-5 flex flex-wrap items-center gap-3">
                 {card.chips.map((chip) => (
                   <li

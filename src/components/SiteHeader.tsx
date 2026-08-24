@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { nav, site } from "@/lib/data";
+import { useConsultation } from "./ConsultationProvider";
 
 export default function SiteHeader() {
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { open } = useConsultation();
 
   return (
     <header className="relative z-20 flex w-full items-center justify-between">
@@ -36,41 +38,42 @@ export default function SiteHeader() {
             </li>
           ))}
         </ul>
-        <a
-          href={nav.cta.href}
+        <button
+          type="button"
+          onClick={() => open()}
           className="flex h-12 items-center rounded-2xl bg-accent px-6 text-lg font-medium text-white shadow-btn-secondary transition-opacity hover:opacity-90"
         >
           {nav.cta.label}
-        </a>
+        </button>
       </nav>
 
       {/* Mobile hamburger */}
       <button
         type="button"
-        aria-label={open ? "Close menu" : "Open menu"}
-        aria-expanded={open}
-        onClick={() => setOpen(!open)}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen(!menuOpen)}
         className="flex size-12 flex-col items-center justify-center gap-1.5 rounded-2xl bg-surface shadow-nav lg:hidden"
       >
         <span
-          className={`h-0.5 w-6 rounded-full bg-white transition-transform ${open ? "translate-y-2 rotate-45" : ""}`}
+          className={`h-0.5 w-6 rounded-full bg-white transition-transform ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
         />
         <span
-          className={`h-0.5 w-6 rounded-full bg-white transition-opacity ${open ? "opacity-0" : ""}`}
+          className={`h-0.5 w-6 rounded-full bg-white transition-opacity ${menuOpen ? "opacity-0" : ""}`}
         />
         <span
-          className={`h-0.5 w-6 rounded-full bg-white transition-transform ${open ? "-translate-y-2 -rotate-45" : ""}`}
+          className={`h-0.5 w-6 rounded-full bg-white transition-transform ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
         />
       </button>
 
-      {open && (
+      {menuOpen && (
         <nav className="absolute inset-x-0 top-full mt-4 rounded-3xl border border-edge bg-surface p-6 shadow-nav lg:hidden">
           <ul className="flex flex-col gap-4 text-lg">
             {nav.links.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  onClick={() => setMenuOpen(false)}
                   className="block text-white/80 transition-colors hover:text-white"
                 >
                   {link.label}
@@ -78,13 +81,16 @@ export default function SiteHeader() {
               </li>
             ))}
             <li>
-              <a
-                href={nav.cta.href}
-                onClick={() => setOpen(false)}
-                className="flex h-12 items-center justify-center rounded-2xl bg-accent font-medium text-white"
+              <button
+                type="button"
+                onClick={() => {
+                  setMenuOpen(false);
+                  open();
+                }}
+                className="flex h-12 w-full items-center justify-center rounded-2xl bg-accent font-medium text-white"
               >
                 {nav.cta.label}
-              </a>
+              </button>
             </li>
           </ul>
         </nav>

@@ -69,6 +69,7 @@ export const services = {
     {
       icon: "/images/icon-shield-card.svg",
       title: "Endpoint & Security",
+      interest: "endpoint-security",
       description:
         "Intune, Defender, and Sophos Intercept X deployment and management.",
       chips: ["Device Management", "Threat Protection", "Zero Trust Architecture"],
@@ -77,6 +78,7 @@ export const services = {
     {
       icon: "/images/icon-legal.svg",
       title: "Compliance & Legal",
+      interest: "compliance-legal",
       description:
         "eDiscovery, Purview, and Legal Hold configuration for regulated industries.",
       chips: ["Retention Policies", "Data Classification", "Audit Trails"],
@@ -85,6 +87,7 @@ export const services = {
     {
       icon: "/images/icon-ai.svg",
       title: "AI & Modern Work",
+      interest: "ai-modern-work",
       description:
         "Copilot Readiness and Semantic Indexing for AI-powered productivity.",
       chips: ["Copilot Setup", "Data Governance", "Workflow Automation"],
@@ -93,6 +96,7 @@ export const services = {
     {
       icon: "/images/icon-table.svg",
       title: "Infrastructure & Network",
+      interest: "infrastructure-network",
       description:
         "Migrations, Tenant Setup, and Firewall configuration for solid foundations.",
       chips: ["Tenant Migrations", "Sophos Firewall", "Network Design"],
@@ -108,6 +112,7 @@ export const pricing = {
     {
       icon: "/images/icon-electric.svg",
       name: "Secure in a Day",
+      package: "secure-in-a-day",
       kicker: "Audit Package",
       audience: "Small shops (10-50 users)",
       features: [
@@ -122,6 +127,7 @@ export const pricing = {
     {
       icon: "/images/icon-law.svg",
       name: "Law Firm Compliance",
+      package: "law-firm-compliance",
       kicker: "Legal Bundle",
       audience: "Legal boutiques",
       features: [
@@ -136,6 +142,7 @@ export const pricing = {
     {
       icon: "/images/icon-note-check.svg",
       name: "Regulatory Readiness",
+      package: "regulatory-readiness",
       kicker: "Audit Defense",
       audience: "Finance, Healthcare, Retail",
       features: [
@@ -150,6 +157,7 @@ export const pricing = {
     {
       icon: "/images/icon-rocket.svg",
       name: "Full Stack Deployment",
+      package: "full-stack-deployment",
       kicker: "Complete Solution",
       audience: "New companies or full migrations",
       features: [

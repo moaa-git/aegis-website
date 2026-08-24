@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { pricing } from "@/lib/data";
+import ConsultationButton from "./ConsultationButton";
 
 export default function Pricing() {
   return (
@@ -50,8 +51,8 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#contact"
+              <ConsultationButton
+                prefill={{ engagementPackage: card.package }}
                 className={`mt-auto flex h-10 items-center justify-center rounded-xl text-sm font-medium text-white ${
                   card.popular
                     ? "bg-linear-to-r from-accent to-primary shadow-btn-primary transition-opacity hover:opacity-90"
@@ -59,7 +60,7 @@ export default function Pricing() {
                 }`}
               >
                 {card.cta}
-              </a>
+              </ConsultationButton>
             </article>
           ))}
         </div>

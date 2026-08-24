@@ -1,5 +1,6 @@
 import Image from "next/image";
 import SiteHeader from "./SiteHeader";
+import ConsultationButton from "./ConsultationButton";
 import { hero } from "@/lib/data";
 
 export default function Hero() {
@@ -92,12 +93,9 @@ export default function Hero() {
             >
               {hero.primaryCta.label}
             </a>
-            <a
-              href={hero.secondaryCta.href}
-              className="flex h-14 items-center rounded-2xl bg-surface-raised px-6 text-lg font-medium text-white shadow-btn-secondary transition-colors hover:bg-surface-raised/70"
-            >
+            <ConsultationButton className="flex h-14 items-center rounded-2xl bg-surface-raised px-6 text-lg font-medium text-white shadow-btn-secondary transition-colors hover:bg-surface-raised/70">
               {hero.secondaryCta.label}
-            </a>
+            </ConsultationButton>
           </div>
           {/* Stacked shield below the text under lg, so it never collapses */}
           <Image

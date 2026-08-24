@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ConsultationProvider } from "@/components/ConsultationProvider";
 
 // Inter Display is the optical-size cut of the Inter variable font; loading
 // the opsz axis lets the browser select it automatically at display sizes.
@@ -23,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>{children}</body>
+      <body className={`${inter.variable} antialiased`}>
+        <ConsultationProvider>{children}</ConsultationProvider>
+      </body>
     </html>
   );
 }

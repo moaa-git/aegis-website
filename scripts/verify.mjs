@@ -203,6 +203,11 @@ function collectPage(cfg) {
     let bottom = -Infinity;
     for (const n of el.querySelectorAll(CONTENT_SEL)) {
       if (n.closest('[aria-hidden="true"]')) continue;
+      // Transparent hit targets (a button overlaying a whole card) are
+      // interactive but paint nothing, so counting them as content would
+      // stretch the band's content rect to the card's edge and understate
+      // the whitespace to the next band.
+      if (n.closest("[data-verify-ignore]")) continue;
       const cs = getComputedStyle(n);
       if (cs.display === "none" || cs.visibility === "hidden") continue;
       if (cs.position === "fixed") continue;
