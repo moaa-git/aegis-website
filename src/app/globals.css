@@ -1,26 +1,150 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Aegis Ascent — design tokens
+ *
+ * The Figma file (YtcNx5Mz0l4IjgQV2TjDNL, frame "Home" 1:2) has no usable
+ * variable system; every value below was transcribed from get_design_context
+ * on the section nodes. Mapping (Figma raw value -> token):
+ *
+ *   #0f172a  page background, hero, nav pill, story card  -> --color-surface
+ *   #0c1428  footer background                            -> --color-surface-deep
+ *   #0f172b  hero secondary CTA background                -> --color-surface-raised
+ *   #081e3c  hero badge background                        -> --color-badge
+ *   #0b2e4d  icon tile background                         -> --color-tile
+ *   #141f3b  service feature chip background              -> --color-chip
+ *   #2e5a98  primary button base / expertise icon block   -> --color-primary
+ *   #4084c1  accent blue: nav CTA, ribbons, highlights    -> --color-accent
+ *   #1d2537  expertise column divider                     -> --color-line
+ *   #1e2d50  card/CTA borders (services, price buttons)   -> --color-edge
+ *   #243866  pricing card border                          -> --color-edge-strong
+ *   #deefff  headings (H1/H2/H3, footer column titles)    -> --color-heading
+ *   #e7ebfe  footer hairline base (used at 15% opacity)   -> --color-mist
+ *   white @ 90/80/70/50% -> Tailwind white/NN opacity modifiers
+ *
+ * Type (measured): H1 56/64 -3%; H2 48/1.2 -3%; card title 24/1.5 -2%;
+ * price title 20/1.2 -2%; price kicker 14/1.2; chip 13/1.5 -2% (Figma mixes
+ * 13px and 14px across the four cards — normalized to 13px, see
+ * docs/DEVIATIONS.md); body 18/28, 16/1.5, 14/1.5, 12/1.2 map to Tailwind's
+ * lg/base/sm/xs sizes. Headings use Inter Display = Inter variable font with
+ * the opsz axis (loaded via next/font); body is Inter.
+ *
+ * Shadows are the glassy inset treatments measured off the nav pill, badge,
+ * and CTA buttons.
+ */
 
+/* `inline` is required: --font-inter is declared on <body> by next/font, so a
+   :root-level var() reference to it would not resolve. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-surface: #0f172a;
+  --color-surface-deep: #0c1428;
+  --color-surface-raised: #0f172b;
+  --color-badge: #081e3c;
+  --color-tile: #0b2e4d;
+  --color-chip: #141f3b;
+  --color-primary: #2e5a98;
+  --color-accent: #4084c1;
+  --color-line: #1d2537;
+  --color-edge: #1e2d50;
+  --color-edge-strong: #243866;
+  --color-heading: #deefff;
+  --color-mist: #e7ebfe;
+
+  --text-display: 3.5rem;
+  --text-display--line-height: 4rem;
+  --text-display--letter-spacing: -0.03em;
+  --text-h2: 3rem;
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.03em;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.5;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h4: 1.25rem;
+  --text-h4--line-height: 1.2;
+  --text-h4--letter-spacing: -0.02em;
+  /* named "tag" not "chip": a --text-chip utility would collide with the
+     --color-chip color utility of the same name */
+  --text-tag: 0.8125rem;
+  --text-tag--line-height: 1.5;
+  --text-tag--letter-spacing: -0.02em;
+
+  --tracking-tight1: -0.01em;
+  --tracking-tight2: -0.02em;
+  --tracking-tight3: -0.03em;
+
+  --radius-badge: 10px;
+  --radius-card: 20px;
+
+  --shadow-nav: inset 0 0.8px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 13px rgba(255, 255, 255, 0.16);
+  --shadow-badge: inset 0 0.5px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -2px 9px rgba(255, 255, 255, 0.14);
+  --shadow-btn-primary: inset 0 1px 1px rgba(255, 255, 255, 0.26),
+    inset -17px -16px 22px rgba(255, 255, 255, 0.2);
+  --shadow-btn-secondary: 0 4px 3px rgba(0, 0, 0, 0.32),
+    inset 0 1px 1px rgba(255, 255, 255, 0.11),
+    inset 0 -6px 13px rgba(255, 255, 255, 0.11);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/*
+ * Hero weave pattern (Figma 1:7855). The exported SVG is one 1440.77px-wide
+ * panel of vertical scalloped lines — sized to the 1440 comp, so on wider
+ * viewports a single copy reads as a floating rectangle. It cannot simply be
+ * `repeat-x`: the artwork carries ~97px of empty margin on each edge, so
+ * tiling leaves a 194px gap where the lines sit 103.8px apart everywhere
+ * else. Copies are therefore placed by hand at the pattern's true lattice
+ * pitch (last line 1343 + one 103.8px step - first line 97 = 1349.8px),
+ * which continues the weave across any viewport at its designed density.
+ */
+.hero-weave {
+  --weave: url("/images/hero-grid.svg");
+  --weave-pitch: 1349.8px;
+  background-image: var(--weave), var(--weave), var(--weave), var(--weave),
+    var(--weave), var(--weave), var(--weave);
+  background-repeat: no-repeat;
+  background-size: 1440.77px 794.96px;
+  background-position:
+    calc(50% - 3 * var(--weave-pitch)) 0,
+    calc(50% - 2 * var(--weave-pitch)) 0,
+    calc(50% - var(--weave-pitch)) 0,
+    50% 0,
+    calc(50% + var(--weave-pitch)) 0,
+    calc(50% + 2 * var(--weave-pitch)) 0,
+    calc(50% + 3 * var(--weave-pitch)) 0;
+  /* Long ramp so the pattern dissolves with no perceptible fade-start line,
+     and is fully gone before the hero's bottom edge. */
+  mask-image: linear-gradient(to bottom, black 40%, transparent 92%);
+}
+
+/*
+ * Continuation of the shield's aura. The source photo's glow runs out at
+ * y=736 while the hero ends at 788, leaving a ~52px dead gap above the
+ * section boundary. There is no artwork below that point, so the falloff is
+ * carried the rest of the way with a token-coloured ellipse that picks up
+ * roughly where the photo's tail dies. Invented value — see DEVIATIONS.md.
+ */
+.hero-aura-tail {
+  background: radial-gradient(
+    ellipse 46% 118% at 50% 0%,
+    color-mix(in srgb, var(--color-accent) 13%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent) 6%, transparent) 45%,
+    transparent 78%
+  );
+  /* Ramps in from nothing so it grafts onto the photo's own falloff instead
+     of starting at full strength on its top edge. */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 58%);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface);
+  color: #ffffff;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }

@@ -1,0 +1,22 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="hugeicons:legal-document-02" clip-path="url(#clip0_0_9)">
+<g id="Ellipse 10070" filter="url(#filter0_f_0_9)">
+<circle cx="20.5" cy="20.5" r="15.5" fill="#4084C1" fill-opacity="0.5"/>
+</g>
+<g id="Group">
+<path id="Vector" d="M5 23.3333V16.6667C5 10.3817 5 7.23833 6.95333 5.28667C8.90667 3.335 12.0483 3.33333 18.3333 3.33333H21.6667C27.9517 3.33333 31.095 3.33333 33.0467 5.28667C34.9983 7.24 35 10.3817 35 16.6667V23.3333C35 29.6183 35 32.7617 33.0467 34.7133C31.0933 36.665 27.9517 36.6667 21.6667 36.6667H18.3333C12.0483 36.6667 8.905 36.6667 6.95333 34.7133C5.00167 32.76 5 29.6183 5 23.3333Z" stroke="#4084C1" stroke-width="1.5"/>
+<path id="Vector_2" d="M13.3333 30H26.6667" stroke="#4084C1" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector_3" d="M11.75 11.6283H28.2617M20.025 11.6283V23.305M20.025 23.305H19.1367M20.025 23.305H20.9017M13.36 13.275C12.15 14.5167 10.1467 16.66 11.0233 18.4467C11.8017 20.0317 12.9083 20.06 13.3583 20.06C13.8083 20.06 14.98 20.0317 15.7583 18.4467C16.635 16.66 14.57 14.5167 13.36 13.275ZM26.635 13.275C25.4267 14.5167 23.4233 16.66 24.2983 18.4467C25.0767 20.0317 26.185 20.06 26.635 20.06C27.085 20.06 28.2567 20.0317 29.035 18.4467C29.9117 16.66 27.845 14.5167 26.635 13.275Z" stroke="#4084C1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_9" x="-2.4" y="-2.4" width="45.8" height="45.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="3.7" result="effect1_foregroundBlur_0_9"/>
+</filter>
+<clipPath id="clip0_0_9">
+<rect width="40" height="40" fill="white"/>
+</clipPath>
+</defs>
+</svg>

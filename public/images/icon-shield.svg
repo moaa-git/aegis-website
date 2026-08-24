@@ -1,0 +1,21 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="material-symbols-light:shield-outline" clip-path="url(#clip0_0_10)">
+<g id="Ellipse 10071" filter="url(#filter0_f_0_10)">
+<circle cx="20.5" cy="20.5" r="15.5" fill="#4084C1" fill-opacity="0.5"/>
+</g>
+<g id="bx:map">
+<path id="Vector" d="M20 23.1667C22.9413 23.1667 25.3333 20.7747 25.3333 17.8333C25.3333 14.892 22.9413 12.5 20 12.5C17.0587 12.5 14.6667 14.892 14.6667 17.8333C14.6667 20.7747 17.0587 23.1667 20 23.1667ZM20 15.1667C21.4707 15.1667 22.6667 16.3627 22.6667 17.8333C22.6667 19.304 21.4707 20.5 20 20.5C18.5293 20.5 17.3333 19.304 17.3333 17.8333C17.3333 16.3627 18.5293 15.1667 20 15.1667Z" fill="#51A6F3"/>
+<path id="Vector_2" d="M19.2267 33.5853C19.4525 33.7461 19.7228 33.8325 20 33.8325C20.2772 33.8325 20.5475 33.7461 20.7733 33.5853C21.1787 33.2987 30.7053 26.42 30.6667 17.8333C30.6667 11.952 25.8813 7.16667 20 7.16667C14.1187 7.16667 9.33333 11.952 9.33333 17.8267C9.29467 26.42 18.8213 33.2987 19.2267 33.5853ZM20 9.83333C24.412 9.83333 28 13.4213 28 17.84C28.028 23.7573 22.1493 29.0707 20 30.8133C17.852 29.0693 11.972 23.7547 12 17.8333C12 13.4213 15.588 9.83333 20 9.83333Z" fill="#51A6F3"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_10" x="-2.4" y="-2.4" width="45.8" height="45.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="3.7" result="effect1_foregroundBlur_0_10"/>
+</filter>
+<clipPath id="clip0_0_10">
+<rect width="40" height="40" fill="white"/>
+</clipPath>
+</defs>
+</svg>
