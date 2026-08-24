@@ -6,11 +6,17 @@ export default function Hero() {
   return (
     <section className="relative z-30 overflow-hidden bg-surface">
       {/* Swirl background (Figma 1:7909; SVG canvas 2155x1996 = node 1966
-          plus blur padding, centred on the page like the node; hero clips it
-          at its own edge exactly as the Figma frame does) */}
+          plus blur padding, centred on the page like the node).
+          The artwork runs 1996px tall while the hero clips at 788, and at
+          that line it is still lifting the surface by ~7/255 — so the clip
+          left a hard full-width edge. The Figma frame has the identical
+          step (its hero clipsContent too), so this bottom fade is a
+          deliberate departure from the comp; see docs/DEVIATIONS.md.
+          32%/38.5% of 1996 = a 639→768px ramp, landing the layer at zero
+          ~20px before the clip. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[1996px] w-[2155px] -translate-x-1/2 bg-[url(/images/hero-swirl.svg)] [background-size:100%_100%] min-[1470px]:[mask-image:linear-gradient(to_right,transparent_14%,black_34%,black_66%,transparent_86%)]"
+        className="pointer-events-none absolute left-1/2 top-0 h-[1996px] w-[2155px] -translate-x-1/2 bg-[url(/images/hero-swirl.svg)] [background-size:100%_100%] [mask-image:linear-gradient(to_bottom,black_32%,transparent_38.5%)] min-[1470px]:[mask-composite:intersect] min-[1470px]:[mask-image:linear-gradient(to_right,transparent_14%,black_34%,black_66%,transparent_86%),linear-gradient(to_bottom,black_32%,transparent_38.5%)]"
       />
       {/* Faint weave overlay (Figma 1:7855). Full-bleed at the artwork's own
           density — see .hero-weave in globals.css for the lattice maths. */}

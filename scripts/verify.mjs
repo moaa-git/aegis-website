@@ -29,9 +29,14 @@ const VIEWPORTS = [
 
 const DEFAULT_ROUTES = ["/"];
 
-/** Inter-section vertical rhythm permitted at desktop, in px. */
-const GAP_MIN = 48;
-const GAP_MAX = 192;
+/**
+ * Inter-section vertical rhythm permitted at desktop, in px, measured
+ * content-to-content. The design's own rhythm is a 160px pb + 160px pt pair
+ * across each boundary, so the window is set around that ~320px figure
+ * rather than the generic 48-192 that suits a margin-spaced layout.
+ */
+const GAP_MIN = 180;
+const GAP_MAX = 460;
 
 /** A band that moves more than this vs baseline is a regression. */
 const DIFF_TOLERANCE = 8;
