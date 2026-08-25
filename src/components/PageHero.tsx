@@ -201,7 +201,7 @@ export default function PageHero({
             aria-hidden
             width={illustration.width}
             height={illustration.height}
-            className="pointer-events-none mx-auto mt-12 h-auto w-full max-w-[420px] lg:hidden"
+            className="pointer-events-none mx-auto mt-12 hidden h-auto w-full max-w-[420px] md:block lg:hidden"
           />
         </div>
       </div>

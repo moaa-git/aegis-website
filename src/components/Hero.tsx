@@ -97,14 +97,16 @@ export default function Hero() {
               {hero.secondaryCta.label}
             </ConsultationButton>
           </div>
-          {/* Stacked shield below the text under lg, so it never collapses */}
+          {/* Stacked shield between md and lg. Hidden below md: on a phone
+              it dropped onto its own line under the CTAs and read as a
+              second, disconnected block rather than part of the hero. */}
           <Image
             src="/images/hero-shield.webp"
             alt=""
             aria-hidden
             width={959}
             height={784}
-            className="pointer-events-none mx-auto mt-12 h-auto w-full max-w-[480px] lg:hidden"
+            className="pointer-events-none mx-auto mt-12 hidden h-auto w-full max-w-[480px] md:block lg:hidden"
           />
         </div>
       </div>
