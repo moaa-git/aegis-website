@@ -51,28 +51,34 @@ export const endpointPage = {
      * Application Management an AI sparkle. Every replacement is an existing
      * node from the same Figma file, so the set stays in its own style:
      * rocket (34:8817), lock (136:776), mobile (115:583), vpn-lock (194:302).
+     *
+     * Each is an `icon-card-*` variant: the glyph recoloured to
+     * --color-accent and carrying the file's own halo (a #4084C1 circle at
+     * 50%, Gaussian blur 3.7 scaled to the glyph's viewBox), exactly as
+     * icon-shield-card and the Infrastructure card glyphs draw it. They are
+     * separate files because the plain glyphs are in use elsewhere -- rocket
+     * on the landing pricing card, lock on the Compliance page, vpn on the
+     * Infrastructure gradient tile -- where neither treatment belongs.
      */
     cards: [
       {
-        icon: "/images/icon-rocket.svg",
+        icon: "/images/icon-card-rocket.svg",
         title: "Autopilot Deployment",
         body: "Zero-touch provisioning. We configure laptops to be business-ready the moment your employee connects to WiFi.",
         highlighted: true,
       },
       {
-        icon: "/images/icon-lock.svg",
+        icon: "/images/icon-card-lock.svg",
         title: "Device Hardening",
         body: "BitLocker encryption enforcement, USB blocking, and screen lock policies.",
       },
       {
-        icon: "/images/icon-mobile.svg",
+        icon: "/images/icon-card-mobile.svg",
         title: "Mobile Application Management (MAM)",
         body: "Secure company data on personal phones without spying on your employees.",
       },
       {
-        // Accent-coloured copy: the white original stays in use on the
-        // Infrastructure page, where it sits on the gradient tile.
-        icon: "/images/icon-vpn-accent.svg",
+        icon: "/images/icon-card-vpn.svg",
         title: "Conditional Access",
         body: "Geographic blocking (e.g., 'Block logins from outside US') and MFA enforcement.",
       },
