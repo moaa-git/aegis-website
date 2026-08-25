@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ConsultationProvider } from "@/components/ConsultationProvider";
-import ScrollDebug from "@/components/ScrollDebug";
 
 // Inter Display is the optical-size cut of the Inter variable font; loading
 // the opsz axis lets the browser select it automatically at display sizes.
@@ -27,8 +26,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
         <ConsultationProvider>{children}</ConsultationProvider>
-        {/* Temporary: ?debug=... layer diagnostics. Dev builds only. */}
-        {process.env.NODE_ENV !== "production" && <ScrollDebug />}
       </body>
     </html>
   );

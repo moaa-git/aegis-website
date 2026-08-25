@@ -24,10 +24,10 @@ export default function Story() {
            applied as a CSS mask-image. mask-image forced this 2155x1496
            element onto its own render surface, and after a window resize
            Chromium dropped its raster tiles mid-scroll — the crescent
-           vanishing behind a hard horizontal edge. Confirmed by the user:
-           ?debug=nomask cured it, ?debug=noarc identified this layer.
-           Swapping the asset at the breakpoint gives the identical fade with
-           no mask at all. See docs/DEVIATIONS.md. */
+           vanishing behind a hard horizontal edge. Swapping the asset at the
+           breakpoint gives the identical fade (verified: 0 subpixels differ
+           by more than 3 at 2628) with no mask at all. Do not reintroduce a
+           CSS mask here. See docs/DEVIATIONS.md. */
         className="pointer-events-none absolute -top-[390px] left-1/2 h-[1496px] w-[2155px] -translate-x-1/2 -scale-y-100 bg-[url(/images/story-ellipse.svg)] [background-size:100%_100%] min-[1470px]:bg-[url(/images/story-ellipse-faded.svg)]"
       />
       {/* Horizontal glow streak (Figma 25:8626: a 108x672 blurred ellipse
