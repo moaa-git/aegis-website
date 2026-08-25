@@ -232,33 +232,19 @@ export const aiPage = {
     subtitleWidth: 640,
     illustration: {
       src: "/images/AICopilotHeroImage.svg",
-      width: 915,
+      // The user's masked re-export is 959 wide: the comp's mask sat at
+      // -44px, and that 44px is now part of the artwork on the left. Content
+      // is unmoved (its brightest pixel shifts by exactly +44), so the left
+      // edge lands at the comp's x=481 and the centre 240.5px right of the
+      // composition centre.
+      width: 959,
       height: 784,
-      // Comp node 149:377 is 915 wide at x=525 y=0, so its centre is 262.5px
-      // right of the composition centre.
-      offsetX: 262.5,
+      offsetX: 240.5,
       top: 0,
-      /**
-       * Three masks composited. The first is the comp's own right-edge
-       * gradient (149:377, mask-size 1105.615x783.982 at -44px 2.018px),
-       * which the flattened export dropped.
-       *
-       * The other two are ours. This artwork is an opaque RGB rectangle with
-       * no alpha and a (0,14,27) background — darker than the page's
-       * (15,23,42) — so its left and bottom edges read as a box. The comp
-       * hides them by painting the hero glow over the top; our glow is faded
-       * out before the hero's bottom edge so it cannot reproduce the clip
-       * Phase 2 removed, which leaves those edges exposed. Fading the
-       * artwork itself is the same treatment the landing hero's shield
-       * already uses. See docs/DEVIATIONS.md.
-       */
-      mask: {
-        image:
-          "url(/images/ai-hero-mask.svg), linear-gradient(to right, transparent, black 12%), linear-gradient(to bottom, black 86%, transparent 99%)",
-        size: "1105.615px 783.982px, 100% 100%, 100% 100%",
-        position: "-44px 2.018px, 0 0, 0 0",
-        composite: "intersect",
-      },
+      // No CSS mask. The left fade comes from the user's masked export; the
+      // comp's right-edge gradient and a bottom falloff are baked into the
+      // same file. Keeping this off the CSS side matters — a mask-image on a
+      // large layer is what made the Story arc drop its raster tiles.
       behind: true,
     },
   },

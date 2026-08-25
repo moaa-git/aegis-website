@@ -10,6 +10,13 @@ import Image from "next/image";
  *
  * The Figma row duplicates the badge and carries a single hairline on the
  * right; see docs/DEVIATIONS.md for why one badge and symmetric rules.
+ *
+ * Still the Figma-derived placeholder. The official asset supplied on
+ * 2026-08-25 (Sophos-Partners-Silver.png) is the light-background variant:
+ * its wordmark is rgba(0,26,71) and every opaque pixel of it measures below
+ * luminance 80, which is invisible on the #0c1428 footer. Swap it in as soon
+ * as the reversed/white version arrives — it is otherwise the better asset
+ * (real transparency, 1201x281 rather than 573x134).
  */
 export default function PartnerBadgeStrip() {
   return (
