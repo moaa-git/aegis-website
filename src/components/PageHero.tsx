@@ -33,6 +33,8 @@ export default function PageHero({
   secondaryCta,
   pillar,
   illustration,
+  headerGap = 124,
+  subtitleWidth = 521,
 }: {
   eyebrow: string;
   title: string | string[];
@@ -41,7 +43,24 @@ export default function PageHero({
   /** Opens the consultation modal, preselecting this page's pillar. */
   secondaryCta: { label: string };
   pillar: PillarKey;
-  illustration: { src: string; width: number; height: number };
+  illustration: {
+    src: string;
+    width: number;
+    height: number;
+    /** Centre offset from the composition centre, in px, per the comp. */
+    offsetX: number;
+    /** Top offset within the 786px frame, in px, per the comp. */
+    top: number;
+  };
+  /**
+   * Header-to-content gap. The comp sets this per page rather than deriving
+   * it — 124px on Endpoint (112:383), 80px on Compliance (125:795) — because
+   * each hero has a different number of H1 lines to seat in the same 786px
+   * frame.
+   */
+  headerGap?: number;
+  /** Subhead measure, also set per page in the comp (521px / 574px). */
+  subtitleWidth?: number;
 }) {
   const lines = Array.isArray(title) ? title : [title];
 
@@ -78,8 +97,12 @@ export default function PageHero({
           y=195, so its centre sits 361.5px right of the composition centre. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-[calc(50%+361.5px)] top-[195px] hidden -translate-x-1/2 lg:block"
-        style={{ width: illustration.width }}
+        className="pointer-events-none absolute hidden -translate-x-1/2 lg:block"
+        style={{
+          width: illustration.width,
+          left: `calc(50% + ${illustration.offsetX}px)`,
+          top: illustration.top,
+        }}
       >
         <Image
           src={illustration.src}
@@ -94,7 +117,10 @@ export default function PageHero({
       <div className="relative mx-auto w-full max-w-318 px-6 pb-8 pt-7">
         <SiteHeader />
 
-        <div className="mt-15 max-w-[702px] pb-24 lg:mt-31 lg:pb-0">
+        <div
+          className="mt-15 max-w-[702px] pb-24 lg:mt-[var(--hero-gap)] lg:pb-0"
+          style={{ "--hero-gap": `${headerGap}px` } as React.CSSProperties}
+        >
           <div className="flex flex-col gap-4">
             <span className="inline-flex w-fit items-center gap-2 rounded-badge border border-white/15 bg-badge px-3 py-2 shadow-badge">
               <Image
@@ -116,7 +142,10 @@ export default function PageHero({
               ))}
             </h1>
           </div>
-          <p className="mt-6 max-w-[521px] text-lg leading-7 text-white/90">
+          <p
+            className="mt-6 text-lg leading-7 text-white/90"
+            style={{ maxWidth: subtitleWidth }}
+          >
             {subtitle}
           </p>
           <div className="mt-12 flex flex-wrap items-center gap-4">

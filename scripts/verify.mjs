@@ -27,7 +27,7 @@ const VIEWPORTS = [
   { name: "mobile", width: 390, height: 844 },
 ];
 
-const DEFAULT_ROUTES = ["/", "/endpoint-security"];
+const DEFAULT_ROUTES = ["/", "/endpoint-security", "/compliance-ediscovery"];
 
 /**
  * Inter-section vertical rhythm permitted at desktop, in px, measured
@@ -221,6 +221,26 @@ function collectPage(cfg) {
     return { top: +(top + sy).toFixed(2), bottom: +(bottom + sy).toFixed(2) };
   };
 
+  /**
+   * True when a filled element (a card or panel) ends flush with the band's
+   * own bottom edge. A tonal step there is that element's fill meeting the
+   * page background -- a legitimate design edge, not a decorative layer
+   * being clipped, which is what the seam check exists to catch.
+   */
+  const endsOnFilledEdge = (el) => {
+    const box = el.getBoundingClientRect();
+    if (box.width === 0) return false;
+    for (const n of el.querySelectorAll("*")) {
+      const ncs = getComputedStyle(n);
+      const bg = ncs.backgroundColor;
+      if (!bg || bg === "transparent" || /rgba\(0,\s*0,\s*0,\s*0\)/.test(bg)) continue;
+      const r = n.getBoundingClientRect();
+      if (r.width < box.width * 0.4) continue;
+      if (Math.abs(r.bottom - box.bottom) <= 8) return true;
+    }
+    return false;
+  };
+
   const bandEls = [...document.querySelectorAll(BAND_SELECTOR)];
   const bands = bandEls.map((el, i) => {
     const cs = getComputedStyle(el);
@@ -232,6 +252,7 @@ function collectPage(cfg) {
       selector: cssPath(el),
       rect: rectOf(el),
       contentRect: contentRectOf(el),
+      endsOnFilledEdge: endsOnFilledEdge(el),
       paddingTop: parseFloat(cs.paddingTop) || 0,
       paddingBottom: parseFloat(cs.paddingBottom) || 0,
     };
@@ -483,6 +504,7 @@ async function measureSeams(shotPath, bands) {
     const deltas = [0, 1, 2].map((c) => Math.abs(inside[c] - outside[c]));
     out.push({
       boundary: `${bands[i].name} -> ${bands[i + 1].name}`,
+      cardEdge: Boolean(bands[i].endsOnFilledEdge),
       y,
       inside: inside.map((v) => +v.toFixed(2)),
       outside: outside.map((v) => +v.toFixed(2)),
@@ -639,6 +661,13 @@ async function run() {
         const msg =
           `${seam.boundary} at y=${seam.y}: tonal step of ${seam.maxDelta}/255 ` +
           `(${seam.inside.join(",")} -> ${seam.outside.join(",")})`;
+        if (seam.cardEdge) {
+          warn(route, vp.name, "boundary-seam-card-edge",
+            `${msg} — band ends flush with a filled card, so the step is that ` +
+              `card's fill meeting the page, not a clipped layer`,
+            seam);
+          continue;
+        }
         if (known) {
           warn(route, vp.name, "boundary-seam-known", `${msg} — ${known.why}`, seam);
         } else {

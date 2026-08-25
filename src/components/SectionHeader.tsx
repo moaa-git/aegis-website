@@ -15,12 +15,15 @@ export default function SectionHeader({
   title,
   subtitle,
   align = "center",
+  subtitleWidth,
   name,
 }: {
   eyebrow?: string;
   title: ReactNode;
   subtitle?: ReactNode;
   align?: "center" | "left";
+  /** Subhead measure in px; the comp sets 624 on Comprehensive Compliance. */
+  subtitleWidth?: number;
   name?: string;
 }) {
   const centered = align === "center";
@@ -42,7 +45,12 @@ export default function SectionHeader({
         {title}
       </h2>
       {subtitle && (
-        <p className="text-lg leading-normal text-white/90">{subtitle}</p>
+        <p
+          className="mt-[7px] text-lg leading-normal text-white/90"
+          style={subtitleWidth ? { maxWidth: subtitleWidth } : undefined}
+        >
+          {subtitle}
+        </p>
       )}
     </div>
   );

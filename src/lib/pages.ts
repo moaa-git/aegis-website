@@ -15,6 +15,7 @@
 
 import type { FeatureCard } from "@/components/FeatureCardGrid";
 import type { StackedFeature } from "@/components/StackedFeatureRow";
+import type { ListColumn } from "@/components/TwoColumnList";
 
 export const endpointPage = {
   hero: {
@@ -29,6 +30,10 @@ export const endpointPage = {
       src: "/images/EndpointManagementHeroImage.svg",
       width: 465,
       height: 432,
+      // Comp 119:598 sits at x=849 y=195 in the 1440 frame, so its centre is
+      // 361.5px right of the composition centre.
+      offsetX: 361.5,
+      top: 195,
     },
   },
 
@@ -83,5 +88,115 @@ export const endpointPage = {
         body: "Hardening Windows/Linux servers to block lateral movement.",
       },
     ] satisfies StackedFeature[],
+  },
+};
+
+export const compliancePage = {
+  hero: {
+    eyebrow: "Trusted by Regulated Industries",
+    // Three lines in the comp (125:887).
+    title: [
+      "Governance, Risk, and",
+      "Compliance (GRC) for",
+      "Regulated Industries",
+    ],
+    subtitle:
+      "Whether facing a surprise subpoena or a scheduled SEC audit, scrambling is a liability. We align your Microsoft 365 environment for instant, defensible eDiscovery and continuous regulatory compliance (HIPAA, PCI, DDQ).",
+    primaryCta: { label: "View Service Packages", href: "/#packages" },
+    secondaryCta: { label: "Schedule a Consultation" },
+    // 125:795 sets an 80px header gap and a 574px subhead measure.
+    headerGap: 80,
+    subtitleWidth: 574,
+    illustration: {
+      src: "/images/ComplianceHeroImage.svg",
+      width: 721,
+      height: 749,
+      // Comp node 137:1023 is 635x657 at x=733 y=110; the export carries
+      // 43px/46px of blur padding, so it lands at x=690 y=64 and its centre
+      // is 330.5px right of the composition centre.
+      offsetX: 330.5,
+      top: 64,
+    },
+  },
+
+  promise: {
+    // The comp badges this "The Solution" and badges the next band the same
+    // way — a duplicated label. The brief distinguishes them; see
+    // docs/DEVIATIONS.md.
+    eyebrow: "Our Promise",
+    title: "Defensible by Design",
+    body: {
+      lead: "We architect Microsoft Purview to handle legal holds, content searches, and data retention policies automatically.",
+      emphasis:
+        "All data access and search queries are handled personally by U.S.-based consultants.",
+    },
+    items: [
+      "Automated legal holds and content searches",
+      "All data access handled by U.S.-based consultants",
+      "Microsoft Purview expertly configured",
+      "Data retention policies configured to your requirements",
+      "Role-based access and audit trails",
+    ],
+  },
+
+  solutions: {
+    eyebrow: "The Solutions",
+    title: "Comprehensive Compliance Solutions",
+    subtitle:
+      "Every engagement includes meticulously configured controls tailored to your regulatory requirements.",
+    columns: [
+      {
+        title: "Legal & eDiscovery",
+        items: [
+          {
+            icon: "/images/icon-search.svg",
+            title: "eDiscovery Standard/Premium Setup",
+            body: "Configuration of cases, custodian management, and role-based access.",
+          },
+          {
+            icon: "/images/icon-note-done.svg",
+            title: "Content Search & Export",
+            body: "Rapid extraction of emails, Teams chats, and SharePoint files for litigation review.",
+          },
+          {
+            icon: "/images/icon-lock.svg",
+            title: "Legal Hold Workflows",
+            body: "Policies to freeze data instantly for litigation without user intervention.",
+          },
+          {
+            icon: "/images/icon-alert-lg.svg",
+            title: "Data Loss Prevention (DLP)",
+            body: "Block credit cards, social security numbers, or case files from being emailed externally.",
+          },
+        ],
+      },
+      {
+        title: "Regulatory Frameworks",
+        items: [
+          {
+            icon: "/images/icon-shield-outline.svg",
+            // Comp reads "DLP (Data Loss Prevention)", which duplicates the
+            // left column's entry; the brief's title disambiguates it.
+            title: "DLP for PII/Credit Cards",
+            body: "Automated blocking of Credit Cards, Medical Records, and Social Security Numbers from leaving your organization.",
+          },
+          {
+            icon: "/images/icon-note-check-lg.svg",
+            title: "Due Diligence (DDQ) Remediation",
+            body: "We help you pass vendor risk assessments by implementing the missing controls required by your enterprise clients.",
+          },
+          {
+            icon: "/images/icon-data.svg",
+            title: "SEC 17a-4 Alignment",
+            body: "Configuration of preservation locks and immutable storage for financial record retention.",
+          },
+          {
+            icon: "/images/icon-note.svg",
+            title: "Audit Logging",
+            body: "Enabling Unified Audit Logs to track file access and admin activities for compliance reporting.",
+          },
+        ],
+      },
+    ] satisfies [ListColumn, ListColumn],
   },
 };

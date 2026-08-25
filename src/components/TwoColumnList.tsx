@@ -1,17 +1,21 @@
-import Image from "next/image";
+import StackedFeatureRow, { type StackedFeature } from "./StackedFeatureRow";
 
 export type ListColumn = {
   title: string;
-  items: { title: string; body?: string }[];
+  items: StackedFeature[];
 };
 
 /**
- * Two labelled columns of rows, used for "Comprehensive Compliance
- * Solutions" on Compliance & eDiscovery (Figma 142:1105): a Legal &
- * eDiscovery column beside a Regulatory Frameworks column.
+ * Two labelled columns of feature rows — "Legal & eDiscovery" beside
+ * "Regulatory Frameworks" on Compliance & eDiscovery (Figma 142:1104).
  *
- * Collapses to a single column below md. Geometry is trued against the
- * Figma node in Phase 6a; built here so the page composes from shared parts.
+ * The comp's columns are not a list of their own: each row is the same card
+ * StackedFeatureRow already draws, at 600px with the flat-tile treatment.
+ * So this component is a heading and a gutter, not a second row
+ * implementation.
+ *
+ * Measured: 600px columns with a 24px gutter, 32px column headings, 72px
+ * from heading top to the first row.
  */
 export default function TwoColumnList({
   columns,
@@ -21,36 +25,15 @@ export default function TwoColumnList({
   name?: string;
 }) {
   return (
-    <div data-verify={name} className="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <div data-verify={name} className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {columns.map((column) => (
-        <div
-          key={column.title}
-          className="rounded-card border border-edge bg-surface-row/40 p-6 md:p-8"
-        >
-          <h3 className="text-h3 font-medium text-heading">{column.title}</h3>
-          <ul className="mt-6 flex flex-col gap-5">
-            {column.items.map((item) => (
-              <li key={item.title} className="flex items-start gap-3">
-                <Image
-                  src="/images/icon-check.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className="mt-1.5 size-4 shrink-0"
-                />
-                <div className="flex flex-col gap-1">
-                  <span className="text-base font-medium leading-normal tracking-tight2 text-white">
-                    {item.title}
-                  </span>
-                  {item.body && (
-                    <span className="text-sm leading-normal text-white/70">
-                      {item.body}
-                    </span>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
+        <div key={column.title}>
+          <h3 className="text-2xl font-medium leading-[1.5] tracking-tight3 text-heading md:text-[2rem]">
+            {column.title}
+          </h3>
+          <div className="mt-6">
+            <StackedFeatureRow features={column.items} variant="tile" />
+          </div>
         </div>
       ))}
     </div>
