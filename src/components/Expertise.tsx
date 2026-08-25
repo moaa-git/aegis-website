@@ -45,7 +45,9 @@ export default function Expertise() {
           opaque fill) covers its far end exactly as the Figma z-order does. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-[317px] left-1/2 h-[885px] w-[2155px] -translate-x-1/2 -scale-y-100 bg-[url(/images/glow-ellipse.svg)] [background-size:100%_100%] min-[1470px]:[mask-image:linear-gradient(to_right,transparent_14%,black_34%,black_66%,transparent_86%)]"
+        /* Side fade baked into the asset, not a CSS mask — same reason as the
+           Story arc; see Story.tsx and docs/DEVIATIONS.md. */
+        className="pointer-events-none absolute -top-[317px] left-1/2 h-[885px] w-[2155px] -translate-x-1/2 -scale-y-100 bg-[url(/images/glow-ellipse.svg)] [background-size:100%_100%] min-[1470px]:bg-[url(/images/glow-ellipse-faded.svg)]"
       />
 
       <div className="relative mx-auto w-full max-w-318 px-6 pt-40">

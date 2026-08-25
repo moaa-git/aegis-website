@@ -20,7 +20,7 @@ export default function Hero() {
           ~20px before the clip. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[1996px] w-[2155px] -translate-x-1/2 bg-[url(/images/hero-swirl.svg)] [background-size:100%_100%] [mask-image:linear-gradient(to_bottom,black_32%,transparent_38.5%)] min-[1470px]:[mask-composite:intersect] min-[1470px]:[mask-image:linear-gradient(to_right,transparent_14%,black_34%,black_66%,transparent_86%),linear-gradient(to_bottom,black_32%,transparent_38.5%)]"
+        className="pointer-events-none absolute left-1/2 top-0 h-[1996px] w-[2155px] -translate-x-1/2 bg-[url(/images/hero-swirl-fadeY.svg)] [background-size:100%_100%] min-[1470px]:bg-[url(/images/hero-swirl-fadeXY.svg)]"
       />
       {/* Faint weave overlay (Figma 1:7855). Full-bleed at the artwork's own
           density — see .hero-weave in globals.css for the lattice maths. */}

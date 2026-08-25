@@ -1,4 +1,14 @@
 <svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="2155" height="1996" viewBox="0 0 2155 1996" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="aaFadeX_swirl" x1="0" y1="0" x2="2155.0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="white" stop-opacity="0"/><stop offset="0.14" stop-color="white" stop-opacity="0"/><stop offset="0.34" stop-color="white" stop-opacity="1"/><stop offset="0.66" stop-color="white" stop-opacity="1"/><stop offset="0.86" stop-color="white" stop-opacity="0"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+<mask id="aaMaskX_swirl" maskUnits="userSpaceOnUse" x="0" y="0" width="2155.0" height="1996.0"><rect width="2155.0" height="1996.0" fill="url(#aaFadeX_swirl)"/></mask>
+</defs>
+<g mask="url(#aaMaskX_swirl)">
+<defs>
+<linearGradient id="aaFade_hero-swirl-fadeY" x1="0" y1="0" x2="0" y2="1996.0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="white" stop-opacity="1"/><stop offset="0.32" stop-color="white" stop-opacity="1"/><stop offset="0.385" stop-color="white" stop-opacity="0"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+<mask id="aaMask_hero-swirl-fadeY" maskUnits="userSpaceOnUse" x="0" y="0" width="2155.0" height="1996.0"><rect width="2155.0" height="1996.0" fill="url(#aaFade_hero-swirl-fadeY)"/></mask>
+</defs>
+<g mask="url(#aaMask_hero-swirl-fadeY)">
 <g id="Background">
 <rect id="Header Background" x="93" width="1966" height="157" fill="url(#paint0_linear_0_19)"/>
 <g id="Background Overlay">
@@ -71,4 +81,6 @@
 <stop offset="0.502558" stop-color="#0F172A"/>
 </radialGradient>
 </defs>
+</g>
+</g>
 </svg>
