@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { nav, site } from "@/lib/data";
 import { useConsultation } from "./ConsultationProvider";
 
@@ -11,7 +12,7 @@ export default function SiteHeader() {
 
   return (
     <header className="relative z-20 flex w-full items-center justify-between">
-      <a href="#" aria-label={`${site.name} home`} className="shrink-0">
+      <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
         <Image
           src="/images/logo.png"
           alt={site.name}
@@ -20,7 +21,7 @@ export default function SiteHeader() {
           priority
           className="h-12 w-auto"
         />
-      </a>
+      </Link>
 
       {/* Desktop pill nav */}
       <nav className="hidden h-16 w-[760px] items-center justify-between rounded-3xl bg-surface pl-10 pr-2 shadow-nav lg:flex">

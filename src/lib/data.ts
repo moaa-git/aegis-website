@@ -36,13 +36,17 @@ export const pillarPages = {
 export type PillarKey = keyof typeof pillarPages;
 
 export const nav = {
+  // Absolute, not bare fragments: the four sections these point at exist only
+  // on the landing page, so from an interior page "#services" scrolled
+  // nowhere. "#contact" is the exception -- every page's footer carries that
+  // id -- and is deliberately left in-page.
   links: [
-    { label: "Services", href: "#services" },
-    { label: "Packages", href: "#packages" },
-    { label: "Our Story", href: "#story" },
+    { label: "Services", href: "/#services" },
+    { label: "Packages", href: "/#packages" },
+    { label: "Our Story", href: "/#story" },
     { label: "Contact", href: "#contact" },
   ],
-  cta: { label: "Request Consultation", href: "#contact" },
+  cta: { label: "Request Consultation" },
 };
 
 export const hero = {
