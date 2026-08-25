@@ -70,7 +70,9 @@ export const endpointPage = {
         body: "Secure company data on personal phones without spying on your employees.",
       },
       {
-        icon: "/images/icon-vpn.svg",
+        // Accent-coloured copy: the white original stays in use on the
+        // Infrastructure page, where it sits on the gradient tile.
+        icon: "/images/icon-vpn-accent.svg",
         title: "Conditional Access",
         body: "Geographic blocking (e.g., 'Block logins from outside US') and MFA enforcement.",
       },
