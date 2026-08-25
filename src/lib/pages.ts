@@ -44,25 +44,33 @@ export const endpointPage = {
     // Order is the comp's row-wise reading order: Autopilot top-left,
     // Device Hardening top-right, MAM bottom-left, Conditional Access
     // bottom-right (112:223 / 112:261 / 112:242 / 112:283).
+    /**
+     * Glyphs remapped 2026-08-25 at the user's request. The comp assigns
+     * these four cards the landing page's Services icons in a different
+     * order, so Device Hardening got a scales-of-justice and Mobile
+     * Application Management an AI sparkle. Every replacement is an existing
+     * node from the same Figma file, so the set stays in its own style:
+     * rocket (34:8817), lock (136:776), mobile (115:583), vpn-lock (194:302).
+     */
     cards: [
       {
-        icon: "/images/icon-shield-card.svg",
+        icon: "/images/icon-rocket.svg",
         title: "Autopilot Deployment",
         body: "Zero-touch provisioning. We configure laptops to be business-ready the moment your employee connects to WiFi.",
         highlighted: true,
       },
       {
-        icon: "/images/icon-legal.svg",
+        icon: "/images/icon-lock.svg",
         title: "Device Hardening",
         body: "BitLocker encryption enforcement, USB blocking, and screen lock policies.",
       },
       {
-        icon: "/images/icon-ai.svg",
+        icon: "/images/icon-mobile.svg",
         title: "Mobile Application Management (MAM)",
         body: "Secure company data on personal phones without spying on your employees.",
       },
       {
-        icon: "/images/icon-table.svg",
+        icon: "/images/icon-vpn.svg",
         title: "Conditional Access",
         body: "Geographic blocking (e.g., 'Block logins from outside US') and MFA enforcement.",
       },
