@@ -32,6 +32,7 @@ const DEFAULT_ROUTES = [
   "/endpoint-security",
   "/compliance-ediscovery",
   "/ai-copilot-readiness",
+  "/infrastructure-networking",
 ];
 
 /**

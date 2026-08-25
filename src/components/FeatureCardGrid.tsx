@@ -1,8 +1,14 @@
 import Image from "next/image";
 
+/**
+ * Either a single exported glyph, or the comp's composite treatment: a
+ * blurred halo with a smaller glyph centred on it (193:203, 193:230).
+ */
+export type CardIcon = string | { base: string; glyph: string };
+
 export type FeatureCard = {
   /** Optional: the "plain" variant draws no icon. */
-  icon?: string;
+  icon?: CardIcon;
   title: string;
   body: string;
   /** Draws the accent border the Figma gives the first card of a grid. */
@@ -74,7 +80,26 @@ export default function FeatureCardGrid({
         >
           {!plain && card.icon && (
             <span className="flex size-14 items-center justify-center rounded-xl bg-tile">
-              <Image src={card.icon} alt="" width={40} height={40} className="size-10" />
+              {typeof card.icon === "string" ? (
+                <Image src={card.icon} alt="" width={40} height={40} className="size-10" />
+              ) : (
+                <span className="relative flex size-10 items-center justify-center">
+                  <Image
+                    src={card.icon.base}
+                    alt=""
+                    width={46}
+                    height={46}
+                    className="absolute size-[46px] max-w-none"
+                  />
+                  <Image
+                    src={card.icon.glyph}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="relative size-8"
+                  />
+                </span>
+              )}
             </span>
           )}
           {!plain && (

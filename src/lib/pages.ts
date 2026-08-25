@@ -296,3 +296,88 @@ export const aiPage = {
     ] satisfies FeatureCard[],
   },
 };
+
+export const infrastructurePage = {
+  hero: {
+    eyebrow: "Enterprise Security",
+    eyebrowIcon: "/images/icon-brain.svg",
+    title: ["Robust Cloud Infrastructure", "& Network Defense"],
+    subtitle:
+      "Move to the cloud with zero downtime and secure your physical office against intrusion. Enterprise-grade protection for modern businesses.",
+    primaryCta: { label: "View Service Packages", href: "/#packages" },
+    secondaryCta: { label: "Schedule a Consultation" },
+    // 164:729 sets a 108px header gap; the subhead runs the 569px column.
+    headerGap: 108,
+    subtitleWidth: 640,
+    illustration: {
+      src: "/images/NetworkInfraHeroImage.svg",
+      width: 515,
+      height: 481,
+      // Comp node 197:352 is 515x481 at x=825 y=191 — the export matches the
+      // node exactly, with no blur padding to account for.
+      offsetX: 362.5,
+      top: 191,
+      // Same stacking as AI & Copilot: the illustration precedes the Hero
+      // Section in the comp, so it sits behind the glow.
+      behind: true,
+    },
+  },
+
+  cloud: {
+    eyebrow: "Microsoft 365",
+    title: "Cloud Infrastructure",
+    // Comp reading order: Tenant top-left, Exchange top-right, Identity
+    // bottom-left, Email Authentication bottom-right (193:188 / 193:212 /
+    // 193:200 / 193:227).
+    cards: [
+      {
+        icon: "/images/icon-tenant.svg",
+        title: "Tenant Creation & Hardening",
+        body: "Best-practice setup of your environment with 'Security Defaults' disabled and custom security applied.",
+        highlighted: true,
+      },
+      {
+        icon: "/images/icon-exchange.svg",
+        title: "Exchange Online Migration",
+        body: "Moving email, calendars, and contacts from IMAP, Gmail, or Exchange On-Prem to Microsoft 365.",
+      },
+      {
+        icon: { base: "/images/icon-halo.svg", glyph: "/images/icon-group.svg" },
+        title: "Identity Management",
+        body: "Entra ID (Azure AD) setup, syncing with local AD if required (Hybrid Join).",
+      },
+      {
+        icon: { base: "/images/icon-halo.svg", glyph: "/images/icon-key.svg" },
+        title: "Email Authentication",
+        body: "Full configuration of SPF, DKIM, and DMARC to ensure your emails don't go to spam.",
+      },
+    ] satisfies FeatureCard[],
+  },
+
+  network: {
+    eyebrow: "Sophos",
+    title: "Network Security",
+    features: [
+      {
+        icon: "/images/icon-firewall.svg",
+        title: "Sophos Firewall (XGS) Configuration",
+        body: "Setup of XGS Series firewalls with Deep Packet Inspection (DPI) and Intrusion Prevention (IPS).",
+      },
+      {
+        icon: "/images/icon-sync.svg",
+        title: "Synchronized Security",
+        body: "Configuring the 'Heartbeat' between your Firewall and Endpoints to instantly revoke network access for compromised devices.",
+      },
+      {
+        icon: "/images/icon-vpn.svg",
+        title: "VPN & Remote Access",
+        body: "Secure SSL VPN or SD-RED setup for connecting remote workers safely.",
+      },
+      {
+        icon: "/images/icon-network.svg",
+        title: "Network Segmentation",
+        body: "Isolating Guest WiFi, IoT devices, and corporate data for enhanced security boundaries.",
+      },
+    ] satisfies StackedFeature[],
+  },
+};
