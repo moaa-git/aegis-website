@@ -123,26 +123,39 @@ for (const vp of VIEWPORTS) {
   const page = await newPage(ctx);
   const modal = page.locator('[data-verify="consultation-modal"]');
 
-  // services card prefills primary interest
-  await page
-    .getByRole("button", { name: /Request a consultation about AI & Modern Work/ })
-    .click();
-  await modal.waitFor({ state: "visible" });
-  const interest = await page.locator("select[name=primaryInterest]").inputValue();
-  check("services card prefills primary interest", interest === "ai-modern-work",
-    `got "${interest}"`);
+  // Services cards navigate to their pillar page rather than opening the
+  // modal; the prefill for those pillars now comes from each interior
+  // page's own hero CTA.
+  const cardLinks = await page.$$eval("section#services a[href]", (as) =>
+    as.map((a) => a.getAttribute("href"))
+  );
+  check(
+    "services cards link to their pillar pages",
+    cardLinks.length === 4 &&
+      cardLinks.every((h) => h && h.startsWith("/") && !h.startsWith("/#")),
+    cardLinks.join(" ")
+  );
+  const footerLinks = await page.$$eval(
+    'footer nav[aria-label="Services"] a',
+    (as) => as.map((a) => a.getAttribute("href"))
+  );
+  check(
+    "footer Services column links to the same pillar pages",
+    JSON.stringify(footerLinks) === JSON.stringify(cardLinks),
+    footerLinks.join(" ")
+  );
 
-  // escape closes
+  // escape closes, and focus goes back to the CTA that opened it
+  await page.getByRole("button", { name: "Book Your Audit" }).click();
+  await modal.waitFor({ state: "visible" });
   await page.keyboard.press("Escape");
   await modal.waitFor({ state: "hidden", timeout: 3000 });
   check("Escape closes the modal", true);
 
-  // focus returns to the CTA that opened it
   const restored = await page.evaluate(
     () => document.activeElement?.textContent?.trim() ?? ""
   );
-  check("focus returns to the opening CTA",
-    restored.includes("Request a consultation about AI & Modern Work"),
+  check("focus returns to the opening CTA", restored.includes("Book Your Audit"),
     `focus on "${restored}"`);
 
   // nav CTA opens with nothing preselected

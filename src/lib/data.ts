@@ -10,6 +10,31 @@ export const site = {
   location: "Central Illinois",
 };
 
+/**
+ * The four pillar pages. Route slugs live here so the Services cards, the
+ * footer column and the pages themselves cannot drift apart.
+ */
+export const pillarPages = {
+  "endpoint-security": {
+    href: "/endpoint-security",
+    title: "Endpoint Management & Security",
+  },
+  "compliance-legal": {
+    href: "/compliance-ediscovery",
+    title: "Compliance & eDiscovery",
+  },
+  "ai-modern-work": {
+    href: "/ai-copilot-readiness",
+    title: "AI & Copilot Readiness",
+  },
+  "infrastructure-network": {
+    href: "/infrastructure-networking",
+    title: "Infrastructure & Networking",
+  },
+} as const;
+
+export type PillarKey = keyof typeof pillarPages;
+
 export const nav = {
   links: [
     { label: "Services", href: "#services" },
@@ -179,10 +204,13 @@ export const footer = {
     {
       title: "Services",
       links: [
-        { label: "Endpoint & Security", href: "#services" },
-        { label: "Compliance & Legal", href: "#services" },
-        { label: "AI & Modern Work", href: "#services" },
-        { label: "Infrastructure & Network", href: "#services" },
+        { label: "Endpoint & Security", href: pillarPages["endpoint-security"].href },
+        { label: "Compliance & Legal", href: pillarPages["compliance-legal"].href },
+        { label: "AI & Modern Work", href: pillarPages["ai-modern-work"].href },
+        {
+          label: "Infrastructure & Network",
+          href: pillarPages["infrastructure-network"].href,
+        },
       ],
     },
     {

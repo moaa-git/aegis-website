@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { services } from "@/lib/data";
-import ConsultationButton from "./ConsultationButton";
+import Link from "next/link";
+import { services, pillarPages, type PillarKey } from "@/lib/data";
 
 export default function Services() {
   return (
@@ -47,11 +47,17 @@ export default function Services() {
                   {card.description}
                 </p>
               </div>
-              <ConsultationButton
-                overlay
-                prefill={{ primaryInterest: card.interest }}
-                label={`Request a consultation about ${card.title}`}
-              />
+              {/* Whole-card hit target. Absolutely positioned so nothing in
+                  the card's flow moves, and marked verify-ignore so the
+                  harness does not count a transparent overlay as painted
+                  content when it measures inter-band whitespace. */}
+              <Link
+                href={pillarPages[card.interest as PillarKey].href}
+                data-verify-ignore
+                className="absolute inset-0 rounded-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-bright focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+              >
+                <span className="sr-only">{`${card.title} — read more`}</span>
+              </Link>
               <ul className="mt-5 flex flex-wrap items-center gap-3">
                 {card.chips.map((chip) => (
                   <li
