@@ -51,7 +51,10 @@ export default function FeatureCardGrid({
       {cards.map((card) => (
         <article
           key={card.title}
-          className={`relative rounded-card border p-6 ${
+          /* 241px is the comp's card height (112:223). A min-height rather
+             than a fixed one so longer copy grows the card instead of
+             overflowing it, and so cards can shrink on narrow viewports. */
+          className={`relative rounded-card border p-6 lg:min-h-[241px] ${
             card.highlighted ? "border-accent" : "border-edge"
           }`}
         >

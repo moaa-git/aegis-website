@@ -10,7 +10,14 @@ export const runtime = "nodejs";
 /** Never cached: every POST must run the checks. */
 export const dynamic = "force-dynamic";
 
-const RATE_LIMIT = { windowMs: 10 * 60 * 1000, max: 5 };
+/**
+ * 15 per hour per IP. Loosened from 5-per-10-minutes because the buyer here
+ * is often a whole office behind one NAT -- a law firm where five people
+ * enquire in ten minutes is a plausible day, and blocking the fifth costs a
+ * real lead. Turnstile is what actually stops bots; this is a speed bump for
+ * someone hammering the endpoint directly.
+ */
+const RATE_LIMIT = { windowMs: 60 * 60 * 1000, max: 15 };
 
 /**
  * In-memory sliding window, keyed by IP.

@@ -197,6 +197,39 @@ for (const vp of VIEWPORTS) {
   await ctx.close();
 }
 
+// ---- interior page hero CTA carries the pillar prefill ------------------
+{
+  const ctx = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    extraHTTPHeaders: { "x-forwarded-for": "192.0.2.60" },
+  });
+  const page = await ctx.newPage();
+  await page.goto(`${BASE}/endpoint-security`, { waitUntil: "networkidle" });
+  await page.addStyleTag({
+    content:
+      "nextjs-portal,[data-nextjs-toast],[data-next-badge-root]{display:none!important}",
+  });
+  const modal = page.locator('[data-verify="consultation-modal"]');
+  await page.getByRole("button", { name: "Schedule a Consultation" }).click();
+  await modal.waitFor({ state: "visible", timeout: 5000 });
+  const interest = await page.locator("select[name=primaryInterest]").inputValue();
+  check("interior hero CTA prefills this page's pillar",
+    interest === "endpoint-security", `got "${interest}"`);
+  await ctx.close();
+}
+
+// ---- the landing card actually reaches the page it points at ------------
+{
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
+  await page.goto(BASE, { waitUntil: "networkidle" });
+  const res = await page.goto(`${BASE}/endpoint-security`, { waitUntil: "domcontentloaded" });
+  check("/endpoint-security resolves", res?.status() === 200, `status ${res?.status()}`);
+  const h1 = await page.locator("h1").first().innerText();
+  check("page renders its own H1", h1.includes("Secure Your Devices"), h1.replace(/\n/g, " "));
+  await ctx.close();
+}
+
 // ---- route handler defences --------------------------------------------
 const post = async (body) => {
   const res = await fetch(`${BASE}/api/lead`, {
@@ -245,15 +278,15 @@ const valid = {
   // rather than an IP a previous run already exhausted.
   const ip = `198.51.100.${(Date.now() % 200) + 20}`;
   const statuses = [];
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 17; i++) {
     const r = await post({ ...valid, __ip: ip });
     statuses.push(r.status);
   }
   const accepted = statuses.filter((s) => s === 200).length;
   const blocked = statuses.filter((s) => s === 429).length;
-  check("rate limit accepts 5 then blocks the rest",
-    accepted === 5 && blocked === 2,
-    `statuses ${statuses.join(",")}`);
+  check("rate limit accepts 15 then blocks the rest",
+    accepted === 15 && blocked === 2,
+    `${accepted} accepted, ${blocked} blocked`);
 }
 {
   const r = await post({ ...valid, __ip: "203.0.113.31" });

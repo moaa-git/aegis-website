@@ -1,5 +1,7 @@
 import Image from "next/image";
 import SiteHeader from "./SiteHeader";
+import ConsultationButton from "./ConsultationButton";
+import type { PillarKey } from "@/lib/data";
 
 export type PageHeroCta = { label: string; href: string };
 
@@ -29,13 +31,16 @@ export default function PageHero({
   subtitle,
   primaryCta,
   secondaryCta,
+  pillar,
   illustration,
 }: {
   eyebrow: string;
   title: string | string[];
   subtitle: string;
   primaryCta: PageHeroCta;
-  secondaryCta: PageHeroCta;
+  /** Opens the consultation modal, preselecting this page's pillar. */
+  secondaryCta: { label: string };
+  pillar: PillarKey;
   illustration: { src: string; width: number; height: number };
 }) {
   const lines = Array.isArray(title) ? title : [title];
@@ -43,7 +48,11 @@ export default function PageHero({
   return (
     <section
       data-verify="page-hero"
-      className="relative z-30 overflow-hidden bg-surface"
+      /* The comp fixes every interior hero frame at 1440x786 with its content
+         top-aligned, the lower half being where the illustration sits. Pinning
+         the height reproduces that exactly and keeps all four pages identical,
+         instead of each one's padding stack landing somewhere near 786. */
+      className="relative z-30 overflow-hidden bg-surface lg:min-h-[786px]"
     >
       {/* Background glow (Figma 112:446: 1966x1663 node, SVG canvas 1966x1783
           with the blur padding). Anchored to the composition centre, not the
@@ -85,7 +94,7 @@ export default function PageHero({
       <div className="relative mx-auto w-full max-w-318 px-6 pb-8 pt-7">
         <SiteHeader />
 
-        <div className="mt-15 max-w-[702px] pb-24 lg:mt-31 lg:pb-38">
+        <div className="mt-15 max-w-[702px] pb-24 lg:mt-31 lg:pb-0">
           <div className="flex flex-col gap-4">
             <span className="inline-flex w-fit items-center gap-2 rounded-badge border border-white/15 bg-badge px-3 py-2 shadow-badge">
               <Image
@@ -117,12 +126,12 @@ export default function PageHero({
             >
               {primaryCta.label}
             </a>
-            <a
-              href={secondaryCta.href}
+            <ConsultationButton
+              prefill={{ primaryInterest: pillar }}
               className="flex h-14 items-center rounded-2xl border border-accent-bright bg-surface-row px-6 text-lg font-medium text-white shadow-btn-secondary transition-colors hover:bg-surface-row/70"
             >
               {secondaryCta.label}
-            </a>
+            </ConsultationButton>
           </div>
           {/* Below lg the illustration stacks under the text rather than
               disappearing with the nav, the same call the landing hero makes

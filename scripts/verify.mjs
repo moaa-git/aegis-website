@@ -27,7 +27,7 @@ const VIEWPORTS = [
   { name: "mobile", width: 390, height: 844 },
 ];
 
-const DEFAULT_ROUTES = ["/"];
+const DEFAULT_ROUTES = ["/", "/endpoint-security"];
 
 /**
  * Inter-section vertical rhythm permitted at desktop, in px, measured
