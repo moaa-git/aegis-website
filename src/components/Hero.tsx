@@ -97,7 +97,7 @@ export default function Hero() {
               {hero.secondaryCta.label}
             </ConsultationButton>
           </div>
-          {/* Stacked shield between md and lg. Hidden below md: on a phone
+          {/* Stacked shield between sm and lg. Hidden below sm: on a phone
               it dropped onto its own line under the CTAs and read as a
               second, disconnected block rather than part of the hero. */}
           <Image
@@ -106,7 +106,8 @@ export default function Hero() {
             aria-hidden
             width={959}
             height={784}
-            className="pointer-events-none mx-auto mt-12 hidden h-auto w-full max-w-[480px] md:block lg:hidden"
+            data-hero-stacked
+            className="pointer-events-none mx-auto mt-12 hidden h-auto w-full max-w-[480px] sm:block lg:hidden"
           />
         </div>
       </div>

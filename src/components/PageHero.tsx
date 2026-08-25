@@ -201,7 +201,8 @@ export default function PageHero({
             aria-hidden
             width={illustration.width}
             height={illustration.height}
-            className="pointer-events-none mx-auto mt-12 hidden h-auto w-full max-w-[420px] md:block lg:hidden"
+            data-hero-stacked
+            className="pointer-events-none mx-auto mt-12 hidden h-auto w-full max-w-[420px] sm:block lg:hidden"
           />
         </div>
       </div>
