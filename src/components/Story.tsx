@@ -4,11 +4,16 @@ import { story } from "@/lib/data";
 export default function Story() {
   return (
     <section id="story" data-verify="story" className="relative z-10">
-      {/* Backdrop photo with fade to surface (Figma 25:8531 + 23:8529) */}
+      {/* Backdrop photo with fade to surface (Figma 25:8531 + 23:8529).
+          The comp's 8px blur is baked into the asset rather than applied as a
+          backdrop-filter. The filter was a 2560x763 compositing layer sitting
+          directly over the 2155x1496 masked arc below it, and backdrop-filter
+          has to snapshot everything painted beneath it on every scroll —
+          which is what made the crescent vanish mid-scroll in Chromium.
+          See docs/DEVIATIONS.md. */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[763px]">
         <div className="absolute inset-0 bg-[url(/images/story-bg.webp)] bg-cover bg-top opacity-90" />
         <div className="absolute inset-0 bg-linear-to-b from-surface/40 to-75% to-surface" />
-        <div className="absolute inset-0 backdrop-blur-[8px]" />
       </div>
       {/* Background ellipse arc (Figma 32:8667, flipped). Native 2155x1496
           SVG canvas, unclipped so the arc washes into the neighbouring
