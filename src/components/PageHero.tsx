@@ -27,6 +27,7 @@ export type PageHeroCta = { label: string; href: string };
  */
 export default function PageHero({
   eyebrow,
+  eyebrowIcon = "/images/badge-icon.svg",
   title,
   subtitle,
   primaryCta,
@@ -37,6 +38,8 @@ export default function PageHero({
   subtitleWidth = 521,
 }: {
   eyebrow: string;
+  /** The comp uses a shield on three pages and a brain on AI & Copilot. */
+  eyebrowIcon?: string;
   title: string | string[];
   subtitle: string;
   primaryCta: PageHeroCta;
@@ -51,6 +54,18 @@ export default function PageHero({
     offsetX: number;
     /** Top offset within the 786px frame, in px, per the comp. */
     top: number;
+    /**
+     * Optional edge mask. The AI & Copilot artwork (149:377) is masked in
+     * the comp by a separate gradient asset that the flattened export does
+     * not carry, so its right edge would otherwise stop dead.
+     */
+    mask?: { image: string; size: string; position: string; composite?: string };
+    /**
+     * The comp stacks this page's illustration *behind* the hero glow
+     * (149:373 precedes the Hero Section) where Endpoint and Compliance put
+     * theirs in front. That changes how much the glow lifts the artwork.
+     */
+    behind?: boolean;
   };
   /**
    * Header-to-content gap. The comp sets this per page rather than deriving
@@ -78,13 +93,13 @@ export default function PageHero({
           window edge, so it holds formation as the viewport widens. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-[calc(50%+381.5px)] top-0 h-[1783px] w-[1966px] -translate-x-1/2 bg-[url(/images/page-hero-glow.svg)] [background-size:100%_100%] [mask-image:linear-gradient(to_bottom,black_36%,transparent_43%)]"
+        className="pointer-events-none absolute left-[calc(50%+381.5px)] top-0 z-[1] h-[1783px] w-[1966px] -translate-x-1/2 bg-[url(/images/page-hero-glow.svg)] [background-size:100%_100%] [mask-image:linear-gradient(to_bottom,black_36%,transparent_43%)]"
       />
       {/* Weave overlay (Figma 112:392), same artwork and lattice as the
           landing hero — see .hero-weave in globals.css. */}
       <div
         aria-hidden
-        className="hero-weave pointer-events-none absolute inset-x-0 top-0 h-[795px] opacity-10"
+        className="hero-weave pointer-events-none absolute inset-x-0 top-0 z-[2] h-[795px] opacity-10"
       />
       {/* Vertical shield strip (Figma 112:386), the landing hero's asset at
           the comp's own x=825 (canvas centre 720 + 105). */}
@@ -93,15 +108,30 @@ export default function PageHero({
         className="pointer-events-none absolute left-[calc(50%+105px)] top-0 hidden h-[793px] w-[201px] -scale-x-100 bg-[url(/images/hero-shield-column.svg)] bg-contain bg-no-repeat opacity-10 [mask-composite:intersect] [mask-image:linear-gradient(to_right,transparent,black_38%,black_62%,transparent),linear-gradient(to_bottom,black_45%,transparent_95%)] lg:block"
       />
 
-      {/* Illustration (Figma 119:598 on the Endpoint frame): comp x=849,
-          y=195, so its centre sits 361.5px right of the composition centre. */}
+      {/* Illustration. Placement comes from each page's own comp node; see
+          the offsets in src/lib/pages.ts. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute hidden -translate-x-1/2 lg:block"
+        className={`pointer-events-none absolute hidden -translate-x-1/2 lg:block ${
+          illustration.behind ? "z-0" : "z-10"
+        }`}
         style={{
           width: illustration.width,
           left: `calc(50% + ${illustration.offsetX}px)`,
           top: illustration.top,
+          ...(illustration.mask
+            ? {
+                maskImage: illustration.mask.image,
+                maskSize: illustration.mask.size,
+                maskPosition: illustration.mask.position,
+                maskRepeat: "no-repeat",
+                maskComposite: illustration.mask.composite ?? "intersect",
+                WebkitMaskImage: illustration.mask.image,
+                WebkitMaskSize: illustration.mask.size,
+                WebkitMaskPosition: illustration.mask.position,
+                WebkitMaskRepeat: "no-repeat",
+              }
+            : {}),
         }}
       >
         <Image
@@ -114,7 +144,7 @@ export default function PageHero({
         />
       </div>
 
-      <div className="relative mx-auto w-full max-w-318 px-6 pb-8 pt-7">
+      <div className="relative z-20 mx-auto w-full max-w-318 px-6 pb-8 pt-7">
         <SiteHeader />
 
         <div
@@ -124,7 +154,7 @@ export default function PageHero({
           <div className="flex flex-col gap-4">
             <span className="inline-flex w-fit items-center gap-2 rounded-badge border border-white/15 bg-badge px-3 py-2 shadow-badge">
               <Image
-                src="/images/badge-icon.svg"
+                src={eyebrowIcon}
                 alt=""
                 width={20}
                 height={20}

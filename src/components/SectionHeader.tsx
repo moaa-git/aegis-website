@@ -15,6 +15,8 @@ export default function SectionHeader({
   title,
   subtitle,
   align = "center",
+  size = "lg",
+  gap = 6,
   subtitleWidth,
   name,
 }: {
@@ -22,6 +24,13 @@ export default function SectionHeader({
   title: ReactNode;
   subtitle?: ReactNode;
   align?: "center" | "left";
+  /**
+   * "lg" is the 48px band heading used on most pages; "sm" is the 32px one
+   * the AI & Copilot bands use (151:395, 156:575, 153:464).
+   */
+  size?: "lg" | "sm";
+  /** Eyebrow-to-heading gap in px. 6 everywhere except 151:381, which is 42. */
+  gap?: number;
   /** Subhead measure in px; the comp sets 624 on Comprehensive Compliance. */
   subtitleWidth?: number;
   name?: string;
@@ -30,7 +39,8 @@ export default function SectionHeader({
   return (
     <div
       data-verify={name ? `${name}-header` : undefined}
-      className={`flex w-full max-w-[1006px] flex-col gap-1.5 ${
+      style={{ gap }}
+      className={`flex w-full max-w-[1006px] flex-col ${
         centered ? "mx-auto items-center text-center" : "items-start text-left"
       }`}
     >
@@ -41,7 +51,13 @@ export default function SectionHeader({
           </span>
         </span>
       )}
-      <h2 className="text-3xl font-medium tracking-tight3 text-heading md:text-h2">
+      <h2
+        className={
+          size === "sm"
+            ? "text-2xl font-medium leading-[1.5] tracking-tight3 text-heading md:text-[2rem]"
+            : "text-3xl font-medium tracking-tight3 text-heading md:text-h2"
+        }
+      >
         {title}
       </h2>
       {subtitle && (

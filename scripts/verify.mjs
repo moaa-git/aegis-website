@@ -27,7 +27,12 @@ const VIEWPORTS = [
   { name: "mobile", width: 390, height: 844 },
 ];
 
-const DEFAULT_ROUTES = ["/", "/endpoint-security", "/compliance-ediscovery"];
+const DEFAULT_ROUTES = [
+  "/",
+  "/endpoint-security",
+  "/compliance-ediscovery",
+  "/ai-copilot-readiness",
+];
 
 /**
  * Inter-section vertical rhythm permitted at desktop, in px, measured
@@ -37,6 +42,18 @@ const DEFAULT_ROUTES = ["/", "/endpoint-security", "/compliance-ediscovery"];
  */
 const GAP_MIN = 180;
 const GAP_MAX = 460;
+
+/**
+ * Per-route overrides. AI & Copilot Readiness is deliberately the tightest
+ * page in the design — its comp sets 80px between bands where every other
+ * page uses 120px, and its bands close on a padded panel whose own bottom
+ * padding is counted in the content gap. Holding it to the other pages'
+ * window would fail a page that matches its comp.
+ */
+const GAP_WINDOWS = {
+  "/ai-copilot-readiness": [100, 460],
+};
+const gapWindow = (route) => GAP_WINDOWS[route] ?? [GAP_MIN, GAP_MAX];
 
 /** A band that moves more than this vs baseline is a regression. */
 const DIFF_TOLERANCE = 8;
@@ -643,11 +660,12 @@ async function run() {
       }
 
       if (vp.name === "desktop") {
+        const [gapMin, gapMax] = gapWindow(route);
         for (const g of data.gaps) {
           if (g.contentGap === null) continue;
-          if (g.contentGap < GAP_MIN || g.contentGap > GAP_MAX) {
+          if (g.contentGap < gapMin || g.contentGap > gapMax) {
             fail(route, vp.name, "section-gap",
-              `${g.from} -> ${g.to}: content gap ${g.contentGap}px outside ${GAP_MIN}-${GAP_MAX}px`,
+              `${g.from} -> ${g.to}: content gap ${g.contentGap}px outside ${gapMin}-${gapMax}px`,
               g);
           }
         }

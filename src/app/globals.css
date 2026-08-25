@@ -27,6 +27,7 @@
  *   #0f4372  row icon tile gradient end (from --accent)   -> --color-primary-deep
  *   #51a6f3  page hero secondary CTA border               -> --color-accent-bright
  *   #236cae  checklist panel border (Defensible by Design) -> --color-edge-accent
+ *   #205584  divided panel border (Core Readiness)         -> --color-edge-panel
  *   white @ 90/80/70/50% -> Tailwind white/NN opacity modifiers
  *
  * Type (measured): H1 56/64 -3%; H2 48/1.2 -3%; card title 24/1.5 -2%;
@@ -67,6 +68,7 @@
   --color-primary-deep: #0f4372;
   --color-accent-bright: #51a6f3;
   --color-edge-accent: #236cae;
+  --color-edge-panel: #205584;
 
   --text-display: 3.5rem;
   --text-display--line-height: 4rem;
