@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aegis Ascent — Enterprise Microsoft 365 Security & Automation</title>
+  <meta name="description" content="Enterprise-grade Microsoft 365 security and automation for ambitious SMBs. We harden your infrastructure, secure your endpoints, and ensure compliance." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html">
+      <img src="assets/logo.svg" alt="Aegis Ascent" class="nav-logo">
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#mission">Our Story</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <button class="btn btn-primary btn-sm nav-cta" onclick="openModal()">Request Consultation</button>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <span class="badge-label">Securing Your Rise to the Top</span>
+      <h1>Enterprise-Grade Microsoft 365 Security &amp; Automation for <span>SMBs</span></h1>
+      <p>We harden your infrastructure, secure your endpoints, and ensure compliance — without the overhead of a managed service provider.</p>
+      <div class="hero-actions">
+        <a href="#packages" class="btn btn-primary">View Service Packages</a>
+        <button class="btn btn-ghost" onclick="openModal()">Schedule a Consultation</button>
+      </div>
+    </div>
+
+    <!-- Shield Visual -->
+    <div class="hero-visual">
+      <div class="shield-wrap">
+        <div class="shield-radial-glow"></div>
+        <div class="shield-ring shield-ring-1"></div>
+        <div class="shield-ring shield-ring-2"></div>
+        <div class="shield-ring shield-ring-3"></div>
+        <div class="shield-ring shield-ring-4"></div>
+        <div class="shield-ring-bright"></div>
+        <svg class="shield-svg" width="220" height="260" viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="shieldBodyGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#00B4D8" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="#00B4D8" stop-opacity="0.03"/>
+            </radialGradient>
+            <radialGradient id="shieldInnerGrad" cx="50%" cy="35%" r="55%">
+              <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#00B4D8" stop-opacity="0.0"/>
+            </radialGradient>
+            <filter id="shieldGlowFilter" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="checkGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Outer shield body -->
+          <path d="M110 10 L202 46 L202 130 C202 188 110 250 110 250 C110 250 18 188 18 130 L18 46 Z"
+                fill="url(#shieldBodyGrad)" stroke="#00B4D8" stroke-width="1.5" filter="url(#shieldGlowFilter)"/>
+          <!-- Outer shield highlight stroke (bright top edge) -->
+          <path d="M110 10 L202 46 L202 130 C202 188 110 250 110 250 C110 250 18 188 18 130 L18 46 Z"
+                fill="none" stroke="rgba(0,229,255,0.6)" stroke-width="0.75"/>
+
+          <!-- Inner shield layer -->
+          <path d="M110 36 L178 65 L178 128 C178 172 110 224 110 224 C110 224 42 172 42 128 L42 65 Z"
+                fill="url(#shieldInnerGrad)" stroke="rgba(0,180,216,0.4)" stroke-width="1"/>
+
+          <!-- Innermost shield layer -->
+          <path d="M110 58 L158 80 L158 126 C158 158 110 196 110 196 C110 196 62 158 62 126 L62 80 Z"
+                fill="rgba(0,180,216,0.06)" stroke="rgba(0,180,216,0.2)" stroke-width="0.75"/>
+
+          <!-- Checkmark — large, glowing -->
+          <path d="M78 128 L100 150 L142 105" stroke="#00E5FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#checkGlow)" opacity="0.4"/>
+          <path d="M78 128 L100 150 L142 105" stroke="#00B4D8" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M78 128 L100 150 L142 105" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+
+          <!-- Accent dots at shield vertices -->
+          <circle cx="110" cy="14" r="4" fill="#00E5FF" opacity="0.9"/>
+          <circle cx="110" cy="14" r="8" fill="#00B4D8" opacity="0.2"/>
+          <circle cx="198" cy="60" r="2.5" fill="#00B4D8" opacity="0.7"/>
+          <circle cx="22"  cy="60" r="2.5" fill="#00B4D8" opacity="0.7"/>
+          <circle cx="110" cy="246" r="2.5" fill="#00B4D8" opacity="0.5"/>
+
+          <!-- Scan-line detail (horizontal dashes across inner shield) -->
+          <line x1="62" y1="95"  x2="158" y2="95"  stroke="rgba(0,180,216,0.12)" stroke-width="1" stroke-dasharray="4 6"/>
+          <line x1="54" y1="110" x2="166" y2="110" stroke="rgba(0,180,216,0.08)" stroke-width="1" stroke-dasharray="4 6"/>
+          <line x1="48" y1="125" x2="172" y2="125" stroke="rgba(0,180,216,0.06)" stroke-width="1" stroke-dasharray="4 6"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPERTISE BADGES ══ -->
+<section class="expertise-section">
+  <div class="container expertise-inner">
+    <div class="expertise-badge">
+      <div class="expertise-badge-dot"></div>
+      <span>US-Based Execution</span>
+    </div>
+    <div class="expertise-badge">
+      <div class="expertise-badge-dot"></div>
+      <span>Microsoft Certified</span>
+    </div>
+    <div class="expertise-badge">
+      <div class="expertise-badge-dot"></div>
+      <span>Fixed-Price Engagements</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MISSION SECTION ══ -->
+<section class="section" id="mission">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-cards">
+        <div class="mission-card card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <h3>Precision &amp; Process</h3>
+          <p>Every engagement follows a structured methodology — scoped, documented, and delivered to spec. No ambiguity, no scope creep, no surprises on invoices.</p>
+        </div>
+        <div class="mission-card card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4l3 3"/>
+            </svg>
+          </div>
+          <h3>Asset Not Liability</h3>
+          <p>We transform your security posture from a compliance checkbox into a competitive advantage — helping you win deals and retain clients who demand it.</p>
+        </div>
+      </div>
+
+      <div class="mission-copy">
+        <span class="badge-label">Our Approach</span>
+        <h2>You Focus on the Summit. We Watch the Ledge.</h2>
+        <p>Most SMBs are one misconfiguration away from a breach, a lawsuit, or a regulatory fine. You don't have time to become a security expert, and you shouldn't have to.</p>
+        <p>Aegis Ascent was built to give growing businesses the same caliber of security architecture that enterprise companies take for granted — delivered as a fixed-scope project, not an open-ended retainer.</p>
+        <p>Every engagement is led by certified engineers who've done this before. We show our work, we transfer knowledge, and we leave you stronger than we found you.</p>
+        <button class="btn btn-ghost" onclick="openModal()" style="margin-top:12px">Work With Us</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section class="section" id="services" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-label">What We Do</span>
+      <h2>Comprehensive Security Solutions</h2>
+      <p>Four practice areas. One unified security posture. Built for businesses that can't afford to get it wrong.</p>
+    </div>
+
+    <div class="services-grid">
+      <a href="endpoint-security.html" class="service-card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>Endpoint &amp; Security</h3>
+        <p>Microsoft Intune, Autopilot, Defender for Business, and Sophos Intercept X — fully deployed and hardened.</p>
+        <span class="service-card-link">Learn more &#8594;</span>
+      </a>
+
+      <a href="compliance-legal.html" class="service-card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <h3>Compliance &amp; Legal</h3>
+        <p>GRC frameworks, eDiscovery, litigation holds, and HIPAA/CMMC readiness for regulated industries.</p>
+        <span class="service-card-link">Learn more &#8594;</span>
+      </a>
+
+      <a href="ai-copilot.html" class="service-card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>
+          </svg>
+        </div>
+        <h3>AI &amp; Copilot Readiness</h3>
+        <p>Deploy Microsoft Copilot safely — with data governance, sensitivity labels, and custom agents in place first.</p>
+        <span class="service-card-link">Learn more &#8594;</span>
+      </a>
+
+      <a href="infrastructure-network.html" class="service-card">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+          </svg>
+        </div>
+        <h3>Infrastructure &amp; Network</h3>
+        <p>Tenant hardening, hybrid identity, Sophos firewalls, and secure cloud architecture from foundation up.</p>
+        <span class="service-card-link">Learn more &#8594;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section class="section" id="packages" style="padding-top:0">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge-label">Engagement Models</span>
+      <h2>Fixed-Scope Engagement Models</h2>
+      <p>Know exactly what you're getting before you sign. Every engagement is scoped, priced, and delivered to completion.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-card-tag">Starter</div>
+        <h3>Secure in a Day</h3>
+        <button class="btn btn-quote" onclick="openModal('Endpoint & Security')">Request a Quote &#8594;</button>
+        <p>A rapid security baseline deployment for teams that need to move fast without cutting corners.</p>
+        <ul>
+          <li>Microsoft 365 tenant hardening</li>
+          <li>MFA & Conditional Access setup</li>
+          <li>Defender for Business activation</li>
+          <li>Secure Score baseline report</li>
+          <li>Up to 25 users</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="openModal('Endpoint & Security')">Get Started</button>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-card-tag">Legal &amp; Professional Services</div>
+        <h3>Law Firm Compliance</h3>
+        <button class="btn btn-quote" onclick="openModal('Compliance & Legal')">Request a Quote &#8594;</button>
+        <p>Full GRC posture for law firms, CPAs, and professional services firms handling sensitive client data.</p>
+        <ul>
+          <li>Everything in Secure in a Day</li>
+          <li>eDiscovery & litigation hold config</li>
+          <li>Data Loss Prevention policies</li>
+          <li>Sensitivity label deployment</li>
+          <li>Compliance Manager setup</li>
+        </ul>
+        <button class="btn btn-primary" onclick="openModal('Compliance & Legal')">Get Started</button>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-card-tag">Regulated Industries</div>
+        <h3>Regulatory Readiness</h3>
+        <button class="btn btn-quote" onclick="openModal('Compliance & Legal')">Request a Quote &#8594;</button>
+        <p>HIPAA and CMMC-aligned compliance configuration for healthcare, defense contractors, and government suppliers.</p>
+        <ul>
+          <li>Everything in Law Firm Compliance</li>
+          <li>HIPAA/CMMC gap analysis</li>
+          <li>Purview audit log retention</li>
+          <li>Intune device compliance policies</li>
+          <li>Evidence package for audit</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="openModal('Compliance & Legal')">Get Started</button>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-card-tag">Enterprise Readiness</div>
+        <h3>Full Stack Deployment</h3>
+        <button class="btn btn-quote" onclick="openModal('General Inquiry')">Request a Quote &#8594;</button>
+        <p>End-to-end security architecture for organizations ready to build a mature, defensible security program.</p>
+        <ul>
+          <li>All services included</li>
+          <li>Sophos XDR + firewall deployment</li>
+          <li>Copilot readiness & AI governance</li>
+          <li>Custom Copilot Studio agents</li>
+          <li>Hybrid identity & network security</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="openModal('General Inquiry')">Contact Us</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<div class="container" id="contact">
+  <div class="cta-band">
+    <span class="badge-label">Get Started</span>
+    <h2>Ready to Secure Your Business?</h2>
+    <p>Schedule a free consultation. We'll scope your needs and give you a clear path forward — no pressure, no jargon.</p>
+    <button class="btn btn-primary" onclick="openModal()">Request a Consultation</button>
+    <a href="tel:3092269989" class="btn btn-ghost">Call (309) 226-9989</a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <a href="index.html">
+          <img src="assets/logo.svg" alt="Aegis Ascent" class="footer-logo">
+        </a>
+        <p>Enterprise-grade Microsoft 365 security and automation for ambitious SMBs.</p>
+        <div class="footer-contact">
+          <a href="mailto:contact@aegisascent.com">contact@aegisascent.com</a>
+          <a href="tel:3092269989">(309) 226-9989</a>
+          <span style="font-size:13px;color:var(--text-secondary)">United States</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="endpoint-security.html">Endpoint &amp; Security</a></li>
+          <li><a href="compliance-legal.html">Compliance &amp; Legal</a></li>
+          <li><a href="ai-copilot.html">AI &amp; Copilot Readiness</a></li>
+          <li><a href="infrastructure-network.html">Infrastructure &amp; Network</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#mission">Our Story</a></li>
+          <li><a href="#packages">Packages</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Microsoft 365 Security Guide</a></li>
+          <li><a href="#">HIPAA Compliance Checklist</a></li>
+          <li><a href="#">Copilot Readiness Guide</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Partner Badges -->
+    <div class="footer-badges">
+      <!-- Sophos Silver Partner Badge -->
+      <img src="assets/sophos-silver.png" alt="Sophos Silver Partner" class="partner-badge">
+
+      <div class="badge-divider"></div>
+
+      <!-- Microsoft Partner Badge (placeholder) -->
+      <div class="microsoft-partner-badge">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="10" height="10" fill="#F35325"/>
+          <rect x="12" y="0" width="10" height="10" fill="#81BC06"/>
+          <rect x="0" y="12" width="10" height="10" fill="#05A6F0"/>
+          <rect x="12" y="12" width="10" height="10" fill="#FFBA08"/>
+        </svg>
+        Microsoft Partner
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Aegis Ascent. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ CONSULTATION MODAL ══ -->
+<div class="modal-overlay" id="consultModal" onclick="handleOverlayClick(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <h2 id="modalTitle">Request a Consultation</h2>
+    <p class="modal-sub">Tell us about your security needs. We'll respond within one business day.</p>
+
+    <form action='https://crm.zoho.com/crm/WebToLeadForm' name='WebToLeads7051669000000636015' method='POST' onSubmit='javascript:document.charset="UTF-8"; return checkMandatory7051669000000636015()' accept-charset='UTF-8'>
+      <input type='hidden' name='xnQsjsdp' value='1ab79f018ea0122edfd757d5e7d160676adb2f62c8f12e577ca872c2a791a0b8'/>
+      <input type='hidden' name='xmIwtLD' value='b8a73ec8f1ff7a2d7fad7ee7be8f4b2dd539127a358dff1f182449335e76d144eccc327660959cb2ac87463d3dc0e154'/>
+      <input type='hidden' name='actionType' value='TGVhZHM='/>
+      <input type='hidden' name='returnURL' value='null'/>
+      <input type='hidden' name='zc_gad' id='zc_gad' value=''/>
+      <input type='hidden' id='aG9uZXlwb3Q' name='aG9uZXlwb3Q' value=''/>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Company *</label>
+          <input type='text' name='Company' maxlength='200' placeholder='Acme Corp' required/>
+        </div>
+        <div class="form-group">
+          <label>Last Name *</label>
+          <input type='text' name='Last Name' maxlength='80' placeholder='Smith' required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type='text' name='First Name' maxlength='40' placeholder='Jane'/>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type='text' name='Phone' maxlength='30' placeholder='(555) 000-0000'/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type='email' name='Email' maxlength='100' placeholder='jane@acme.com' required/>
+      </div>
+      <div class="form-group">
+        <label>Project Goals / Description *</label>
+        <textarea name='Description' maxlength='32000' placeholder='Tell us about your current setup and what you are looking to achieve...' required></textarea>
+      </div>
+      <div class="form-group">
+        <label>How did you hear about us?</label>
+        <select name='Lead Source' onchange='addAriaSelected(this)'>
+          <option value='-None-'>-- Select --</option>
+          <option value='Web Site'>Web Site</option>
+          <option value='Word of mouth'>Word of Mouth</option>
+          <option value='Cold Call'>Cold Call</option>
+          <option value='Employee Referral'>Employee Referral</option>
+          <option value='Partner'>Partner / Referral</option>
+          <option value='Social Media'>Social Media</option>
+          <option value='Advertisement'>Advertisement</option>
+          <option value='Other'>Other</option>
+        </select>
+      </div>
+      <button type='submit' class='btn btn-primary'>Submit Request &#8594;</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function checkMandatory7051669000000636015() {
+    var mndFields = ['Company', 'Last Name', 'Email', 'Description'];
+    var fldLangVal = ['Company', 'Last Name', 'Email', 'Project Goals / Description'];
+    for (var i = 0; i < mndFields.length; i++) {
+      var fieldObj = document.forms['WebToLeads7051669000000636015'][mndFields[i]];
+      if (fieldObj) {
+        if ((fieldObj.value.replace(/^\s+|\s+$/g, '')).length === 0) {
+          alert(fldLangVal[i] + ' cannot be empty.');
+          fieldObj.focus();
+          return false;
+        }
+        if (fieldObj.name === 'Email') {
+          var emailExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+          if (!emailExp.test(fieldObj.value)) {
+            alert('Please enter a valid email address.');
+            fieldObj.focus();
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+  function addAriaSelected(el) {
+    var opts = el.querySelectorAll('option');
+    opts.forEach(function(o) { o.removeAttribute('aria-selected'); });
+    if (el.options[el.selectedIndex]) {
+      el.options[el.selectedIndex].setAttribute('aria-selected', 'true');
+    }
+  }
+  function openModal() {
+    document.getElementById('consultModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('consultModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('consultModal')) closeModal();
+  }
+  function toggleNav() {
+    var links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
