@@ -13,10 +13,11 @@ import {
   type LeadInput,
 } from "@/lib/consultation-fields";
 import {
+  METADATA_FIELD,
   companyOrFallback,
   toZohoPayload,
-  zohoConfig,
   type LeadMeta,
+  zohoConfig,
 } from "@/lib/zoho-mapping";
 import {
   TURNSTILE_ACTION,
@@ -182,7 +183,7 @@ async function forwardToZoho(
       (pending.length
         ? `\n[lead] carried in Description (slot pending): ${pending.join(" | ")}`
         : "") +
-      `\n[lead] submission metadata (slot pending, not forwarded):\n${metadata}`
+      `\n[lead] submission metadata${METADATA_FIELD ? "" : " (no slot, not forwarded)"}:\n${metadata}`
   );
 
   if (!zohoConfig.enabled) {
@@ -241,13 +242,29 @@ async function emailFallback(
     `submitted: ${meta.submitted}`,
   ].join("\n");
 
-  const endpoint = process.env.LEAD_EMAIL_ENDPOINT;
+  /*
+   * Resend. The endpoint defaults so only the key and the From address have
+   * to be configured, but it stays overridable -- a different provider, or
+   * Resend's EU endpoint, needs no code change.
+   *
+   * `from` has no default on purpose. Resend rejects any sender on a domain
+   * that is not verified in the account, and a hardcoded guess would fail
+   * every send for a reason the log would not make obvious.
+   */
+  const endpoint = process.env.LEAD_EMAIL_ENDPOINT ?? "https://api.resend.com/emails";
   const apiKey = process.env.LEAD_EMAIL_API_KEY;
+  const from = process.env.LEAD_EMAIL_FROM;
 
-  if (!endpoint || !apiKey) {
+  if (!apiKey || !from) {
+    const missing = [
+      !apiKey && "LEAD_EMAIL_API_KEY",
+      !from && "LEAD_EMAIL_FROM",
+    ]
+      .filter(Boolean)
+      .join(", ");
     console.error(
-      `[lead] FALLBACK EMAIL NOT CONFIGURED — lead preserved in logs only.\n` +
-        `To: ${to}\n${body}`
+      `[lead] FALLBACK EMAIL NOT CONFIGURED (missing ${missing}) — ` +
+        `lead preserved in logs only.\nTo: ${to}\n${body}`
     );
     return;
   }
@@ -260,13 +277,22 @@ async function emailFallback(
         authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        to,
+        from,
+        // Resend takes an array; a bare string is accepted but the array form
+        // is what lets LEAD_FALLBACK_EMAIL hold a comma-separated list later.
+        to: to.split(",").map((address) => address.trim()).filter(Boolean),
+        reply_to: lead.workEmail,
         subject: `Consultation request — ${companyOrFallback(lead)}`,
         text: body,
       }),
     });
-    if (!res.ok) throw new Error(`mailer responded ${res.status}`);
-    console.info("[lead] fallback email sent.");
+    if (!res.ok) {
+      // Resend explains itself in the body; without it the log says only
+      // "422" and the cause (unverified domain, bad From) stays hidden.
+      const detail = await res.text().catch(() => "");
+      throw new Error(`Resend responded ${res.status}${detail ? `: ${detail.slice(0, 300)}` : ""}`);
+    }
+    console.info("[lead] fallback email sent via Resend.");
   } catch (err) {
     console.error(
       `[lead] FALLBACK EMAIL FAILED (${String(err)}) — lead preserved in logs.\n` +
@@ -334,7 +360,17 @@ export async function POST(req: Request) {
   };
 
   const forwarded = await forwardToZoho(lead, meta);
-  if (!forwarded.ok) await emailFallback(lead, meta, forwarded.detail);
+  // Log the outcome either way. Success was previously silent, which left no
+  // way to tell a delivered lead from a dropped one without reading the Zoho
+  // list -- and WebToLead answers 200 regardless, so this line means "posted
+  // and accepted", not "record created". The payload above is what to compare
+  // against the Leads list if one goes missing.
+  if (forwarded.ok) {
+    console.info(`[lead] Zoho forward: ${forwarded.detail}.`);
+  } else {
+    console.error(`[lead] Zoho forward FAILED (${forwarded.detail}) — falling back to email.`);
+    await emailFallback(lead, meta, forwarded.detail);
+  }
 
   // Success either way: a lead that reached us is not the sender's problem
   // to retry, and a mapping error must never look like a failure to them.
