@@ -40,12 +40,18 @@ export type Option = { value: string; label: string };
  * to are not yet known.
  */
 export const INDUSTRIES: Option[] = [
-  { value: "legal", label: "Legal" },
-  { value: "financial-services", label: "Financial Services" },
-  { value: "healthcare", label: "Healthcare" },
+  { value: "legal-services", label: "Legal Services" },
+  { value: "accounting-finance", label: "Accounting & Finance" },
+  { value: "healthcare-dental", label: "Healthcare & Dental" },
+  { value: "insurance", label: "Insurance" },
+  { value: "real-estate", label: "Real Estate" },
+  { value: "manufacturing", label: "Manufacturing" },
+  { value: "construction-trades", label: "Construction & Trades" },
   { value: "agriculture", label: "Agriculture" },
-  { value: "manufacturing", label: "Manufacturing / Light Industrial" },
   { value: "professional-services", label: "Professional Services" },
+  { value: "nonprofit", label: "Nonprofit" },
+  { value: "government-municipal", label: "Government / Municipal" },
+  { value: "education", label: "Education" },
   { value: "other", label: "Other" },
 ];
 
@@ -97,7 +103,7 @@ export const ENGAGEMENT_PACKAGES: Option[] = [
 
 /** Blocked on the regenerated webform — see INDUSTRIES. */
 export const TIMELINES: Option[] = [
-  { value: "immediate", label: "Immediate (under 30 days)" },
+  { value: "immediate", label: "Immediate" },
   { value: "1-3-months", label: "1–3 months" },
   { value: "3-6-months", label: "3–6 months" },
   { value: "exploring", label: "Just exploring" },
@@ -105,11 +111,14 @@ export const TIMELINES: Option[] = [
 
 /** Blocked on the regenerated webform — carries the Lead Source answer. */
 export const HEARD_ABOUT: Option[] = [
-  { value: "referral", label: "Referral" },
   { value: "web-search", label: "Web Search" },
+  { value: "referral-client", label: "Referral – Client" },
+  { value: "referral-partner", label: "Referral – Partner" },
   { value: "linkedin", label: "LinkedIn" },
-  { value: "event", label: "Event" },
-  { value: "sophos-microsoft", label: "Sophos or Microsoft" },
+  { value: "event-seminar", label: "Event / Seminar" },
+  { value: "sophos-pax8", label: "Sophos / Pax8" },
+  { value: "microsoft-partner-network", label: "Microsoft Partner Network" },
+  { value: "direct-outreach", label: "Direct Outreach" },
   { value: "other", label: "Other" },
 ];
 

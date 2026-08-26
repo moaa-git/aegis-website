@@ -13,10 +13,11 @@ import {
   type LeadInput,
 } from "@/lib/consultation-fields";
 import {
+  METADATA_FIELD,
   companyOrFallback,
   toZohoPayload,
-  zohoConfig,
   type LeadMeta,
+  zohoConfig,
 } from "@/lib/zoho-mapping";
 import {
   TURNSTILE_ACTION,
@@ -182,7 +183,7 @@ async function forwardToZoho(
       (pending.length
         ? `\n[lead] carried in Description (slot pending): ${pending.join(" | ")}`
         : "") +
-      `\n[lead] submission metadata (slot pending, not forwarded):\n${metadata}`
+      `\n[lead] submission metadata${METADATA_FIELD ? "" : " (no slot, not forwarded)"}:\n${metadata}`
   );
 
   if (!zohoConfig.enabled) {
@@ -359,7 +360,17 @@ export async function POST(req: Request) {
   };
 
   const forwarded = await forwardToZoho(lead, meta);
-  if (!forwarded.ok) await emailFallback(lead, meta, forwarded.detail);
+  // Log the outcome either way. Success was previously silent, which left no
+  // way to tell a delivered lead from a dropped one without reading the Zoho
+  // list -- and WebToLead answers 200 regardless, so this line means "posted
+  // and accepted", not "record created". The payload above is what to compare
+  // against the Leads list if one goes missing.
+  if (forwarded.ok) {
+    console.info(`[lead] Zoho forward: ${forwarded.detail}.`);
+  } else {
+    console.error(`[lead] Zoho forward FAILED (${forwarded.detail}) — falling back to email.`);
+    await emailFallback(lead, meta, forwarded.detail);
+  }
 
   // Success either way: a lead that reached us is not the sender's problem
   // to retry, and a mapping error must never look like a failure to them.

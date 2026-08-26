@@ -82,18 +82,21 @@ export const fieldMap: Record<keyof LeadInput, string | null> = {
   needs: "Description",
   phone: "Phone",
   industry: "Industry",
-  companySize: "No. of Employees",
-  primaryInterest: PENDING, // LEADCF? — Multi Pick List
-  engagementPackage: PENDING, // LEADCF? — Pick List
-  timeline: PENDING, // LEADCF? — Pick List
+  // "No of Employees" with no period. Zoho's *label* reads "No. of
+  // Employees" but the form field name has no period, and a mismatched
+  // key is discarded without an error. Taken from the webform export.
+  companySize: "No of Employees",
+  primaryInterest: "LEADCF1", // Service Interest — Multi Pick List
+  engagementPackage: PENDING, // no Zoho field — see the note in valueMap
+  timeline: "LEADCF3", // Timeline — Pick List
   heardAbout: "Lead Source",
-  preferredContact: PENDING, // LEADCF? — Pick List
+  preferredContact: "LEADCF4", // Preferred contact — Pick List
   // Never forwarded: the honeypot exists only to be checked and dropped.
   website: null,
 };
 
 /** The sixth Zoho field, function-populated with no visible control. */
-export const METADATA_FIELD: string | null = PENDING; // LEADCF? — Multi Line
+export const METADATA_FIELD: string | null = "LEADCF2"; // Submission Metadata — Multi Line
 
 /**
  * Our option slugs -> the exact picklist strings Zoho expects.
@@ -112,7 +115,21 @@ export const METADATA_FIELD: string | null = PENDING; // LEADCF? — Multi Line
  * reads well, and they are allowed to disagree.
  */
 export const valueMap: Record<string, Record<string, string> | null> = {
-  industry: PENDING,
+  industry: {
+    "legal-services": "Legal Services",
+    "accounting-finance": "Accounting & Finance",
+    "healthcare-dental": "Healthcare & Dental",
+    insurance: "Insurance",
+    "real-estate": "Real Estate",
+    manufacturing: "Manufacturing",
+    "construction-trades": "Construction & Trades",
+    agriculture: "Agriculture",
+    "professional-services": "Professional Services",
+    nonprofit: "Nonprofit",
+    "government-municipal": "Government / Municipal",
+    education: "Education",
+    other: "Other",
+  },
   companySize: {
     // Band low-end integers for the standard Number field. Digits only — a
     // `+` or a comma is rejected. Recorded in the Zoho field description so a
@@ -136,10 +153,37 @@ export const valueMap: Record<string, Record<string, string> | null> = {
     "general-consulting": "General Consulting",
     "not-sure": "Not Sure Yet/Other",
   },
+  /*
+   * No Zoho field exists for this. "Service Interest" (LEADCF1) holds the
+   * primary-interest list, not the packages, so the two are not the same
+   * picklist despite the similar name. Until a field is created, the answer
+   * rides in the Description appendix rather than being mapped somewhere it
+   * does not belong.
+   */
   engagementPackage: PENDING,
-  timeline: PENDING,
-  heardAbout: PENDING,
-  preferredContact: PENDING,
+  timeline: {
+    immediate: "Immediate",
+    // En-dash, not a hyphen. Copied from the webform export, which is CP1252
+    // despite declaring UTF-8; retyping these with "-" fails silently.
+    "1-3-months": "1–3 months",
+    "3-6-months": "3–6 months",
+    exploring: "Just exploring",
+  },
+  heardAbout: {
+    "web-search": "Web Search",
+    "referral-client": "Referral – Client",
+    "referral-partner": "Referral – Partner",
+    linkedin: "LinkedIn",
+    "event-seminar": "Event / Seminar",
+    "sophos-pax8": "Sophos / Pax8",
+    "microsoft-partner-network": "Microsoft Partner Network",
+    "direct-outreach": "Direct Outreach",
+    other: "Other",
+  },
+  preferredContact: {
+    phone: "Phone",
+    email: "Email",
+  },
 };
 
 /** Site-side option lists, for rendering an unmappable answer by its label. */
