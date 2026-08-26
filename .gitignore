@@ -1,0 +1,53 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+.verify/
+screenshots/
+
+# Agent workflow prompts — internal tooling, not site source.
+/.claude/
+
+# Business and engineering docs — kept local, never pushed to the site repo.
+# The deviation ledger, backlog, CRM field map, Termly source exports and the
+# page-copy briefs are internal working documents, not site source.
+/docs/
+/aegis-*.md
+/Our-story-update.md

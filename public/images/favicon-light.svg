@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-12.03 2.5 288 288" role="img" aria-label="Aegis Ascent">
+  <title>Aegis Ascent</title>
+  <!--
+    Light-scheme mark. Supplied as public/images/favicon.svg (Inkscape export). Two changes, no
+    artwork edits: the editor's sodipodi/inkscape namespaces and <namedview>
+    are dropped, and the viewBox is squared.
+
+    The original viewBox is 263.94 x 293.01, so every consumer that wants a
+    square icon letterboxes it differently. The painted mark measures
+    x 7.80-256.14, y 11.34-281.67 (rendered at 1200dpi and trimmed), centre
+    (131.97, 146.50); this viewBox is a 288 square on that centre, which
+    leaves ~7% side margin and ~3% top/bottom and hands the mark the most
+    pixels it can get at 16px.
+
+    Fills are the file's own and are untouched: #112431 shield, with the
+    chevron in the site's accent (#4084c1) and primary (#2e5a98) tokens. The
+    unused .cls-1 rule from the export is dropped.
+
+    Dark tabs are the one place the mark needed help. #112431 sits close
+    enough to Chrome's dark tab (#202124) that the shield silhouette vanished
+    and only the blue mountain read. The rule below lifts the shield body to
+    the site's heading tone on dark, which inverts the mark the way the
+    artwork already works in reverse.
+
+    Only the shield body carries the class. The second #112431 path is the
+    mountain's shadowed right slope; lightening it too puts a bright wedge
+    through the mountain and loses its shading, so it stays dark against the
+    lifted shield exactly as it reads dark against white today.
+
+    The fill stays on as a presentation attribute so it still governs
+    wherever the media query does not match or CSS is not evaluated at all,
+    which is what keeps favicon.ico and apple-icon.png on the light artwork.
+  -->
+  <style>
+    @media (prefers-color-scheme: dark) { .shield { fill: #deefff } }
+  </style>
+  <path class="shield" fill="#112431" d="M41.81,198,132.46,51.23l89.56,147c36.2-62.12,34.06-130.29,34.06-154.94C242,43.27,184.3,44.94,132,11.35,79.64,44.94,22,43.27,7.86,43.27,7.86,67.89,5.73,135.94,41.81,198Z"/>
+  <path fill="#4084c1" d="M51.7,213.46a205.21,205.21,0,0,0,36,39.16,221.13,221.13,0,0,0,25.64,18.57h0q3.92,2.43,8,4.76,5.14,2.94,10.63,5.71c36.26-18.31,61.94-42.23,80.11-68l-31.63-51.92-27.31-44.82-40.08,64.37L93.63,145.56Z"/>
+  <path fill="#2e5a98" d="M87.67,252.62a221.13,221.13,0,0,0,25.64,18.57h0q3.92,2.43,8,4.76l20.56-33.72L160,202.6l-2.2-3.92-17.45-31.2Z"/>
+  <path fill="#112431" d="M113.32,271.19q3.92,2.43,8,4.76,5.14,2.94,10.63,5.71c36.26-18.31,61.94-42.23,80.11-68l-31.63-51.92L157.8,198.68Z"/>
+</svg>

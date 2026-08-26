@@ -1,0 +1,73 @@
+import type { ReactNode } from "react";
+
+/**
+ * Small uppercase eyebrow chip + H2, with an optional subhead.
+ *
+ * Measured off Figma 112:218 (centred, "Microsoft Intune" / "Device
+ * Management") and 123:608 (left-aligned, "Choose Your Stack" / "Endpoint
+ * Defense"): the two alignments are the same component, so alignment is a
+ * prop rather than a fork. Eyebrow-to-heading gap is 6px in both.
+ *
+ * The eyebrow chip is the hero badge treatment without its icon slot.
+ */
+export default function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+  align = "center",
+  size = "lg",
+  gap = 6,
+  subtitleWidth,
+  name,
+}: {
+  eyebrow?: string;
+  title: ReactNode;
+  subtitle?: ReactNode;
+  align?: "center" | "left";
+  /**
+   * "lg" is the 48px band heading used on most pages; "sm" is the 32px one
+   * the AI & Copilot bands use (151:395, 156:575, 153:464).
+   */
+  size?: "lg" | "sm";
+  /** Eyebrow-to-heading gap in px. 6 everywhere except 151:381, which is 42. */
+  gap?: number;
+  /** Subhead measure in px; the comp sets 624 on Comprehensive Compliance. */
+  subtitleWidth?: number;
+  name?: string;
+}) {
+  const centered = align === "center";
+  return (
+    <div
+      data-verify={name ? `${name}-header` : undefined}
+      style={{ gap }}
+      className={`flex w-full max-w-[1006px] flex-col ${
+        centered ? "mx-auto items-center text-center" : "items-start text-left"
+      }`}
+    >
+      {eyebrow && (
+        <span className="inline-flex w-fit items-center justify-center rounded-badge border-[0.2px] border-white/15 bg-badge px-3 py-2 shadow-badge">
+          <span className="text-sm font-semibold uppercase leading-[22px] text-white">
+            {eyebrow}
+          </span>
+        </span>
+      )}
+      <h2
+        className={
+          size === "sm"
+            ? "text-2xl font-medium leading-[1.5] tracking-tight3 text-heading md:text-[2rem]"
+            : "text-3xl font-medium tracking-tight3 text-heading md:text-h2"
+        }
+      >
+        {title}
+      </h2>
+      {subtitle && (
+        <p
+          className="mt-[7px] text-lg leading-normal text-white/90"
+          style={subtitleWidth ? { maxWidth: subtitleWidth } : undefined}
+        >
+          {subtitle}
+        </p>
+      )}
+    </div>
+  );
+}
