@@ -41,3 +41,13 @@ yarn-error.log*
 next-env.d.ts
 .verify/
 screenshots/
+
+# Agent workflow prompts — internal tooling, not site source.
+/.claude/
+
+# Business and engineering docs — kept local, never pushed to the site repo.
+# The deviation ledger, backlog, CRM field map, Termly source exports and the
+# page-copy briefs are internal working documents, not site source.
+/docs/
+/aegis-*.md
+/Our-story-update.md
