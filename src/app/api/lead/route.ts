@@ -205,6 +205,62 @@ async function forwardToZoho(
 }
 
 /**
+ * Shout when a lead could not be delivered.
+ *
+ * This exists because the two things that would otherwise catch a failure are
+ * both unavailable: Vercel log drains and log-based alerting need a Pro plan,
+ * and Hobby retains runtime logs only briefly -- so "the lead is preserved in
+ * the logs" stops being true within the hour. An alert that fires from the
+ * application itself depends on no plan feature and no retention window.
+ *
+ * The whole lead goes in the body, not a "delivery failed" ping. The point is
+ * that this message alone is enough to recover the enquiry and reply to it,
+ * without anyone having to reach a log console in time.
+ *
+ * `{ "text": ... }` is the shape Slack incoming webhooks take and the one
+ * Teams' connectors accept, so either works with no code change.
+ *
+ * Never throws and never blocks the caller's response: a broken webhook must
+ * not turn a delivery problem into a 500 for the person filling in the form.
+ */
+async function alertDeliveryFailure(
+  lead: LeadInput,
+  meta: LeadMeta,
+  why: string
+): Promise<void> {
+  const hook = process.env.LEAD_ALERT_WEBHOOK;
+  if (!hook) return;
+
+  const text = [
+    `:rotating_light: Aegis Ascent — a consultation request was NOT delivered.`,
+    `Reason: ${why}`,
+    "",
+    `Name:    ${lead.firstName} ${lead.lastName}`.trim(),
+    `Email:   ${lead.workEmail}`,
+    `Company: ${companyOrFallback(lead)}`,
+    `Phone:   ${lead.phone || "—"}`,
+    "",
+    lead.needs || "(no message)",
+    "",
+    `Submitted ${meta.submitted} from ${meta.page}`,
+    "Reply to this person directly — the record did not reach the CRM.",
+  ].join("\n");
+
+  try {
+    const res = await fetch(hook, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ text }),
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) throw new Error(`webhook responded ${res.status}`);
+    console.info("[lead] delivery-failure alert sent.");
+  } catch (err) {
+    console.error(`[lead] ALERT WEBHOOK FAILED (${String(err)}).`);
+  }
+}
+
+/**
  * Last line of defence for a lead Zoho would not take. A lead must never be
  * lost to a mapping error, so if this cannot send either, it logs the whole
  * submission at error level -- recoverable from the logs by hand.
@@ -368,8 +424,9 @@ export async function POST(req: Request) {
   if (forwarded.ok) {
     console.info(`[lead] Zoho forward: ${forwarded.detail}.`);
   } else {
-    console.error(`[lead] Zoho forward FAILED (${forwarded.detail}) — falling back to email.`);
+    console.error(`[lead] Zoho forward FAILED (${forwarded.detail}) — falling back.`);
     await emailFallback(lead, meta, forwarded.detail);
+    await alertDeliveryFailure(lead, meta, forwarded.detail);
   }
 
   // Success either way: a lead that reached us is not the sender's problem
