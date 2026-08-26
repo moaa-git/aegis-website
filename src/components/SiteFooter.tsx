@@ -41,7 +41,7 @@ export default function SiteFooter({
               className="pointer-events-none absolute -top-[102px] left-[101px] hidden h-[364px] w-[363px] bg-[url(/images/footer-glow.svg)] [background-size:100%_100%] lg:block"
             />
             <Image
-              src="/images/logo.png"
+              src="/images/logo.svg"
               alt={site.name}
               width={161}
               height={56}

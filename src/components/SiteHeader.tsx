@@ -23,7 +23,7 @@ export default function SiteHeader({ contactHref }: { contactHref?: string } = {
     <header className="relative z-20 flex w-full items-center justify-between">
       <Link href="/" aria-label={`${site.name} home`} className="shrink-0">
         <Image
-          src="/images/logo.png"
+          src="/images/logo.svg"
           alt={site.name}
           width={138}
           height={48}

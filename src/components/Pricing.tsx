@@ -35,19 +35,24 @@ export default function Pricing() {
                   {card.kicker}
                 </p>
               </div>
-              <p className="mt-6 text-sm leading-[1.2] text-white/70">{card.audience}</p>
+              {/* A paragraph now rather than a one-line audience note, so it
+                  needs a readable leading instead of the 1.2 a single line
+                  could get away with. */}
+              <p className="mt-6 text-sm leading-[1.6] text-white/70">
+                {card.description}
+              </p>
               <hr className="mt-7 border-edge" />
               <ul className="mb-10 mt-8 flex flex-col gap-4">
                 {card.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2">
+                  <li key={feature} className="flex items-start gap-2">
                     <Image
                       src="/images/icon-check.svg"
                       alt=""
                       width={16}
                       height={16}
-                      className="size-4 shrink-0"
+                      className="mt-0.5 size-4 shrink-0"
                     />
-                    <span className="text-xs leading-[1.2] text-white/90">{feature}</span>
+                    <span className="text-xs leading-[1.5] text-white/90">{feature}</span>
                   </li>
                 ))}
               </ul>

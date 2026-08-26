@@ -147,18 +147,26 @@ export const services = {
 export const pricing = {
   title: "Fixed-Scope Engagement Models",
   subtitle: "Predictable pricing. Clear deliverables. No surprises.",
+  /**
+   * `description` and `features` are the live site's own copy for this
+   * section (index.html, "Fixed-Scope Engagement Models"), brought across
+   * because the one-line audience note this card used to carry said too
+   * little about what each engagement actually includes.
+   */
   cards: [
     {
       icon: "/images/icon-electric.svg",
       name: "Secure in a Day",
       package: "secure-in-a-day",
       kicker: "Audit Package",
-      audience: "Small shops (10-50 users)",
+      description:
+        "A rapid security baseline deployment for teams that need to move fast without cutting corners.",
       features: [
-        "Secure Score review & analysis",
-        "MFA enforcement setup",
-        "Anti-phishing policies",
-        "Basic threat assessment",
+        "Microsoft 365 tenant hardening",
+        "MFA & Conditional Access setup",
+        "Defender for Business activation",
+        "Secure Score baseline report",
+        "Up to 25 users",
       ],
       cta: "Book Your Audit",
       popular: false,
@@ -168,12 +176,14 @@ export const pricing = {
       name: "Law Firm Compliance",
       package: "law-firm-compliance",
       kicker: "Legal Bundle",
-      audience: "Legal boutiques",
+      description:
+        "Full GRC posture for law firms, CPAs, and professional services firms handling sensitive client data.",
       features: [
-        "Retention policy setup",
-        "eDiscovery configuration",
-        "Paralegal how-to guide",
-        "Client data protection",
+        "Everything in Secure in a Day",
+        "eDiscovery & litigation hold config",
+        "Data Loss Prevention policies",
+        "Sensitivity label deployment",
+        "Compliance Manager setup",
       ],
       cta: "Get Compliant",
       popular: false,
@@ -183,12 +193,14 @@ export const pricing = {
       name: "Regulatory Readiness",
       package: "regulatory-readiness",
       kicker: "Audit Defense",
-      audience: "Finance, Healthcare, Retail",
+      description:
+        "HIPAA and CMMC-aligned compliance configuration for healthcare, defense contractors, and government suppliers.",
       features: [
-        "DLP for PII/Credit Cards",
-        "SEC retention rules (Finance)",
-        "HIPAA compliance (Healthcare)",
-        "DDQ remediation support",
+        "Everything in Law Firm Compliance",
+        "HIPAA/CMMC gap analysis",
+        "Purview audit log retention",
+        "Intune device compliance policies",
+        "Evidence package for audit",
       ],
       cta: "Pass Your Audit",
       popular: true,
@@ -198,12 +210,14 @@ export const pricing = {
       name: "Full Stack Deployment",
       package: "full-stack-deployment",
       kicker: "Complete Solution",
-      audience: "New companies or full migrations",
+      description:
+        "End-to-end security architecture for organizations ready to build a mature, defensible security program.",
       features: [
-        "Identity & access management",
-        "Intune deployment",
-        "Firewall configuration",
-        "Full migration support",
+        "All services included",
+        "Sophos XDR + firewall deployment",
+        "Copilot readiness & AI governance",
+        "Custom Copilot Studio agents",
+        "Hybrid identity & network security",
       ],
       cta: "Request a Proposal",
       popular: false,
