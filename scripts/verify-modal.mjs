@@ -26,7 +26,8 @@ const check = (name, pass, detail = "") =>
   results.push({ name, pass, detail });
 
 const FILLED = {
-  fullName: "Dana Whitlock",
+  firstName: "Dana",
+  lastName: "Whitlock",
   workEmail: "dana@whitlocklegal.com",
   company: "Whitlock & Reyes LLP",
   phone: "(309) 555-0142",
@@ -86,7 +87,7 @@ for (const vp of VIEWPORTS) {
   check(`${vp.name}: empty submit shows inline errors`, errorCount >= 4,
     `${errorCount} field errors`);
   const focused = await page.evaluate(() => document.activeElement?.getAttribute("name"));
-  check(`${vp.name}: focus moves to first invalid field`, focused === "fullName",
+  check(`${vp.name}: focus moves to first invalid field`, focused === "firstName",
     `focus on "${focused}"`);
   await page.screenshot({ path: `.verify/shots/modal--${vp.name}--error.png` });
 
@@ -95,8 +96,9 @@ for (const vp of VIEWPORTS) {
     await page.fill(`[name=${name}]`, value);
   }
   await page.selectOption("select[name=industry]", "legal");
-  await page.selectOption("select[name=companySize]", "11-50");
-  await page.selectOption("select[name=primaryInterest]", "compliance-legal");
+  await page.selectOption("select[name=companySize]", "11-25");
+  await page.click('label:has(input[name=primaryInterest][value="ediscovery-legal-hold"])');
+  await page.click('label:has(input[name=primaryInterest][value="m365-migration"])');
   await page.selectOption("select[name=timeline]", "1-3-months");
   await page.selectOption("select[name=heardAbout]", "referral");
   const gone = await page.locator("p.text-red-300").count();
@@ -197,6 +199,53 @@ for (const vp of VIEWPORTS) {
   await ctx.close();
 }
 
+// ---- phone is required only when Phone is the preferred contact ---------
+{
+  const ctx = await browser.newContext({
+    viewport: { width: 1440, height: 1000 },
+    extraHTTPHeaders: { "x-forwarded-for": "192.0.2.70" },
+  });
+  const page = await newPage(ctx);
+  const modal = page.locator('[data-verify="consultation-modal"]');
+  await page.getByRole("button", { name: "Get Compliant" }).click();
+  await modal.waitFor({ state: "visible", timeout: 5000 });
+
+  const phoneLabel = () => page.locator('label[for="phone"]').innerText();
+  const phoneRequired = () => page.locator("#phone").getAttribute("aria-required");
+
+  // The label has to agree with the rule. Saying "Optional" and then refusing
+  // the submission is the form lying to the person filling it in -- which is
+  // exactly what shipped, because only the server path was covered here.
+  check("phone reads Optional by default",
+    (await phoneLabel()).includes("Optional") && (await phoneRequired()) === "false");
+
+  await page.click('label:has(input[name=preferredContact][value="phone"])');
+  const marked = await phoneLabel();
+  check("choosing Phone marks the phone field required",
+    marked.includes("*") && !marked.includes("Optional") &&
+      (await phoneRequired()) === "true", JSON.stringify(marked));
+  check("choosing Phone explains why a number is needed",
+    (await page.getByText("Add a phone number above so we know where to call you.").count()) === 1);
+
+  // ...and the rule is still enforced at submit, client-side.
+  for (const [name, value] of Object.entries(FILLED)) {
+    if (name !== "phone") await page.fill(`[name=${name}]`, value);
+  }
+  await modal.getByRole("button", { name: "Request consultation", exact: true }).click();
+  await page.waitForTimeout(800);
+  check("phone-preferred with no number is blocked in the browser",
+    (await page.locator('[data-verify="consultation-success"]').count()) === 0 &&
+      (await page.locator("#phone-error").count()) === 1);
+
+  // Switching preference away must clear the error it caused, rather than
+  // leaving "add a phone number" sitting under a field that no longer needs one.
+  await page.click('label:has(input[name=preferredContact][value="email"])');
+  check("switching back to Email clears the phone error and the asterisk",
+    (await page.locator("#phone-error").count()) === 0 &&
+      (await phoneLabel()).includes("Optional"));
+  await ctx.close();
+}
+
 // ---- interior page hero CTA carries the pillar prefill ------------------
 {
   const ctx = await browser.newContext({
@@ -212,9 +261,65 @@ for (const vp of VIEWPORTS) {
   const modal = page.locator('[data-verify="consultation-modal"]');
   await page.getByRole("button", { name: "Schedule a Consultation" }).click();
   await modal.waitFor({ state: "visible", timeout: 5000 });
-  const interest = await page.locator("select[name=primaryInterest]").inputValue();
+  const interest = await page
+    .locator('input[name=primaryInterest]:checked')
+    .evaluateAll((els) => els.map((el) => el.value).join(";"));
   check("interior hero CTA prefills this page's pillar",
-    interest === "endpoint-security", `got "${interest}"`);
+    interest === "sophos-endpoint-mdr", `got "${interest}"`);
+
+  // Mutual exclusivity: "not sure yet" clears everything else, and is itself
+  // cleared by any other pick. A record tagged both is meaningless at triage.
+  await page.click('label:has(input[name=primaryInterest][value="m365-migration"])');
+  await page.click('label:has(input[name=primaryInterest][value="not-sure"])');
+  const exclusive = await page
+    .locator('input[name=primaryInterest]:checked')
+    .evaluateAll((els) => els.map((el) => el.value).join(";"));
+  check('"Not sure yet" clears every other interest',
+    exclusive === "not-sure", `got "${exclusive}"`);
+  await page.click('label:has(input[name=primaryInterest][value="m365-security-review"])');
+  const reverted = await page
+    .locator('input[name=primaryInterest]:checked')
+    .evaluateAll((els) => els.map((el) => el.value).join(";"));
+  check('any other interest clears "Not sure yet"',
+    reverted === "m365-security-review", `got "${reverted}"`);
+
+  // The chips must stay within three rows at desktop width. They only fit
+  // because the checkbox box is sr-only; adding an option or lengthening a
+  // label can silently push them to a fourth row, which is what this catches.
+  const chipRows = await page.locator("input[name=primaryInterest]").evaluateAll((els) => {
+    const tops = els.map((el) => Math.round(el.closest("label").getBoundingClientRect().top));
+    return [...new Set(tops)].length;
+  });
+  check("interest chips fit in three rows at desktop width", chipRows === 3,
+    `${chipRows} rows`);
+
+  // Selecting a chip must not resize it -- a width change reflows the rows
+  // underneath, so the chip you just clicked moves out from under the cursor.
+  const widths = () =>
+    page.locator("input[name=primaryInterest]").evaluateAll((els) =>
+      els.map((el) => Math.round(el.closest("label").getBoundingClientRect().width)).join(","));
+  const wBefore = await widths();
+  await page.click('label:has(input[name=primaryInterest][value="general-consulting"])');
+  const wAfter = await widths();
+  check("selecting a chip does not resize it", wBefore === wAfter);
+  await ctx.close();
+}
+
+// ---- the fourth pillar now has an interest of its own ------------------
+{
+  const ctx = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    extraHTTPHeaders: { "x-forwarded-for": "192.0.2.61" },
+  });
+  const page = await ctx.newPage();
+  await page.goto(`${BASE}/infrastructure-networking`, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "Schedule a Consultation" }).click();
+  await page.locator('[data-verify="consultation-modal"]').waitFor({ state: "visible", timeout: 5000 });
+  const infra = await page
+    .locator("input[name=primaryInterest]:checked")
+    .evaluateAll((els) => els.map((el) => el.value).join(";"));
+  check("infrastructure pillar preselects its own interest",
+    infra === "infrastructure-networking", `got "${infra}"`);
   await ctx.close();
 }
 
@@ -241,7 +346,8 @@ const post = async (body) => {
 };
 
 const valid = {
-  fullName: "Dana Whitlock",
+  firstName: "Dana",
+  lastName: "Whitlock",
   workEmail: "dana@whitlocklegal.com",
   company: "Whitlock & Reyes LLP",
   needs: "Need eDiscovery configured.",
@@ -259,8 +365,40 @@ const valid = {
     `status ${r.status}`);
 }
 {
-  const r = await post({ ...valid, fullName: "", __ip: "203.0.113.22" });
-  check("server rejects a missing required field", r.status === 422 && Boolean(r.json.errors?.fullName),
+  const r = await post({ ...valid, lastName: "", __ip: "203.0.113.22" });
+  check("server rejects a missing last name", r.status === 422 && Boolean(r.json.errors?.lastName),
+    `status ${r.status}`);
+}
+{
+  const r = await post({
+    ...valid,
+    primaryInterest: "ediscovery-legal-hold;m365-migration",
+    __ip: "203.0.113.25",
+  });
+  check("server accepts a multi-select interest", r.status === 200 && r.json.ok === true,
+    `status ${r.status}`);
+}
+{
+  const r = await post({
+    ...valid,
+    primaryInterest: "ediscovery-legal-hold;not-a-real-interest",
+    __ip: "203.0.113.26",
+  });
+  check("server rejects an unknown interest token",
+    r.status === 422 && Boolean(r.json.errors?.primaryInterest), `status ${r.status}`);
+}
+{
+  const r = await post({
+    ...valid,
+    primaryInterest: "not-sure;m365-migration",
+    __ip: "203.0.113.27",
+  });
+  check("server rejects \"not sure\" combined with another interest",
+    r.status === 422 && Boolean(r.json.errors?.primaryInterest), `status ${r.status}`);
+}
+{
+  const r = await post({ ...valid, needs: "", __ip: "203.0.113.28" });
+  check("free-text is optional", r.status === 200 && r.json.ok === true,
     `status ${r.status}`);
 }
 {

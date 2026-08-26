@@ -4,13 +4,17 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   CONTACT_PREFERENCES,
   EMPTY_LEAD,
+  PRIMARY_INTERESTS,
   SELECTS,
+  parseInterests,
+  toggleInterest,
   validateLead,
   type LeadErrors,
   type LeadInput,
 } from "@/lib/consultation-fields";
 import type { ConsultationPrefill } from "./ConsultationProvider";
 import TurnstileWidget from "./TurnstileWidget";
+import { turnstileSiteKey } from "@/lib/turnstile";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -43,7 +47,7 @@ export default function ConsultationModal({
   const [token, setToken] = useState("");
   const [turnstileFailed, setTurnstileFailed] = useState(false);
 
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const siteKey = turnstileSiteKey;
   const handleToken = useCallback((t: string) => {
     setToken(t);
     setTurnstileFailed(false);
@@ -108,7 +112,16 @@ export default function ConsultationModal({
     setValues((v) => ({ ...v, [key]: value }));
     // Clear a field's error as soon as the user edits it; re-validation
     // happens on submit.
-    setErrors((e) => (e[key] ? { ...e, [key]: undefined } : e));
+    setErrors((e) => {
+      // Phone's error can be a consequence of the contact preference rather
+      // than of phone itself, so switching preference has to clear it too --
+      // otherwise "add a phone number" lingers after you have picked email.
+      const alsoPhone = key === "preferredContact" && Boolean(e.phone);
+      if (!e[key] && !alsoPhone) return e;
+      const next = { ...e, [key]: undefined };
+      if (alsoPhone) next.phone = undefined;
+      return next;
+    });
   };
 
   async function submit(e: React.FormEvent) {
@@ -131,7 +144,13 @@ export default function ConsultationModal({
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...values, turnstileToken: token }),
+        body: JSON.stringify({
+          ...values,
+          turnstileToken: token,
+          // Which page the request came from, for the submission metadata
+          // field. The server falls back to the Referer header.
+          page: window.location.href,
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -156,6 +175,11 @@ export default function ConsultationModal({
   }
 
   const pending = status === "submitting";
+  const interests = parseInterests(values.primaryInterest);
+  // Phone is optional until "Phone" is the preferred contact, at which point
+  // it is required -- so the label has to say so. Labelling it "Optional" and
+  // then rejecting the submission is the form lying to the person filling it.
+  const phoneRequired = values.preferredContact === "phone";
 
   return (
     <div
@@ -196,7 +220,7 @@ export default function ConsultationModal({
             <button
               type="button"
               onClick={onClose}
-              className={`mt-8 h-12 rounded-2xl bg-linear-to-r from-accent to-primary px-6 text-base font-medium text-white shadow-btn-primary ${RING}`}
+              className={`mt-8 h-12 rounded-2xl bg-linear-to-r from-primary to-primary-deep px-6 text-base font-medium text-white shadow-btn-primary ${RING}`}
             >
               Close
             </button>
@@ -237,18 +261,36 @@ export default function ConsultationModal({
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field label="Full name" name="fullName" error={errors.fullName} required>
+              <Field label="First name" name="firstName" error={errors.firstName} required>
                 <input
                   ref={firstFieldRef}
-                  id="fullName"
-                  name="fullName"
+                  id="firstName"
+                  name="firstName"
                   type="text"
-                  autoComplete="name"
+                  autoComplete="given-name"
                   className={FIELD}
-                  value={values.fullName}
-                  onChange={(e) => set("fullName")(e.target.value)}
-                  aria-invalid={Boolean(errors.fullName)}
-                  aria-describedby={errors.fullName ? "fullName-error" : undefined}
+                  value={values.firstName}
+                  onChange={(e) => set("firstName")(e.target.value)}
+                  aria-required
+                  aria-invalid={Boolean(errors.firstName)}
+                  aria-describedby={errors.firstName ? "firstName-error" : undefined}
+                />
+              </Field>
+
+              {/* Zoho rejects a Lead with no Last Name outright, which is why
+                  the single "Full name" field was split. */}
+              <Field label="Last name" name="lastName" error={errors.lastName} required>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  autoComplete="family-name"
+                  className={FIELD}
+                  value={values.lastName}
+                  onChange={(e) => set("lastName")(e.target.value)}
+                  aria-required
+                  aria-invalid={Boolean(errors.lastName)}
+                  aria-describedby={errors.lastName ? "lastName-error" : undefined}
                 />
               </Field>
 
@@ -261,12 +303,13 @@ export default function ConsultationModal({
                   className={FIELD}
                   value={values.workEmail}
                   onChange={(e) => set("workEmail")(e.target.value)}
+                  aria-required
                   aria-invalid={Boolean(errors.workEmail)}
                   aria-describedby={errors.workEmail ? "workEmail-error" : undefined}
                 />
               </Field>
 
-              <Field label="Company / firm name" name="company" error={errors.company} required>
+              <Field label="Company or firm name" name="company" error={errors.company} required>
                 <input
                   id="company"
                   name="company"
@@ -275,12 +318,19 @@ export default function ConsultationModal({
                   className={FIELD}
                   value={values.company}
                   onChange={(e) => set("company")(e.target.value)}
+                  aria-required
                   aria-invalid={Boolean(errors.company)}
                   aria-describedby={errors.company ? "company-error" : undefined}
                 />
               </Field>
 
-              <Field label="Phone" name="phone" error={errors.phone} hint="Optional">
+              <Field
+                label="Phone"
+                name="phone"
+                error={errors.phone}
+                required={phoneRequired}
+                hint={phoneRequired ? undefined : "Optional"}
+              >
                 <input
                   id="phone"
                   name="phone"
@@ -289,6 +339,7 @@ export default function ConsultationModal({
                   className={FIELD}
                   value={values.phone}
                   onChange={(e) => set("phone")(e.target.value)}
+                  aria-required={phoneRequired}
                   aria-invalid={Boolean(errors.phone)}
                   aria-describedby={errors.phone ? "phone-error" : undefined}
                 />
@@ -320,12 +371,66 @@ export default function ConsultationModal({
               ))}
             </div>
 
+            {/* Toggle chips rather than a native <select multiple>: native
+                multi-selects are poor on mobile, and the modal already
+                carries five selects.
+
+                The checkbox itself is sr-only, not absent. It stays a real
+                checkbox for semantics and the keyboard; the chip's fill and
+                border carry the state visually. That is worth 24px per chip
+                (box + gap), which is the difference between three rows and
+                four at this modal width -- the eight labels cannot be packed
+                into three rows with the box showing. */}
+            <fieldset className="mt-4">
+              <legend className="text-sm font-medium text-white/90">
+                Primary interest
+                <span className="ml-2 font-normal text-white/50">
+                  Choose any that apply
+                </span>
+              </legend>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {PRIMARY_INTERESTS.map((o) => {
+                  const checked = interests.includes(o.value);
+                  return (
+                    <label
+                      key={o.value}
+                      className={`flex cursor-pointer items-center rounded-xl border px-3.5 py-2 text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-bright has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-surface ${
+                        checked
+                          // No weight change on selection: a bolder label is
+                          // wider, and a chip that resizes when you click it
+                          // reflows the rows underneath it.
+                          ? "border-accent bg-accent/15 text-white"
+                          : "border-edge text-white/70 hover:border-edge-strong"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name="primaryInterest"
+                        value={o.value}
+                        checked={checked}
+                        onChange={() =>
+                          set("primaryInterest")(
+                            toggleInterest(values.primaryInterest, o.value)
+                          )
+                        }
+                        className="sr-only"
+                      />
+                      {o.label}
+                    </label>
+                  );
+                })}
+              </div>
+              {errors.primaryInterest && (
+                <p className="mt-1.5 text-sm text-red-300">{errors.primaryInterest}</p>
+              )}
+            </fieldset>
+
             <div className="mt-4">
               <Field
-                label="What do you need?"
+                label="Anything else we should know?"
                 name="needs"
                 error={errors.needs}
-                required
+                hint="Optional"
               >
                 <textarea
                   id="needs"
@@ -369,6 +474,15 @@ export default function ConsultationModal({
               {errors.preferredContact && (
                 <p className="mt-1.5 text-sm text-red-300">{errors.preferredContact}</p>
               )}
+              {/* The Phone field is several rows above this one, so its new
+                  asterisk is easy to miss -- say it here too, where the choice
+                  is actually being made. A hint, not an error: nothing has
+                  gone wrong yet. */}
+              {phoneRequired && !values.phone.trim() && (
+                <p className="mt-1.5 text-sm text-white/60">
+                  Add a phone number above so we know where to call you.
+                </p>
+              )}
             </fieldset>
 
             <TurnstileWidget onToken={handleToken} onError={handleTurnstileError} />
@@ -400,7 +514,7 @@ export default function ConsultationModal({
               <button
                 type="submit"
                 disabled={pending || awaitingVerification}
-                className={`flex h-12 items-center rounded-2xl bg-linear-to-r from-accent to-primary px-6 text-base font-medium text-white shadow-btn-primary transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 ${RING}`}
+                className={`flex h-12 items-center rounded-2xl bg-linear-to-r from-primary to-primary-deep px-6 text-base font-medium text-white shadow-btn-primary transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 ${RING}`}
               >
                 {pending
                   ? "Sending…"

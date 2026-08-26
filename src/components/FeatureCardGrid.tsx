@@ -38,12 +38,20 @@ export default function FeatureCardGrid({
   columns = 2,
   connector = false,
   variant = "icon",
+  centerLastRow = false,
   name,
 }: {
   cards: FeatureCard[];
   columns?: 2 | 3 | 4;
   connector?: boolean;
   variant?: "icon" | "plain";
+  /**
+   * Lay the cards out as a centred flex wrap instead of a grid, so a count
+   * that does not divide evenly by `columns` centres its trailing row rather
+   * than leaving a hole on the right. Card widths are the same fractions the
+   * grid would produce; only the last row moves.
+   */
+  centerLastRow?: boolean;
   name?: string;
 }) {
   const plain = variant === "plain";
@@ -53,10 +61,21 @@ export default function FeatureCardGrid({
     4: "md:grid-cols-2 xl:grid-cols-4",
   }[columns];
 
+  /* gap-6 is 24px, so an n-across row loses (n-1)*24px to gutters. */
+  const flexBasis = {
+    2: "lg:w-[calc((100%-1.5rem)/2)]",
+    3: "md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]",
+    4: "md:w-[calc((100%-1.5rem)/2)] xl:w-[calc((100%-4.5rem)/4)]",
+  }[columns];
+
   return (
     <div
       data-verify={name}
-      className={`relative grid grid-cols-1 gap-6 ${cols}`}
+      className={
+        centerLastRow
+          ? "relative flex flex-wrap justify-center gap-6"
+          : `relative grid grid-cols-1 gap-6 ${cols}`
+      }
     >
       {connector && columns === 2 && (
         <div
@@ -70,13 +89,13 @@ export default function FeatureCardGrid({
           /* 241px is the comp's icon-card height (112:223), 178px the plain
              card's (156:579). Minimums rather than fixed heights so longer
              copy grows the card instead of overflowing it. */
-          className={
+          className={`${
             plain
               ? "rounded-row border border-edge-soft bg-surface-row p-8 lg:min-h-[178px]"
               : `relative rounded-card border p-6 lg:min-h-[241px] ${
                   card.highlighted ? "border-accent" : "border-edge"
                 }`
-          }
+          } ${centerLastRow ? `w-full ${flexBasis}` : ""}`}
         >
           {!plain && card.icon && (
             <span className="flex size-14 items-center justify-center rounded-xl bg-tile">

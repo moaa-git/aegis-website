@@ -3,18 +3,36 @@ import { footer, site } from "@/lib/data";
 import Year from "./Year";
 import PartnerBadgeStrip from "./PartnerBadgeStrip";
 
-export default function SiteFooter() {
+/**
+ * `badges` is off on the legal pages: /privacy and /terms deliberately carry
+ * less chrome than the marketing pages, and the partner strip is the one
+ * piece of the footer that reads as marketing.
+ *
+ * `contactHref` relocates this page's contact anchor. Both Termly documents
+ * contain a "HOW CAN YOU CONTACT US" section whose source fragment is
+ * #contact, and two elements cannot share an id -- so on the legal pages the
+ * document keeps #contact, the footer gives up its own id, and every in-page
+ * #contact link is sent to the landing page's footer instead. SiteHeader
+ * takes the same prop for the same reason.
+ */
+export default function SiteFooter({
+  badges = true,
+  contactHref,
+}: { badges?: boolean; contactHref?: string } = {}) {
+  const hrefFor = (href: string) =>
+    contactHref && href === "#contact" ? contactHref : href;
+
   return (
     <footer
-      id="contact"
+      id={contactHref ? undefined : "contact"}
       data-verify="footer"
       className="relative overflow-hidden bg-surface-deep"
     >
 
       <div className="relative mx-auto w-full max-w-318 px-6 pb-19 pt-20">
-        <PartnerBadgeStrip />
+        {badges && <PartnerBadgeStrip />}
 
-        <div className="mt-15 flex flex-col gap-12 lg:flex-row lg:gap-[103px]">
+        <div className={`flex flex-col gap-12 lg:flex-row lg:gap-[103px] ${badges ? "mt-15" : ""}`}>
           <div className="relative max-w-[289px]">
             {/* Soft glow behind the logo block (Figma 43:20: 63x64 ellipse,
                 blur 150; SVG canvas 363x364 placed at the node's offset) */}
@@ -66,7 +84,7 @@ export default function SiteFooter() {
                   {column.links.map((link) => (
                     <li key={link.label}>
                       <a
-                        href={link.href}
+                        href={hrefFor(link.href)}
                         className="text-base leading-[1.6] text-white/70 transition-colors hover:text-white"
                       >
                         {link.label}

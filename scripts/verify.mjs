@@ -33,6 +33,11 @@ const DEFAULT_ROUTES = [
   "/compliance-ediscovery",
   "/ai-copilot-readiness",
   "/infrastructure-networking",
+  "/our-story",
+  "/methodology",
+  "/faq",
+  "/privacy",
+  "/terms",
 ];
 
 /**
@@ -85,6 +90,13 @@ const KNOWN_SEAMS = [
     match: /-> 0\d-story$/,
     max: 5,
     why: "Story backdrop photo's crisp top edge; its overlay starts at 40% darkening by design (DEVIATIONS.md)",
+  },
+  {
+    // Both directions: the band is entered from --color-surface above and
+    // left to --color-surface below it.
+    match: /0\d-credentials/,
+    max: 4,
+    why: "designed #0f172a <-> #0c1426 band tone step; the Our Story credentials band is deliberately on --color-surface-row (DEVIATIONS.md, revision round 1)",
   },
 ];
 

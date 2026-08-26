@@ -1,10 +1,28 @@
 import { NextResponse } from "next/server";
 import {
   EMPTY_LEAD,
+  HEARD_ABOUT,
+  INDUSTRIES,
+  COMPANY_SIZES,
+  ENGAGEMENT_PACKAGES,
+  TIMELINES,
+  PRIMARY_INTERESTS,
+  labelFor,
+  parseInterests,
   validateLead,
   type LeadInput,
 } from "@/lib/consultation-fields";
-import { toZohoPayload, zohoConfig } from "@/lib/zoho-mapping";
+import {
+  companyOrFallback,
+  toZohoPayload,
+  zohoConfig,
+  type LeadMeta,
+} from "@/lib/zoho-mapping";
+import {
+  TURNSTILE_ACTION,
+  TURNSTILE_TEST_KEYS,
+  isProductionContext,
+} from "@/lib/turnstile";
 
 export const runtime = "nodejs";
 /** Never cached: every POST must run the checks. */
@@ -18,6 +36,18 @@ export const dynamic = "force-dynamic";
  * someone hammering the endpoint directly.
  */
 const RATE_LIMIT = { windowMs: 60 * 60 * 1000, max: 15 };
+
+/**
+ * Hostnames the Turnstile token may have been solved on. The sitekey is
+ * public, so without this check a token minted on someone else's page is
+ * accepted here -- the hostname comparison is what actually prevents reuse.
+ */
+const ALLOWED_HOSTNAMES = (
+  process.env.TURNSTILE_ALLOWED_HOSTNAMES ?? "aegisascent.com,www.aegisascent.com"
+)
+  .split(",")
+  .map((h) => h.trim().toLowerCase())
+  .filter(Boolean);
 
 /**
  * In-memory sliding window, keyed by IP.
@@ -52,22 +82,44 @@ function clientIp(req: Request): string {
 }
 
 /**
- * Cloudflare Turnstile. With no secret configured, verification is skipped
- * and a warning is logged -- the form stays usable in local development
- * rather than failing closed on a box that has no keys. In production the
- * secret must be set; an unset secret there is a misconfiguration, and the
- * warning is the signal.
+ * The production secret only in a production context; elsewhere Cloudflare's
+ * dummy secret, matching the dummy sitekey the widget renders. See
+ * src/lib/turnstile.ts.
  */
-async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
+function turnstileSecret(): string {
+  if (!isProductionContext) {
+    return process.env.TURNSTILE_TEST_MODE === "fail"
+      ? TURNSTILE_TEST_KEYS.fail.secret
+      : TURNSTILE_TEST_KEYS.pass.secret;
+  }
+  return process.env.TURNSTILE_SECRET_KEY ?? "";
+}
+
+type TurnstileResult = {
+  ok: boolean;
+  hostname: string;
+  action: string;
+  reason: string;
+};
+
+/**
+ * Cloudflare Turnstile. With no secret configured, verification is skipped
+ * and a warning is logged -- the form stays usable on a box that has no keys
+ * rather than failing closed. In production the secret must be set; an unset
+ * secret there is a misconfiguration, and the warning is the signal.
+ */
+async function verifyTurnstile(token: string, ip: string): Promise<TurnstileResult> {
+  const secret = turnstileSecret();
   if (!secret) {
     console.warn(
-      "[lead] TURNSTILE_SECRET_KEY not set — skipping bot verification. " +
+      "[lead] No Turnstile secret resolved -- skipping bot verification. " +
         "Do not run production this way."
     );
-    return true;
+    return { ok: true, hostname: "", action: "", reason: "unconfigured" };
   }
-  if (!token) return false;
+  if (!token) {
+    return { ok: false, hostname: "", action: "", reason: "no token" };
+  }
 
   try {
     const res = await fetch(
@@ -78,26 +130,63 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
         body: new URLSearchParams({ secret, response: token, remoteip: ip }),
       }
     );
-    const data = (await res.json()) as { success?: boolean };
-    return data.success === true;
+    const data = (await res.json()) as {
+      success?: boolean;
+      hostname?: string;
+      action?: string;
+      "error-codes"?: string[];
+    };
+    const hostname = data.hostname ?? "";
+    const action = data.action ?? "";
+
+    if (data.success !== true) {
+      return {
+        ok: false,
+        hostname,
+        action,
+        reason: (data["error-codes"] ?? ["rejected"]).join(","),
+      };
+    }
+
+    // The sitekey is public; this is the check that stops a token solved on
+    // another site from being replayed here. Enforced in production only --
+    // the dummy keys report whatever hostname the dev box is served on.
+    if (isProductionContext && hostname && !ALLOWED_HOSTNAMES.includes(hostname.toLowerCase())) {
+      console.warn(
+        `[lead] Turnstile token solved on unexpected hostname "${hostname}" -- rejected.`
+      );
+      return { ok: false, hostname, action, reason: "hostname not allowed" };
+    }
+
+    return { ok: true, hostname, action, reason: "verified" };
   } catch (err) {
     // A Cloudflare outage must not take the form down with it.
     console.error("[lead] Turnstile verification failed to complete:", err);
-    return true;
+    return { ok: true, hostname: "", action: "", reason: "siteverify unreachable" };
   }
 }
 
 async function forwardToZoho(
-  lead: LeadInput
+  lead: LeadInput,
+  meta: LeadMeta
 ): Promise<{ ok: boolean; detail: string }> {
-  const payload = toZohoPayload(lead);
+  const { payload, pending, metadata } = toZohoPayload(lead, meta);
+
+  // WebToLead answers 200 with redirect HTML whether or not the record was
+  // created, and there is no useful error body -- so the outbound payload is
+  // logged in full every time. Comparing it against the Leads list is the
+  // only way a silent mapping failure becomes diagnosable.
+  console.info(
+    "[lead] outbound Zoho payload:\n" +
+      JSON.stringify(payload, null, 2) +
+      (pending.length
+        ? `\n[lead] carried in Description (slot pending): ${pending.join(" | ")}`
+        : "") +
+      `\n[lead] submission metadata (slot pending, not forwarded):\n${metadata}`
+  );
 
   if (!zohoConfig.enabled) {
-    console.info(
-      "[lead] Zoho forward is STUBBED (ZOHO_ENABLED is not \"true\"). " +
-        "Payload that would have been sent:\n" +
-        JSON.stringify(payload, null, 2)
-    );
+    console.info('[lead] Zoho forward is STUBBED (ZOHO_ENABLED is not "true").');
     return { ok: false, detail: "stubbed" };
   }
 
@@ -119,25 +208,37 @@ async function forwardToZoho(
  * lost to a mapping error, so if this cannot send either, it logs the whole
  * submission at error level -- recoverable from the logs by hand.
  */
-async function emailFallback(lead: LeadInput, why: string): Promise<void> {
+async function emailFallback(
+  lead: LeadInput,
+  meta: LeadMeta,
+  why: string
+): Promise<void> {
   const to = process.env.LEAD_FALLBACK_EMAIL ?? "contact@aegisascent.com";
+  const interests = parseInterests(lead.primaryInterest)
+    .map((slug) => labelFor(PRIMARY_INTERESTS, slug))
+    .join(", ");
   const body = [
     `Consultation request (Zoho forward did not succeed: ${why})`,
     "",
-    `Name:              ${lead.fullName}`,
+    `Name:              ${lead.firstName} ${lead.lastName}`.trim(),
     `Work email:        ${lead.workEmail}`,
-    `Company:           ${lead.company}`,
+    `Company:           ${companyOrFallback(lead)}`,
     `Phone:             ${lead.phone || "—"}`,
     `Preferred contact: ${lead.preferredContact}`,
-    `Industry:          ${lead.industry || "—"}`,
-    `Company size:      ${lead.companySize || "—"}`,
-    `Primary interest:  ${lead.primaryInterest || "—"}`,
-    `Package:           ${lead.engagementPackage || "—"}`,
-    `Timeline:          ${lead.timeline || "—"}`,
-    `Heard about us:    ${lead.heardAbout || "—"}`,
+    `Industry:          ${labelFor(INDUSTRIES, lead.industry) || "—"}`,
+    `Company size:      ${labelFor(COMPANY_SIZES, lead.companySize) || "—"}`,
+    `Primary interest:  ${interests || "—"}`,
+    `Package:           ${labelFor(ENGAGEMENT_PACKAGES, lead.engagementPackage) || "—"}`,
+    `Timeline:          ${labelFor(TIMELINES, lead.timeline) || "—"}`,
+    `Heard about us:    ${labelFor(HEARD_ABOUT, lead.heardAbout) || "—"}`,
     "",
-    "What they need:",
-    lead.needs,
+    "Anything else we should know:",
+    lead.needs || "—",
+    "",
+    "Submission metadata:",
+    `ip: ${meta.ip}`,
+    `page: ${meta.page}`,
+    `submitted: ${meta.submitted}`,
   ].join("\n");
 
   const endpoint = process.env.LEAD_EMAIL_ENDPOINT;
@@ -160,7 +261,7 @@ async function emailFallback(lead: LeadInput, why: string): Promise<void> {
       },
       body: JSON.stringify({
         to,
-        subject: `Consultation request — ${lead.company || lead.fullName}`,
+        subject: `Consultation request — ${companyOrFallback(lead)}`,
         text: body,
       }),
     });
@@ -209,7 +310,9 @@ export async function POST(req: Request) {
   }
 
   const token = typeof body.turnstileToken === "string" ? body.turnstileToken : "";
-  if (!(await verifyTurnstile(token, ip))) {
+  const turnstile = await verifyTurnstile(token, ip);
+  if (!turnstile.ok) {
+    console.warn(`[lead] Turnstile rejected a submission from ${ip}: ${turnstile.reason}`);
     return NextResponse.json(
       { ok: false, error: "Verification failed. Please try again." },
       { status: 400 }
@@ -221,8 +324,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, errors }, { status: 422 });
   }
 
-  const forwarded = await forwardToZoho(lead);
-  if (!forwarded.ok) await emailFallback(lead, forwarded.detail);
+  const meta: LeadMeta = {
+    ip,
+    ua: req.headers.get("user-agent") ?? "",
+    page: typeof body.page === "string" ? body.page : req.headers.get("referer") ?? "",
+    turnstileHostname: turnstile.hostname,
+    turnstileAction: turnstile.action || TURNSTILE_ACTION,
+    submitted: new Date().toISOString(),
+  };
+
+  const forwarded = await forwardToZoho(lead, meta);
+  if (!forwarded.ok) await emailFallback(lead, meta, forwarded.detail);
 
   // Success either way: a lead that reached us is not the sender's problem
   // to retry, and a mapping error must never look like a failure to them.

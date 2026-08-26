@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { TURNSTILE_ACTION, turnstileSiteKey } from "@/lib/turnstile";
 
 type TurnstileApi = {
   render: (
     el: HTMLElement,
     opts: {
       sitekey: string;
+      action?: string;
       theme?: "light" | "dark" | "auto";
       callback?: (token: string) => void;
       "error-callback"?: () => void;
@@ -29,9 +31,12 @@ const SCRIPT_SRC =
  * Cloudflare Turnstile, rendered explicitly so the widget's lifetime matches
  * the modal's rather than the page's.
  *
- * Renders nothing when NEXT_PUBLIC_TURNSTILE_SITE_KEY is unset; the route
- * handler skips verification in the same case, so the form stays usable on a
- * box with no keys.
+ * Outside a production context this renders Cloudflare's dummy widget and the
+ * route verifies against the matching dummy secret, so localhost and deploy
+ * previews work without loosening the production widget's allowed domains.
+ * Renders nothing if no sitekey resolves at all; the route handler skips
+ * verification in the same case, so the form stays usable on a box with no
+ * keys.
  */
 export default function TurnstileWidget({
   onToken,
@@ -40,7 +45,7 @@ export default function TurnstileWidget({
   onToken: (token: string) => void;
   onError: () => void;
 }) {
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const siteKey = turnstileSiteKey;
   const hostRef = useRef<HTMLDivElement>(null);
   // Held in refs so a re-render never re-runs the effect and re-renders the
   // widget, which would reset a challenge the user has already passed.
@@ -62,6 +67,8 @@ export default function TurnstileWidget({
       try {
         widgetId = window.turnstile.render(hostRef.current, {
           sitekey: siteKey,
+          // Reported back by siteverify and recorded in submission metadata.
+          action: TURNSTILE_ACTION,
           theme: "dark",
           callback: (token) => onTokenRef.current(token),
           "error-callback": () => onErrorRef.current(),

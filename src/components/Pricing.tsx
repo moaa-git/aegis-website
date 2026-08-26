@@ -22,7 +22,7 @@ export default function Pricing() {
               }`}
             >
               {card.popular && (
-                <span className="absolute -top-3 left-1/2 flex h-6 -translate-x-1/2 items-center rounded-full bg-accent px-2 text-xs font-medium uppercase whitespace-nowrap text-white">
+                <span className="absolute -top-3 left-1/2 flex h-6 -translate-x-1/2 items-center rounded-full bg-primary px-2 text-xs font-medium uppercase whitespace-nowrap text-white">
                   Most Popular
                 </span>
               )}
@@ -55,7 +55,7 @@ export default function Pricing() {
                 prefill={{ engagementPackage: card.package }}
                 className={`mt-auto flex h-10 items-center justify-center rounded-xl text-sm font-medium text-white ${
                   card.popular
-                    ? "bg-linear-to-r from-accent to-primary shadow-btn-primary transition-opacity hover:opacity-90"
+                    ? "bg-linear-to-r from-primary to-primary-deep shadow-btn-primary transition-opacity hover:opacity-90"
                     : "border border-edge transition-colors hover:border-accent"
                 }`}
               >

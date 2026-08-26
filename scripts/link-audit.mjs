@@ -15,13 +15,21 @@ const BASE =
   process.argv.find((a) => a.startsWith("--base="))?.slice(7) ??
   "http://localhost:3100";
 
-const ROUTES = [
+const DEFAULT_ROUTES = [
   "/",
   "/endpoint-security",
   "/compliance-ediscovery",
   "/ai-copilot-readiness",
   "/infrastructure-networking",
+  "/our-story",
+  "/methodology",
+  "/faq",
+  "/privacy",
+  "/terms",
 ];
+
+const routesArg = process.argv.find((a) => a.startsWith("--routes="))?.slice(9);
+const ROUTES = routesArg ? routesArg.split(",").filter(Boolean) : DEFAULT_ROUTES;
 
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });

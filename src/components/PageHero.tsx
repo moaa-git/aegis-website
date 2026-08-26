@@ -1,7 +1,7 @@
 import Image from "next/image";
 import SiteHeader from "./SiteHeader";
 import ConsultationButton from "./ConsultationButton";
-import type { PillarKey } from "@/lib/data";
+import { pillarPages, type PillarKey } from "@/lib/data";
 
 export type PageHeroCta = { label: string; href: string };
 
@@ -36,6 +36,8 @@ export default function PageHero({
   illustration,
   headerGap = 124,
   subtitleWidth = 521,
+  titleWidth = 702,
+  align = "left",
 }: {
   eyebrow: string;
   /** The comp uses a shield on three pages and a brain on AI & Copilot. */
@@ -45,8 +47,14 @@ export default function PageHero({
   primaryCta: PageHeroCta;
   /** Opens the consultation modal, preselecting this page's pillar. */
   secondaryCta: { label: string };
-  pillar: PillarKey;
-  illustration: {
+  /** Omitted on the company pages, which belong to no pillar. */
+  pillar?: PillarKey;
+  /**
+   * Omitted on Our Story, Methodology and FAQ: those routes have no comp and
+   * no artwork, so the hero is the text block alone and the frame is left to
+   * size itself instead of being pinned to the comp's 786px.
+   */
+  illustration?: {
     src: string;
     width: number;
     height: number;
@@ -76,8 +84,25 @@ export default function PageHero({
   headerGap?: number;
   /** Subhead measure, also set per page in the comp (521px / 574px). */
   subtitleWidth?: number;
+  /**
+   * Content-column measure. 702px on all four comp pages, whose H1s were
+   * written to it. The company pages carry longer headlines that orphan
+   * their last word at 702, so they set their own — the same per-page
+   * treatment headerGap and subtitleWidth already get.
+   */
+  titleWidth?: number;
+  /**
+   * "left" is the comp treatment: content in a column on the left with the
+   * illustration filling the right of the frame. "center" is for the pages
+   * that have no illustration and never will — the content column is
+   * centred in the frame rather than left with dead space beside it, which
+   * reads as a text page instead of a missing asset. Vertical rhythm is
+   * identical either way.
+   */
+  align?: "left" | "center";
 }) {
   const lines = Array.isArray(title) ? title : [title];
+  const centered = align === "center";
 
   return (
     <section
@@ -86,7 +111,9 @@ export default function PageHero({
          top-aligned, the lower half being where the illustration sits. Pinning
          the height reproduces that exactly and keeps all four pages identical,
          instead of each one's padding stack landing somewhere near 786. */
-      className="relative z-30 overflow-hidden bg-surface lg:min-h-[786px]"
+      className={`relative z-30 overflow-hidden bg-surface ${
+        illustration ? "lg:min-h-[786px]" : ""
+      }`}
     >
       {/* Background glow (Figma 112:446: 1966x1663 node, SVG canvas 1966x1783
           with the blur padding). Anchored to the composition centre, not the
@@ -110,6 +137,7 @@ export default function PageHero({
 
       {/* Illustration. Placement comes from each page's own comp node; see
           the offsets in src/lib/pages.ts. */}
+      {illustration && (
       <div
         aria-hidden
         className={`pointer-events-none absolute hidden -translate-x-1/2 lg:block ${
@@ -143,15 +171,28 @@ export default function PageHero({
           className="h-auto w-full"
         />
       </div>
+      )}
 
       <div className="relative z-20 mx-auto w-full max-w-318 px-6 pb-8 pt-7">
         <SiteHeader />
 
         <div
-          className="mt-15 max-w-[702px] pb-24 lg:mt-[var(--hero-gap)] lg:pb-0"
-          style={{ "--hero-gap": `${headerGap}px` } as React.CSSProperties}
+          /* With artwork below it the text block gives up its bottom
+             padding at lg and the illustration fills the frame. Without
+             artwork there is nothing to fill it, so the block mirrors its
+             own top gap at the bottom — the same padding above and below
+             the content that the comp heroes have. */
+          className={`mt-15 lg:mt-[var(--hero-gap)] ${
+            illustration ? "pb-24 lg:pb-0" : "pb-16 lg:pb-[var(--hero-gap)]"
+          } ${centered ? "mx-auto text-center" : ""}`}
+          style={
+            {
+              "--hero-gap": `${headerGap}px`,
+              maxWidth: titleWidth,
+            } as React.CSSProperties
+          }
         >
-          <div className="flex flex-col gap-4">
+          <div className={`flex flex-col gap-4 ${centered ? "items-center" : ""}`}>
             <span className="inline-flex w-fit items-center gap-2 rounded-badge border border-white/15 bg-badge px-3 py-2 shadow-badge">
               <Image
                 src={eyebrowIcon}
@@ -173,20 +214,30 @@ export default function PageHero({
             </h1>
           </div>
           <p
-            className="mt-6 text-lg leading-7 text-white/90"
+            className={`mt-6 text-lg leading-7 text-white/90 ${
+              centered ? "mx-auto" : ""
+            }`}
             style={{ maxWidth: subtitleWidth }}
           >
             {subtitle}
           </p>
-          <div className="mt-12 flex flex-wrap items-center gap-4">
+          <div
+            className={`mt-12 flex flex-wrap items-center gap-4 ${
+              centered ? "justify-center" : ""
+            }`}
+          >
             <a
               href={primaryCta.href}
-              className="flex h-14 items-center rounded-2xl bg-linear-to-r from-accent to-primary px-6 text-lg font-medium text-white shadow-btn-primary transition-opacity hover:opacity-90"
+              className="flex h-14 items-center rounded-2xl bg-linear-to-r from-primary to-primary-deep px-6 text-lg font-medium text-white shadow-btn-primary transition-opacity hover:opacity-90"
             >
               {primaryCta.label}
             </a>
             <ConsultationButton
-              prefill={{ primaryInterest: pillar }}
+              prefill={
+                pillar
+                  ? { primaryInterest: pillarPages[pillar].interest }
+                  : undefined
+              }
               className="flex h-14 items-center rounded-2xl border border-accent-bright bg-surface-row px-6 text-lg font-medium text-white shadow-btn-secondary transition-colors hover:bg-surface-row/70"
             >
               {secondaryCta.label}
@@ -195,6 +246,7 @@ export default function PageHero({
           {/* Below lg the illustration stacks under the text rather than
               disappearing with the nav, the same call the landing hero makes
               for its shield. */}
+          {illustration && (
           <Image
             src={illustration.src}
             alt=""
@@ -204,6 +256,7 @@ export default function PageHero({
             data-hero-stacked
             className="pointer-events-none mx-auto mt-12 hidden h-auto w-full max-w-[420px] sm:block lg:hidden"
           />
+          )}
         </div>
       </div>
     </section>

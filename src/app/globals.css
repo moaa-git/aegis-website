@@ -113,6 +113,27 @@ html {
 }
 
 /*
+ * Restore the pointer cursor on buttons.
+ *
+ * Tailwind v4's Preflight leaves <button> on the UA default (`cursor:
+ * default`) where v3 set `cursor: pointer` — a documented v4 breaking
+ * change. Every button on this site is a real action: the nav's "Request
+ * Consultation", the mobile hamburger, the four pricing CTAs, and every
+ * "Schedule a Consultation" on every page. An arrow cursor over them reads
+ * as "not clickable", which is what this fixes.
+ *
+ * In @layer base so any `cursor-*` utility still wins — the modal's submit
+ * keeps its `disabled:cursor-not-allowed`. The :not(:disabled) guard means a
+ * disabled control never claims to be actionable in the first place.
+ */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/*
  * Hero weave pattern (Figma 1:7855). The exported SVG is one 1440.77px-wide
  * panel of vertical scalloped lines — sized to the 1440 comp, so on wider
  * viewports a single copy reads as a floating rectangle. It cannot simply be

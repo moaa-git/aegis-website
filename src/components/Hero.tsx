@@ -89,7 +89,7 @@ export default function Hero() {
           <div className="mt-12 flex flex-wrap items-center gap-4">
             <a
               href={hero.primaryCta.href}
-              className="flex h-14 items-center rounded-2xl bg-linear-to-r from-accent to-primary px-6 text-lg font-medium text-white shadow-btn-primary transition-opacity hover:opacity-90"
+              className="flex h-14 items-center rounded-2xl bg-linear-to-r from-primary to-primary-deep px-6 text-lg font-medium text-white shadow-btn-primary transition-opacity hover:opacity-90"
             >
               {hero.primaryCta.label}
             </a>

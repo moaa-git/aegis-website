@@ -6,9 +6,18 @@ import Link from "next/link";
 import { nav, site } from "@/lib/data";
 import { useConsultation } from "./ConsultationProvider";
 
-export default function SiteHeader() {
+/**
+ * `contactHref` overrides the nav's in-page Contact link. Every marketing
+ * page carries id="contact" on its footer, so the bare fragment is right
+ * there; the legal pages give that id up to the document's own contact
+ * section and send the nav to the landing page's footer instead.
+ */
+export default function SiteHeader({ contactHref }: { contactHref?: string } = {}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { open } = useConsultation();
+
+  const hrefFor = (href: string) =>
+    contactHref && href === "#contact" ? contactHref : href;
 
   return (
     <header className="relative z-20 flex w-full items-center justify-between">
@@ -29,7 +38,7 @@ export default function SiteHeader() {
           {nav.links.map((link, i) => (
             <li key={link.label}>
               <a
-                href={link.href}
+                href={hrefFor(link.href)}
                 className={`transition-colors hover:text-white ${
                   i === 0 ? "text-white" : "text-white/80"
                 }`}
@@ -42,7 +51,7 @@ export default function SiteHeader() {
         <button
           type="button"
           onClick={() => open()}
-          className="flex h-12 items-center rounded-2xl bg-accent px-6 text-lg font-medium text-white shadow-btn-secondary transition-opacity hover:opacity-90"
+          className="flex h-12 items-center rounded-2xl bg-primary px-6 text-lg font-medium text-white shadow-btn-secondary transition-opacity hover:opacity-90"
         >
           {nav.cta.label}
         </button>
@@ -73,7 +82,7 @@ export default function SiteHeader() {
             {nav.links.map((link) => (
               <li key={link.label}>
                 <a
-                  href={link.href}
+                  href={hrefFor(link.href)}
                   onClick={() => setMenuOpen(false)}
                   className="block text-white/80 transition-colors hover:text-white"
                 >
@@ -88,7 +97,7 @@ export default function SiteHeader() {
                   setMenuOpen(false);
                   open();
                 }}
-                className="flex h-12 w-full items-center justify-center rounded-2xl bg-accent font-medium text-white"
+                className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary font-medium text-white"
               >
                 {nav.cta.label}
               </button>

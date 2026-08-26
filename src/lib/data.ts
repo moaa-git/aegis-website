@@ -13,23 +13,33 @@ export const site = {
 /**
  * The four pillar pages. Route slugs live here so the Services cards, the
  * footer column and the pages themselves cannot drift apart.
+ *
+ * `interest` is the Primary interest each page's hero CTA preselects, from
+ * PRIMARY_INTERESTS in src/lib/consultation-fields.ts.
+ *
+ * Not to be confused with `interest` on the Services cards below, which is a
+ * PillarKey used for routing.
  */
 export const pillarPages = {
   "endpoint-security": {
     href: "/endpoint-security",
     title: "Endpoint Management & Security",
+    interest: "sophos-endpoint-mdr",
   },
   "compliance-legal": {
     href: "/compliance-ediscovery",
     title: "Compliance & eDiscovery",
+    interest: "ediscovery-legal-hold",
   },
   "ai-modern-work": {
     href: "/ai-copilot-readiness",
     title: "AI & Copilot Readiness",
+    interest: "copilot-ai-readiness",
   },
   "infrastructure-network": {
     href: "/infrastructure-networking",
     title: "Infrastructure & Networking",
+    interest: "infrastructure-networking",
   },
 } as const;
 
@@ -218,26 +228,33 @@ export const footer = {
       ],
     },
     {
+      // "About Us" and "Our Methodology" pointed at #story, and "Packages"
+      // at a bare #packages -- fragments that resolved only on the landing
+      // page. The first two now have real routes; "Packages" takes the
+      // absolute form the header nav already uses. "Contact" stays a bare
+      // fragment because every marketing page's footer carries that id.
       title: "Company",
       links: [
-        { label: "About Us", href: "#story" },
-        { label: "Our Methodology", href: "#story" },
-        { label: "Packages", href: "#packages" },
+        { label: "About Us", href: "/our-story" },
+        { label: "Our Methodology", href: "/methodology" },
+        { label: "Packages", href: "/#packages" },
         { label: "Contact", href: "#contact" },
       ],
     },
     {
+      // Blog, Security Checklist and Compliance Guide have no destinations
+      // yet; see docs/BACKLOG.md.
       title: "Resources",
       links: [
         { label: "Blog", href: "#" },
         { label: "Security Checklist", href: "#" },
         { label: "Compliance Guide", href: "#" },
-        { label: "FAQ", href: "#" },
+        { label: "FAQ", href: "/faq" },
       ],
     },
   ],
   legalLinks: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
   ],
 };
