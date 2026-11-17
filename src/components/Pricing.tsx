@@ -11,6 +11,14 @@ export default function Pricing() {
             {pricing.title}
           </h2>
           <p className="text-lg leading-normal text-white/90">{pricing.subtitle}</p>
+          {/* The scoping line sits in the band header with the subtitle
+              rather than on each card: it is true of all four packages, and
+              repeating it four times would read as fine print. Set at the
+              body measure, not the 18px subtitle, so the short tagline above
+              stays the lead. */}
+          <p className="mx-auto max-w-[824px] text-base leading-[1.6] text-white/70">
+            {pricing.intro}
+          </p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">

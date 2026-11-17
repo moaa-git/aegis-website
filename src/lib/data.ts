@@ -46,14 +46,18 @@ export const pillarPages = {
 export type PillarKey = keyof typeof pillarPages;
 
 export const nav = {
-  // Absolute, not bare fragments: the four sections these point at exist only
-  // on the landing page, so from an interior page "#services" scrolled
-  // nowhere. "#contact" is the exception -- every page's footer carries that
-  // id -- and is deliberately left in-page.
+  // Absolute, not bare fragments: the sections these point at exist only on
+  // the landing page, so from an interior page "#services" scrolled nowhere.
+  // "#contact" is the exception -- every page's footer carries that id --
+  // and is deliberately left in-page.
+  //
+  // "Our Story" pointed at "/#story", the landing page's story *section*,
+  // which is not the Our Story page. Sent to the route itself Nov 2026
+  // (site-refresh-2026-11.md); see docs/BACKLOG.md.
   links: [
     { label: "Services", href: "/#services" },
     { label: "Packages", href: "/#packages" },
-    { label: "Our Story", href: "/#story" },
+    { label: "Our Story", href: "/our-story" },
     { label: "Contact", href: "#contact" },
   ],
   cta: { label: "Request Consultation" },
@@ -128,7 +132,7 @@ export const services = {
       title: "AI & Modern Work",
       interest: "ai-modern-work",
       description:
-        "Copilot Readiness and Semantic Indexing for AI-powered productivity.",
+        "Copilot readiness, oversharing cleanup, Copilot Chat governance, Copilot Studio agents, and workflow automation.",
       chips: ["Copilot Setup", "Data Governance", "Workflow Automation"],
       highlighted: false,
     },
@@ -147,6 +151,13 @@ export const services = {
 export const pricing = {
   title: "Fixed-Scope Engagement Models",
   subtitle: "Predictable pricing. Clear deliverables. No surprises.",
+  /**
+   * Added Nov 2026 (site-refresh-2026-11.md). The packages stay fixed
+   * packages; what the line settles is that scope -- and so price -- depends
+   * on size and needs, which is why no number is published here.
+   */
+  intro:
+    "Every package follows the same defined process. Scope and price depend on your size and needs, so each engagement starts with a free scoping conversation, and the price is fixed before any work begins.",
   /**
    * `description` and `features` are the live site's own copy for this
    * section (index.html, "Fixed-Scope Engagement Models"), brought across
@@ -184,6 +195,7 @@ export const pricing = {
         "Data Loss Prevention policies",
         "Sensitivity label deployment",
         "Compliance Manager setup",
+        "AI-use policy and Copilot controls aligned to ABA Formal Opinion 512",
       ],
       cta: "Get Compliant",
       popular: false,
@@ -197,7 +209,7 @@ export const pricing = {
         "HIPAA and CMMC-aligned compliance configuration for healthcare, defense contractors, and government suppliers.",
       features: [
         "Everything in Law Firm Compliance",
-        "HIPAA/CMMC gap analysis",
+        "HIPAA and CMMC / NIST SP 800-171 gap analysis",
         "Purview audit log retention",
         "Intune device compliance policies",
         "Evidence package for audit",
@@ -256,15 +268,12 @@ export const footer = {
       ],
     },
     {
-      // Blog, Security Checklist and Compliance Guide have no destinations
-      // yet; see docs/BACKLOG.md.
+      // Blog, Security Checklist and Compliance Guide were href="#"
+      // placeholders; removed Nov 2026 (site-refresh-2026-11.md) until the
+      // content exists, which matters more once the URL is printed on paper.
+      // See docs/BACKLOG.md.
       title: "Resources",
-      links: [
-        { label: "Blog", href: "#" },
-        { label: "Security Checklist", href: "#" },
-        { label: "Compliance Guide", href: "#" },
-        { label: "FAQ", href: "/faq" },
-      ],
+      links: [{ label: "FAQ", href: "/faq" }],
     },
   ],
   legalLinks: [

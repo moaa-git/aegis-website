@@ -9,7 +9,7 @@ import { aiPage } from "@/lib/pages";
 export const metadata: Metadata = {
   title: "AI & Copilot Readiness | Aegis Ascent",
   description:
-    "Deploy Microsoft Copilot without leaking your data — permissions auditing, semantic indexing, licence governance, Copilot Studio agents, and user enablement.",
+    "Deploy Microsoft Copilot without leaking your data — permissions auditing, content readiness, licensing guardrails, AI usage visibility, Copilot Studio agents, and user enablement.",
 };
 
 /**
@@ -37,7 +37,12 @@ export default function AiCopilotReadinessPage() {
         />
 
         <section data-verify="readiness">
-          <div className="mx-auto w-full max-w-318 px-6 pt-30">
+          {/* pb-10 replaces what the panel's own 40px bottom padding used to
+              contribute to the gap into "Advanced AI Services": the law-firm
+              note now closes this band, and an unpadded paragraph left the
+              content gap at 80px, under the 100px floor verify.mjs holds this
+              page to. */}
+          <div className="mx-auto w-full max-w-318 px-6 pb-10 pt-30">
             <SectionHeader
               eyebrow={readiness.eyebrow}
               title={readiness.title}
@@ -47,8 +52,17 @@ export default function AiCopilotReadinessPage() {
               name="readiness"
             />
             <div className="mt-6">
-              <DividedPanel cells={readiness.cells} name="readiness-panel" />
+              <DividedPanel
+                cells={readiness.cells}
+                horizontalFrom="xl"
+                name="readiness-panel"
+              />
             </div>
+            {/* 1082px is the site's widest running-text measure, the same one
+                the FAQ answers and the legal pages sit on. */}
+            <p className="mt-6 max-w-[1082px] text-base leading-[1.5] text-white/90">
+              {readiness.lawFirmNote}
+            </p>
           </div>
         </section>
 

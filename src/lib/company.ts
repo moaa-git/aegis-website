@@ -470,7 +470,7 @@ export const faqPage = {
         {
           q: "What's your relationship with Sophos?",
           a: [
-            "Aegis Ascent is a Sophos Silver Partner with twelve-plus product accreditations across endpoint, XDR, MDR, and firewall. Practically: direct access to Sophos support and engineering rather than going through a reseller, correct licensing without markup games, and someone configuring the product who has been trained on it rather than reading the manual on your time.",
+            "Aegis Ascent is a Sophos Silver Partner with twelve-plus product accreditations across endpoint, XDR, MDR, and firewall. Practically: direct access to Sophos support and engineering rather than going through a reseller, and correct licensing without markup games. Aegis Ascent is trained and accredited on the Sophos products we deploy.",
           ],
         },
         {
