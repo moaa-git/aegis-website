@@ -171,8 +171,11 @@ export const valueMap: Record<string, Record<string, string> | null> = {
   },
   heardAbout: {
     "web-search": "Web Search",
-    "referral-client": "Referral – Client",
-    "referral-partner": "Referral – Partner",
+    // Em dash (U+2014), as stored in Zoho. The site's display label uses an
+    // en dash; that is display only. Fixed 2026-11-17: the en dash here did
+    // not match the Zoho picklist, so referral leads landed off-list.
+    "referral-client": "Referral — Client",
+    "referral-partner": "Referral — Partner",
     linkedin: "LinkedIn",
     "event-seminar": "Event / Seminar",
     "sophos-pax8": "Sophos / Pax8",
